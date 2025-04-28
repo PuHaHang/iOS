@@ -1,2 +1,3 @@
 [tools]
+swiftlint = "latest"
 tuist = "4.48.2"
