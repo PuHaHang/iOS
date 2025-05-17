@@ -36,7 +36,9 @@ let project = Project(
         fi
         """, name: "SwiftLint")
             ],
-            dependencies: []
+            dependencies: [
+                .external(name: "ComposableArchitecture")
+            ]
         ),
         .target(
             name: "PuHaHangTests",
