@@ -1,0 +1,38 @@
+name: Test CI
+
+on: 
+  pull_request:
+    branches:
+      - develop
+
+jobs:
+  build:
+    runs-on: macos-15
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up mise
+        uses: jdx/mise-action@v2
+
+      - name: Install Tuist and Ruby
+        run: |
+          mise install ruby
+          mise install tuist
+
+      - name: Generate project
+        run: |
+          tuist install
+          tuist generate
+
+      - name: Select Xcode version
+        run: sudo xcode-select -s /Applications/Xcode_16.2.app
+
+      - name: Build and test
+        run: |
+          xcodebuild test \
+            -workspace PuHaHang.xcworkspace \
+            -scheme PuHaHang \
+            -destination 'platform=iOS Simulator,name=iPhone 16 Pro,OS=18.2' \
+            | xcpretty && exit ${PIPESTATUS[0]}
+  

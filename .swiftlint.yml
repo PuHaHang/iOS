@@ -1,0 +1,8 @@
+disabled_rules:
+  - cyclomatic_complexity
+  - force_cast
+  - nesting
+  - trailing_whitespace
+
+included:
+  - PuHaHang
