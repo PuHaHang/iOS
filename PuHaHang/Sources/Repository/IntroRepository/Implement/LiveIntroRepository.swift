@@ -13,4 +13,9 @@ struct LiveIntroRepository: IntroRepository {
     init(dataSource: IntroDataSource) {
         self.dataSource = dataSource
     }
+    
+    func fetchIntro() async throws -> Intro {
+        let versionRequirement = try await dataSource.fetchVersionRequirement()
+        return versionRequirement.toDomain()
+    }
 }
