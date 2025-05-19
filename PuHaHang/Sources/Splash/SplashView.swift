@@ -12,6 +12,33 @@ struct SplashView: View {
     let store: StoreOf<SplashReducer>
     
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        Group {
+            switch store.introRoadState {
+            case .idle:
+                IdleView()
+            case .success(let intro):
+                MainView(intro: intro)
+            case .failure(let error):
+                FailureView(error: error)
+            }
+        }.onAppear {
+            store.send(.onAppear)
+        }
+    }
+}
+
+extension SplashView {
+    struct IdleView: View {
+        var body: some View {
+            Text("초기 화면")
+        }
+    }
+    
+    struct FailureView: View {
+        let error: Error
+        
+        var body: some View {
+            Text(error.localizedDescription)
+        }
     }
 }
