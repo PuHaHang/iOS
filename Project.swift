@@ -37,7 +37,8 @@ let project = Project(
         """, name: "SwiftLint")
             ],
             dependencies: [
-                .external(name: "ComposableArchitecture")
+                .external(name: "ComposableArchitecture"),
+                .external(name: "Minifire")
             ]
         ),
         .target(
