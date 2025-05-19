@@ -8,7 +8,12 @@
 import SwiftUI
 
 struct MainView: View {
+    let intro: Intro
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack {
+            Text("추천 버전: \(intro.recommendVersion)")
+            Text("최소 버전: \(intro.minVersion)")
+        }
     }
 }
