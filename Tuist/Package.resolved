@@ -1,5 +1,5 @@
 {
-  "originHash" : "0153648f6a44cb06efe0436de40f321506dddbd3e73134110c01081e996e625f",
+  "originHash" : "69c984335511e0940a8044ecf26ecd467c022b02a12c908c6dbbe66c046b1328",
   "pins" : [
     {
       "identity" : "combine-schedulers",
@@ -8,6 +8,15 @@
       "state" : {
         "revision" : "5928286acce13def418ec36d05a001a9641086f2",
         "version" : "1.0.3"
+      }
+    },
+    {
+      "identity" : "minifire",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/LURKS02/MiniFire",
+      "state" : {
+        "revision" : "c6f729db818ad92a23d84d0a61d2d62a0bca1d78",
+        "version" : "1.0.0"
       }
     },
     {
