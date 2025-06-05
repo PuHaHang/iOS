@@ -14,6 +14,9 @@ let project = Project(
                         "UIColorName": "",
                         "UIImageName": "",
                     ],
+                    "NSAppTransportSecurity": [
+                        "NSAllowsArbitraryLoads": true
+                    ]
                 ]
             ),
             sources: ["PuHaHang/Sources/**"],
@@ -37,7 +40,8 @@ let project = Project(
         """, name: "SwiftLint")
             ],
             dependencies: [
-                .external(name: "ComposableArchitecture")
+                .external(name: "ComposableArchitecture"),
+                .external(name: "Minifire")
             ]
         ),
         .target(
