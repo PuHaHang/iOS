@@ -31,8 +31,12 @@ struct SplashView: View {
 
 extension SplashView {
     struct IdleView: View {
+        let appIconName: String = "splash_icon"
+        
         var body: some View {
-            Text("초기 화면")
+            Image(appIconName)
+                .frame(width: 140, height: 150)
+                .padding(.bottom, 100)
         }
     }
     
