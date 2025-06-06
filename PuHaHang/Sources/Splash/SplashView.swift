@@ -16,8 +16,10 @@ struct SplashView: View {
             switch store.introRoadState {
             case .idle:
                 IdleView()
-            case .success(let intro):
-                MainView(intro: intro)
+            case .success:
+                RootView(store: Store(initialState: RootReducer.State(), reducer: {
+                    RootReducer()
+                }))
             case .failure(let error):
                 FailureView(error: error)
             }
