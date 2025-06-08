@@ -14,6 +14,8 @@ struct SplashReducer {
     
     @ObservableState
     struct State {
+        let appTitle: String = "내 손 안의 요리 도우미"
+        let appIconName: String = "splash_icon"
         var introRoadState: IntroRoadState = .idle
     }
     

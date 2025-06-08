@@ -15,7 +15,7 @@ struct SplashView: View {
         Group {
             switch store.introRoadState {
             case .idle:
-                IdleView()
+                IdleView(appTitle: store.appTitle, appIconName: store.appIconName)
             case .success:
                 RootView(store: Store(initialState: RootReducer.State(), reducer: {
                     RootReducer()
@@ -31,12 +31,20 @@ struct SplashView: View {
 
 extension SplashView {
     struct IdleView: View {
-        let appIconName: String = "splash_icon"
+        let appTitle: String
+        let appIconName: String
         
         var body: some View {
-            Image(appIconName)
-                .frame(width: 140, height: 150)
-                .padding(.bottom, 100)
+            VStack(spacing: 15) {
+                Text(appTitle)
+                    .foregroundColor(AppColor.main)
+                    .font(.system(size: 17))
+                    .fontWeight(.bold)
+                
+                Image(appIconName)
+                    .frame(width: 140, height: 150)
+            }
+            .padding(.bottom, 100)
         }
     }
     
