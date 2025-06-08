@@ -46,6 +46,10 @@ struct RootReducer {
                 state.convert = ConvertReducer.State()
                 return .none
                 
+            case .convert(.presented(.delegate(.generateRecipe(let recipeSource)))):
+                print(">>> \(recipeSource)")
+                return .none
+                
             case .tabBar, .home, .setting, .convert:
                 return .none
             }

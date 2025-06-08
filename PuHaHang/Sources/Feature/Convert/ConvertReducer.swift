@@ -10,6 +10,7 @@ import Foundation
 
 @Reducer
 struct ConvertReducer {
+    @Dependency(\.dismiss) var dismiss
     
     @ObservableState
     struct State: Equatable {
@@ -32,6 +33,7 @@ struct ConvertReducer {
     enum Action: Equatable, BindableAction {
         case binding(BindingAction<State>)
         case didTapConvertButton
+        case delegate(Delegate)
     }
     
     var body: some ReducerOf<Self> {
@@ -39,6 +41,11 @@ struct ConvertReducer {
         
         Reduce { state, action in
             switch action {
+            case .didTapConvertButton:
+                return .concatenate(
+                    .send(.delegate(.generateRecipe(state.recipeSource))),
+                    .run { _ in await dismiss() }
+                )
                 
             case .binding:
                 return .none
@@ -50,3 +57,8 @@ struct ConvertReducer {
     }
 }
 
+extension ConvertReducer.Action {
+    enum Delegate: Equatable {
+        case generateRecipe(String)
+    }
+}
