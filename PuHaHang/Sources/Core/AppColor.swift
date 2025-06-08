@@ -20,4 +20,10 @@ extension AppColor {
         static let activeButton = AppColor.main
         static let inactiveButton = Color("tab_bar_inactive")
     }
+    
+    enum Text {
+        static let main = Color("text_main")
+        static let serving = Color("text_serving")
+        static let ingredients = Color("text_ingredients")
+    }
 }
