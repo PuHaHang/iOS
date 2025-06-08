@@ -12,12 +12,16 @@ import Foundation
 struct RootReducer {
     @ObservableState
     struct State {
+        @Presents var convert: ConvertReducer.State?
+        
         var tabBar = TabReducer.State()
         var home = HomeReducer.State()
         var setting = SettingReducer.State()
     }
     
     enum Action {
+        case convert(PresentationAction<ConvertReducer.Action>)
+        
         case tabBar(TabReducer.Action)
         case home(HomeReducer.Action)
         case setting(SettingReducer.Action)
@@ -36,11 +40,18 @@ struct RootReducer {
             SettingReducer()
         }
         
-        Reduce { _, action in
+        Reduce { state, action in
             switch action {
-            case .tabBar, .home, .setting:
+            case .tabBar(.didTabPlusButton):
+                state.convert = ConvertReducer.State()
+                return .none
+                
+            case .tabBar, .home, .setting, .convert:
                 return .none
             }
+        }
+        .ifLet(\.$convert, action: \.convert) {
+            ConvertReducer()
         }
     }
 }
