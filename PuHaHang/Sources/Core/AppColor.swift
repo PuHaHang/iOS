@@ -14,6 +14,7 @@ enum AppColor {
 extension AppColor {
     enum Component {
         static let plusButton = AppColor.main
+        static let disabledButton = Color("button_disabled")
     }
     
     enum TabBar {
@@ -25,5 +26,6 @@ extension AppColor {
         static let main = Color("text_main")
         static let serving = Color("text_serving")
         static let ingredients = Color("text_ingredients")
+        static let information = Color("text_info")
     }
 }

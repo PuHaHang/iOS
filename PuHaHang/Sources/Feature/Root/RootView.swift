@@ -26,5 +26,10 @@ struct RootView: View {
             TabBarView(store: store.scope(state: \.tabBar, action: \.tabBar))
         }
         .ignoresSafeArea()
+        .sheet(
+            item: $store.scope(state: \.convert, action: \.convert),
+            content: { store in
+                ConvertView(store: store)
+            })
     }
 }
