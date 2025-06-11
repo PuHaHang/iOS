@@ -7,8 +7,8 @@
 
 import UIKit
 
-struct RecipeListItem: Equatable, Identifiable {
-    let id: UUID = UUID()
+struct RecipeListItem: Equatable {
+    let recipeID: String
     let thumbnail: UIImage
     let title: String
     let serving: String

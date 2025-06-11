@@ -13,14 +13,15 @@ struct RecipeListItemReducer {
     @ObservableState
     struct State: Equatable, Identifiable {
         let id: UUID
-        let thumbnail: UIImage
-        let title: String
-        let serving: String
-        let ingredients: String
+        let item: RecipeListItem
+        
+        static func == (lhs: RecipeListItemReducer.State, rhs: RecipeListItemReducer.State) -> Bool {
+            lhs.id == rhs.id
+        }
     }
     
     enum Action: Equatable {
-        case didTapItem
+        case didTapItem(RecipeListItem)
     }
     
     var body: some ReducerOf<Self> {

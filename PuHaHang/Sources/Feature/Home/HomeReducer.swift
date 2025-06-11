@@ -12,7 +12,7 @@ import UIKit
 @Reducer
 struct HomeReducer {
     @ObservableState
-    struct State: Equatable {
+    struct State {
         let titleIconName: String = "title_icon"
         var items: IdentifiedArrayOf<RecipeListItemReducer.State> = [
             .init(
@@ -60,8 +60,9 @@ struct HomeReducer {
         ]
     }
     
-    enum Action: Equatable {
-        case items(IdentifiedActionOf<RecipeListItemReducer>)
+    enum Action {
+        case recipes(IdentifiedActionOf<RecipeListItemReducer>)
+        case delegate(Delegate)
     }
     
     var body: some ReducerOf<Self> {
