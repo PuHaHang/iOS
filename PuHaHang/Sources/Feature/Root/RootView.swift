@@ -27,9 +27,12 @@ struct RootView: View {
         }
         .ignoresSafeArea()
         .sheet(
-            item: $store.scope(state: \.convert, action: \.convert),
+            item: $store.scope(state: \.destination?.convert, action: \.destination.convert),
             content: { store in
                 ConvertView(store: store)
             })
+        .sheet(item: $store.scope(state: \.destination?.recipeDetail, action: \.destination.recipeDetail)) { store in
+            RecipeView(store: store)
+        }
     }
 }

@@ -15,8 +15,18 @@ struct HomeView: View {
         VStack(spacing: 0) {
             TitleBarView(titleIconName: store.titleIconName)
             
+            RecipeListSectionView(store: store)
+        }
+    }
+}
+
+extension HomeView {
+    private struct RecipeListSectionView: View {
+        @Bindable var store: StoreOf<HomeReducer>
+        
+        var body: some View {
             List {
-                ForEachStore(store.scope(state: \.items, action: \.items)) { store in
+                ForEachStore(store.scope(state: \.recipes, action: \.recipes)) { store in
                     RecipeListItemView(store: store)
                         .listRowSeparator(.hidden)
                         .listRowInsets(EdgeInsets(top: 8, leading: 20, bottom: 8, trailing: 20))
@@ -30,9 +40,7 @@ struct HomeView: View {
             .scrollIndicators(.hidden)
         }
     }
-}
-
-extension HomeView {
+    
     private struct TitleBarView: View {
         let titleIconName: String
         

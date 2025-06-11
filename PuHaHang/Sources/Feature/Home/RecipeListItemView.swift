@@ -13,32 +13,21 @@ struct RecipeListItemView: View {
     
     var body: some View {
         HStack(spacing: 15) {
-            Image(uiImage: store.thumbnail)
+            Image(uiImage: store.item.thumbnail)
                 .resizable()
                 .frame(width: 100, height: 100)
                 .clipShape(RoundedRectangle(cornerRadius: 10))
             
             VStack(alignment: .leading, spacing: 8) {
-                Text(store.title)
+                Text(store.item.title)
                     .font(.system(size: 17))
                     .fontWeight(.bold)
                     .foregroundStyle(AppColor.Text.main)
                     .lineLimit(1)
                 
-                HStack(spacing: 5) {
-                    Image(systemName: "person")
-                        .resizable()
-                        .frame(width: 12, height: 12)
-                        .foregroundStyle(AppColor.Text.serving)
-                    
-                    Text(store.serving)
-                        .font(.system(size: 14))
-                        .fontWeight(.semibold)
-                        .foregroundStyle(AppColor.Text.serving)
-                        .lineLimit(1)
-                }
+                ServingInfoView(servingText: store.item.serving)
                 
-                Text(store.ingredients)
+                Text(store.item.ingredients)
                     .font(.system(size: 14))
                     .foregroundStyle(AppColor.Text.ingredients)
                     .lineLimit(2)
@@ -52,7 +41,7 @@ struct RecipeListItemView: View {
                 .shadow(color: .black.opacity(0.1), radius: 4, x: 0, y: 0)
         )
         .onTapGesture {
-            store.send(.didTapItem)
+            store.send(.didTapItem(store.item))
         }
     }
 }
