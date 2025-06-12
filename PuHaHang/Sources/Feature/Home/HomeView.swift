@@ -15,7 +15,11 @@ struct HomeView: View {
         VStack(spacing: 0) {
             TitleBarView(titleIconName: store.titleIconName)
             
-            RecipeListSectionView(store: store)
+            if store.recipes.isEmpty {
+                RecipeListEmptyView()
+            } else {
+                RecipeListSectionView(store: store)
+            }
         }
     }
 }

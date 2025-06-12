@@ -27,5 +27,6 @@ extension AppColor {
         static let serving = Color("text_serving")
         static let ingredients = Color("text_ingredients")
         static let information = Color("text_info")
+        static let emptyList = Color("text_empty_list")
     }
 }
