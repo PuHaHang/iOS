@@ -52,10 +52,9 @@ private extension RecipeView {
                         serving: store.serving
                     )
                     .padding(.horizontal, 20)
-                    .padding(.bottom, 20)
+                    .padding(.bottom, 30)
                     
-                    Color.black
-                        .frame(height: 700)
+                    TitleTabView(store: store.scope(state: \.titleTab, action: \.titleTab))
                 }
             }
             .scrollIndicators(.hidden)
