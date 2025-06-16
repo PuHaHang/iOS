@@ -7,8 +7,8 @@
 
 import Foundation
 
-enum IntroRoadState {
+enum IntroStateViewData {
     case idle
-    case success(Intro)
+    case success(IntroViewData)
     case failure(Error)
 }

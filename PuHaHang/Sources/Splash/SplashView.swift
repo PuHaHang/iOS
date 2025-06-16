@@ -13,9 +13,12 @@ struct SplashView: View {
     
     var body: some View {
         Group {
-            switch store.introRoadState {
+            switch store.introState {
             case .idle:
-                IdleView(appTitle: store.appTitle, appIconName: store.appIconName)
+                IdleView(
+                    appTitle: store.appTitle,
+                    appIconName: store.appIconName
+                )
             case .success:
                 RootView(store: Store(initialState: RootReducer.State(), reducer: {
                     RootReducer()

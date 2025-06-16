@@ -16,12 +16,12 @@ struct SplashReducer {
     struct State {
         let appTitle: String = "내 손 안의 요리 도우미"
         let appIconName: String = "splash_icon"
-        var introRoadState: IntroRoadState = .idle
+        var introState: IntroStateViewData = .idle
     }
     
     enum Action {
         case onAppear
-        case introResponse(Result<Intro, Error>)
+        case introResponse(Result<IntroViewData, Error>)
     }
     
     var body: some ReducerOf<Self> {
@@ -51,16 +51,24 @@ private extension SplashReducer {
     
     func reduceIntroResponse(
         _ state: inout SplashReducer.State,
-        result: Result<Intro, Error>
+        result: Result<IntroViewData, Error>
     ) -> Effect<Action> {
         switch result {
-        case .success(let intro):
-            state.introRoadState = .success(intro)
-            
+        case .success(let data):
+            state.introState = .success(data)
         case .failure(let error):
-            state.introRoadState = .failure(error)
+            state.introState = .failure(error)
         }
         
         return .none
+    }
+}
+
+private extension Intro {
+    func toIntroViewData() -> IntroViewData {
+        return IntroViewData(
+            recommendVersion: self.recommendVersion,
+            minVersion: self.minVersion
+        )
     }
 }

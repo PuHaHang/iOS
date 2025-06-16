@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Intro {
+struct IntroViewData {
     let recommendVersion: String
     let minVersion: String
 }

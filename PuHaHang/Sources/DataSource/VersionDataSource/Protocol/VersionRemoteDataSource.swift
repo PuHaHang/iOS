@@ -7,6 +7,6 @@
 
 import Foundation
 
-protocol IntroDataSource {
+protocol VersionRemoteDataSource {
     func fetchVersionRequirement() async throws -> VersionRequirementDTO
 }
