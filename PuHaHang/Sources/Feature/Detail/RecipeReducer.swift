@@ -60,18 +60,6 @@ struct RecipeReducer {
 }
 
 extension RecipeReducer {
-    struct RecipeStepViewData {
-        let stepTitle: String
-        let stepContent: String
-    }
-
-    struct IngredientViewData {
-        let ingredient: String
-        let isChecked: Bool
-    }
-}
-
-extension RecipeReducer {
     @Reducer
     enum Path {
         case cooking(CookingReducer)
