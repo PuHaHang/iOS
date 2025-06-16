@@ -10,7 +10,7 @@ import Foundation
 
 @Reducer
 struct SplashReducer {
-    @Dependency(\.introRepository) var introRepository
+    @Dependency(\.fetchIntroUseCase) var fetchIntroUseCase
     
     @ObservableState
     struct State {
@@ -40,10 +40,12 @@ struct SplashReducer {
 private extension SplashReducer {
     func reduceOnAppear() -> Effect<Action> {
         .run { send in
-            do {
-                let intro: Intro = try await introRepository.fetchIntro()
-                await send(.introResponse(.success(intro)))
-            } catch {
+            let introResult = await fetchIntroUseCase.execute()
+            
+            switch introResult {
+            case .success(let intro):
+                await send(.introResponse(.success(intro.toIntroViewData())))
+            case .failure(let error):
                 await send(.introResponse(.failure(error)))
             }
         }
