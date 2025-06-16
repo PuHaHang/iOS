@@ -28,16 +28,15 @@ struct TitleTabView: View {
             .background(Color.white)
             
             Divider()
+                .padding(.bottom, 20)
             
             Group {
                 switch store.selectedItem {
                 case .steps:
-                    Color.red
-                        .frame(height: 700)
+                    RecipeStepView(store: store.scope(state: \.recipeStep, action: \.recipeStep))
                     
                 case .ingredients:
-                    Color.blue
-                        .frame(height: 700)
+                    RecipeIngredientView(store: store.scope(state: \.recipeIngredient, action: \.recipeIngredient))
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)

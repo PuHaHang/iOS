@@ -23,7 +23,7 @@ struct RecipeReducer {
         
         var path = StackState<Path.State>()
         
-        var titleTab = TitleTabReducer.State()
+        var titleTab: TitleTabReducer.State
     }
     
     enum Action {
