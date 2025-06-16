@@ -12,6 +12,8 @@ import UIKit
 @Reducer
 struct RootReducer {
     @Dependency(\.fetchRecipeDetailUseCase) var fetchRecipeDetailUseCase
+    @Dependency(\.fetchConvertedPreviewUseCase) var fetchConvertedPreviewUseCase
+    
     @ObservableState
     struct State {
         @Presents var destination: Destination.State?
@@ -59,6 +61,9 @@ struct RootReducer {
                 
             case .tabBar, .home, .setting, .destination:
                 return .none
+                
+            case .navigateToRecipe(let detail):
+                return reduceNavigateToRecipe(&state, detail: detail)
             }
         }
         .ifLet(\.$destination, action: \.destination) {
@@ -94,6 +99,16 @@ private extension RootReducer {
             }
         }
     }
+    
+    func reduceNavigateToRecipe(_ state: inout State, detail: RecipeDetail) -> Effect<Action> {
+        let viewData = detail.toRecipeViewData()
+        let recipeState = RecipeReducer.State(recipeViewData: viewData)
+        state.destination = .recipeDetail(recipeState)
+        
+        return .none
+    }
+}
+
 extension RootReducer {
     @Reducer
     enum Destination {
