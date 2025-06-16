@@ -7,10 +7,10 @@
 
 import Foundation
 
-struct LiveIntroRepository: IntroRepository {
-    private let dataSource: IntroDataSource
+struct TemporaryIntroRepository: IntroRepository {
+    private let dataSource: VersionRemoteDataSource
     
-    init(dataSource: IntroDataSource) {
+    init(dataSource: VersionRemoteDataSource) {
         self.dataSource = dataSource
     }
     

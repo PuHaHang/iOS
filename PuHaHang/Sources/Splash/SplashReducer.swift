@@ -10,18 +10,18 @@ import Foundation
 
 @Reducer
 struct SplashReducer {
-    @Dependency(\.introRepository) var introRepository
+    @Dependency(\.fetchIntroUseCase) var fetchIntroUseCase
     
     @ObservableState
     struct State {
         let appTitle: String = "내 손 안의 요리 도우미"
         let appIconName: String = "splash_icon"
-        var introRoadState: IntroRoadState = .idle
+        var introState: IntroStateViewData = .idle
     }
     
     enum Action {
         case onAppear
-        case introResponse(Result<Intro, Error>)
+        case introResponse(Result<IntroViewData, Error>)
     }
     
     var body: some ReducerOf<Self> {
@@ -40,10 +40,12 @@ struct SplashReducer {
 private extension SplashReducer {
     func reduceOnAppear() -> Effect<Action> {
         .run { send in
-            do {
-                let intro: Intro = try await introRepository.fetchIntro()
-                await send(.introResponse(.success(intro)))
-            } catch {
+            let introResult = await fetchIntroUseCase.execute()
+            
+            switch introResult {
+            case .success(let intro):
+                await send(.introResponse(.success(intro.toIntroViewData())))
+            case .failure(let error):
                 await send(.introResponse(.failure(error)))
             }
         }
@@ -51,16 +53,24 @@ private extension SplashReducer {
     
     func reduceIntroResponse(
         _ state: inout SplashReducer.State,
-        result: Result<Intro, Error>
+        result: Result<IntroViewData, Error>
     ) -> Effect<Action> {
         switch result {
-        case .success(let intro):
-            state.introRoadState = .success(intro)
-            
+        case .success(let data):
+            state.introState = .success(data)
         case .failure(let error):
-            state.introRoadState = .failure(error)
+            state.introState = .failure(error)
         }
         
         return .none
+    }
+}
+
+private extension Intro {
+    func toIntroViewData() -> IntroViewData {
+        return IntroViewData(
+            recommendVersion: self.recommendVersion,
+            minVersion: self.minVersion
+        )
     }
 }
