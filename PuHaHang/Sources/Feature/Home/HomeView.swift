@@ -21,6 +21,9 @@ struct HomeView: View {
                 RecipeListSectionView(store: store)
             }
         }
+        .onAppear {
+            store.send(.onAppear)
+        }
     }
 }
 

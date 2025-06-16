@@ -11,71 +11,15 @@ import UIKit
 
 @Reducer
 struct HomeReducer {
+    @Dependency(\.fetchRecipePreviewsUseCase) var fetchRecipePreviewsUseCase
+    
     @ObservableState
     struct State {
         let titleIconName: String = "title_icon"
-        var recipes: IdentifiedArrayOf<RecipeListItemReducer.State> = [
-            .init(
-                id: UUID(),
-                item: RecipeListItem(
-                    recipeID: "1번 레시피",
-                    thumbnail: UIImage(),
-                    title: "간단한 계란 샐러드",
-                    serving: "2인분",
-                    ingredients: "계란 4알, 소금, 후추, 마요네즈, 양파, 당근, 샐러리"
-                )
-            ),
-            .init(
-                id: UUID(),
-                item: RecipeListItem(
-                    recipeID: "2번 레시피",
-                    thumbnail: UIImage(),
-                    title: "초간단 햄버거",
-                    serving: "4인분",
-                    ingredients: "햄버거 번, 패티, 슬라이스 치즈, 양상추, 토마토, 양파, 피클, 케첩, 마요네즈, 머스타드"
-                )
-            ),
-            .init(
-                id: UUID(),
-                item: RecipeListItem(
-                    recipeID: "3번 레시피",
-                    thumbnail: UIImage(),
-                    title: "존맛탱 부대찌개",
-                    serving: "3인분",
-                    ingredients: "스팸, 비엔나 소세지, 두부, 김치, 양파, 마늘, 라면사리, 슬라이스 치즈, 육수, 고추장"
-                )
-            ),
-            .init(
-                id: UUID(),
-                item: RecipeListItem(
-                    recipeID: "4번 레시피",
-                    thumbnail: UIImage(),
-                    title: "간단한 계란 샐러드",
-                    serving: "2인분",
-                    ingredients: "계란 4알, 소금, 후추, 마요네즈, 양파, 당근, 샐러리"
-                )
-            ),
-            .init(
-                id: UUID(),
-                item: RecipeListItem(
-                    recipeID: "5번 레시피",
-                    thumbnail: UIImage(),
-                    title: "초간단 햄버거",
-                    serving: "4인분",
-                    ingredients: "햄버거 번, 패티, 슬라이스 치즈, 양상추, 토마토, 양파, 피클, 케첩, 마요네즈, 머스타드"
-                )
-            ),
-            .init(
-                id: UUID(),
-                item: RecipeListItem(
-                    recipeID: "6번 레시피",
-                    thumbnail: UIImage(),
-                    title: "존맛탱 부대찌개",
-                    serving: "3인분",
-                    ingredients: "스팸, 비엔나 소세지, 두부, 김치, 양파, 마늘, 라면사리, 슬라이스 치즈, 육수, 고추장"
-                )
-            )
-        ]
+        let pageSize: Int = 10
+        var page: Int = 0
+        
+        var recipes: IdentifiedArrayOf<RecipeListItemReducer.State> = []
     }
     
     enum Action {
@@ -86,6 +30,11 @@ struct HomeReducer {
     var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
+            case .onAppear:
+                return reduceOnAppear(state)
+            case .addRecipes(let items):
+                return reduceAddRecipes(&state, items: items)
+                
             case .recipes(.element(id: _, action: .didTapItem(let item))):
                 return .send(.delegate(.showRecipeDetail(item)))
                 
@@ -99,8 +48,52 @@ struct HomeReducer {
     }
 }
 
+private extension HomeReducer {
+    func reduceOnAppear(_ state: HomeReducer.State) -> Effect<Action> {
+        let page = state.page
+        let pageSize = state.pageSize
+        return .run { send in
+            let result = await fetchRecipePreviewsUseCase.execute(
+                page: page,
+                pageSize: pageSize
+            )
+            
+            switch result {
+            case .success(let previews):
+                let items = previews.map { $0.toRecipeListItem() }
+                await send(.addRecipes(items))
+            case .failure(let error):
+                print(">>> Error: \(error)")
+            }
+        }
+    }
+    func reduceAddRecipes(
+        _ state: inout HomeReducer.State,
+        items: [RecipeListItem]
+    ) -> Effect<Action> {
+        for item in items.reversed() {
+            let itemID = UUID()
+            let itemState = RecipeListItemReducer.State(id: itemID, item: item)
+            state.recipes.insert(itemState, at: 0)
+        }
+        return .none
+    }
+}
+
 extension HomeReducer.Action {
     enum Delegate: Equatable {
         case showRecipeDetail(RecipeListItem)
+    }
+}
+
+private extension RecipePreview {
+    func toRecipeListItem() -> RecipeListItem {
+        return RecipeListItem(
+            recipeID: self.recipeID,
+            thumbnail: UIImage(),
+            title: self.title,
+            serving: "\(self.serving)인분",
+            ingredients: self.ingredients.map { $0.name }.joined(separator: ", ")
+        )
     }
 }
