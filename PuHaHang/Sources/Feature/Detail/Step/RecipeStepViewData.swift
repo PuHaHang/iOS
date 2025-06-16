@@ -8,7 +8,7 @@
 import Foundation
 
 struct RecipeStepViewData: Identifiable {
-    let id: Int
+    let id: UUID
     let stepTitle: String
     let stepContent: String
 }

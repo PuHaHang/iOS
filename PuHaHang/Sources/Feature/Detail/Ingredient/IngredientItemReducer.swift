@@ -12,13 +12,13 @@ import Foundation
 struct IngredientItemReducer {
     @ObservableState
     struct State: Identifiable {
-        let id: Int
+        let id: UUID
         let name: String
         var isChecked: Bool
     }
     
     enum Action {
-        case didTapItem(Int)
+        case didTapItem(UUID)
         case toggleCheck
     }
     
