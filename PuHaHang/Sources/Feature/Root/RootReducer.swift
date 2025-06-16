@@ -11,6 +11,7 @@ import UIKit
 
 @Reducer
 struct RootReducer {
+    @Dependency(\.fetchRecipeDetailUseCase) var fetchRecipeDetailUseCase
     @ObservableState
     struct State {
         @Presents var destination: Destination.State?
@@ -26,6 +27,8 @@ struct RootReducer {
         case tabBar(TabReducer.Action)
         case home(HomeReducer.Action)
         case setting(SettingReducer.Action)
+        
+        case navigateToRecipe(RecipeDetail)
     }
     
     var body: some ReducerOf<Self> {
@@ -48,25 +51,8 @@ struct RootReducer {
                 return .none
                 
             case .home(.delegate(.showRecipeDetail(let item))):
-                let steps: [RecipeStepViewData] = []
-                let ingredients: [IngredientViewData] = []
-                
-                state.destination = .recipeDetail(
-                    RecipeReducer.State(
-                        recipeID: item.recipeID,
-                        title: item.title,
-                        thumbnail: item.thumbnail,
-                        serving: item.serving,
-                        hasURL: true,
-                        steps: steps,
-                        ingredients: ingredients,
-                        titleTab: TitleTabReducer.State(
-                            steps: steps,
-                            ingredients: ingredients
-                        )
-                    )
-                )
-                return .none
+                let recipeID = item.recipeID
+                return reduceShowRecipeDetail(recipeID: recipeID)
                 
             case .destination(.presented(.convert(.delegate(.generateRecipe(let recipeSource))))):
                 print(">>> \(recipeSource)")
@@ -82,10 +68,58 @@ struct RootReducer {
     }
 }
 
+private extension RootReducer {
+    func reduceShowRecipeDetail(recipeID: String) -> Effect<Action> {
+        return .run { send in
+            let result = await fetchRecipeDetailUseCase.execute(recipeID: recipeID)
+            
+            switch result {
+            case .success(let detail):
+                return await send(.navigateToRecipe(detail))
+                
+            case .failure(let error):
+                print(">>> \(error)")
+            }
+        }
+    }
 extension RootReducer {
     @Reducer
     enum Destination {
         case convert(ConvertReducer)
         case recipeDetail(RecipeReducer)
+    }
+}
+
+private extension RecipeDetail {
+    func toRecipeViewData() -> RecipeViewData {
+        return RecipeViewData(
+            recipeID: self.recipeID,
+            title: self.title,
+            thumbnail: UIImage(),
+            serving: "\(self.serving)인분",
+            hasURL: true,
+            steps: self.steps.map { $0.toStepViewData() },
+            ingredients: self.ingredients.map { $0.toIngredientViewData() }
+        )
+    }
+}
+
+private extension Step {
+    func toStepViewData() -> RecipeStepViewData {
+        return RecipeStepViewData(
+            id: UUID(),
+            stepTitle: "STEP\(self.stepNumber)",
+            stepContent: self.instruction
+        )
+    }
+}
+
+private extension Ingredient {
+    func toIngredientViewData() -> IngredientViewData {
+        return IngredientViewData(
+            id: UUID(),
+            ingredient: "\(self.name) \(self.amount)",
+            isChecked: false
+        )
     }
 }
