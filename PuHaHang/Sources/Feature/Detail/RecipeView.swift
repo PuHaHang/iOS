@@ -48,8 +48,8 @@ private extension RecipeView {
                     .padding(.bottom, 20)
                     
                     RecipeOverviewView(
-                        title: store.title,
-                        serving: store.serving
+                        title: store.recipeViewData.title,
+                        serving: store.recipeViewData.serving
                     )
                     .padding(.horizontal, 20)
                     .padding(.bottom, 30)
@@ -67,7 +67,7 @@ private extension RecipeView {
         
         var body: some View {
             ZStack(alignment: .bottomLeading) {
-                Image(uiImage: store.thumbnail)
+                Image(uiImage: store.recipeViewData.thumbnail)
                     .resizable()
                     .scaledToFill()
                     .frame(height: 250)
