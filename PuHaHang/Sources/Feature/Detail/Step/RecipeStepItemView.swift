@@ -22,7 +22,7 @@ struct RecipeStepItemView: View {
                 .font(.system(size: 15))
         }
         .padding(25)
-        .frame(maxWidth: .infinity)
+        .frame(maxWidth: .infinity, alignment: .leading)
         .background(
             RoundedRectangle(cornerRadius: 15)
                 .fill(Color.white)

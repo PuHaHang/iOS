@@ -8,7 +8,7 @@
 import Foundation
 
 struct IngredientViewData {
-    let id: Int
+    let id: UUID
     let ingredient: String
     let isChecked: Bool
 }

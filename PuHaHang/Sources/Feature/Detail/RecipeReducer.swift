@@ -13,17 +13,18 @@ import UIKit
 struct RecipeReducer {
     @ObservableState
     struct State {
-        let recipeID: String
-        let title: String
-        let thumbnail: UIImage
-        let serving: String
-        let hasURL: Bool
-        let steps: [RecipeStepViewData]
-        let ingredients: [IngredientViewData]
+        let recipeViewData: RecipeViewData
         
         var path = StackState<Path.State>()
-        
         var titleTab: TitleTabReducer.State
+        
+        init(recipeViewData: RecipeViewData) {
+            self.recipeViewData = recipeViewData
+            self.titleTab = TitleTabReducer.State(
+                steps: recipeViewData.steps,
+                ingredients: recipeViewData.ingredients
+            )
+        }
     }
     
     enum Action {
