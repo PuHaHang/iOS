@@ -24,9 +24,18 @@ extension AppColor {
     
     enum Text {
         static let main = Color("text_main")
+        static let highlight = AppColor.main
         static let serving = Color("text_serving")
         static let ingredients = Color("text_ingredients")
         static let information = Color("text_info")
         static let emptyList = Color("text_empty_list")
+    }
+    
+    enum IngredientTodo {
+        static let background = Color("background")
+        static let checkedIcon = AppColor.main
+        static let uncheckedIcon = Color("icon_unchecked")
+        static let checkedText = Color("text_checked")
+        static let uncheckedText = AppColor.Text.main
     }
 }
