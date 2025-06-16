@@ -23,7 +23,7 @@ struct RecipeReducer {
         
         var path = StackState<Path.State>()
         
-        var titleTab = TitleTabReducer.State()
+        var titleTab: TitleTabReducer.State
     }
     
     enum Action {
@@ -56,18 +56,6 @@ struct RecipeReducer {
         .forEach(\.path, action: \.path) {
             Path.body
         }
-    }
-}
-
-extension RecipeReducer {
-    struct RecipeStepViewData {
-        let stepTitle: String
-        let stepContent: String
-    }
-
-    struct IngredientViewData {
-        let ingredient: String
-        let isChecked: Bool
     }
 }
 

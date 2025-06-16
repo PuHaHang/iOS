@@ -48,6 +48,9 @@ struct RootReducer {
                 return .none
                 
             case .home(.delegate(.showRecipeDetail(let item))):
+                let steps: [RecipeStepViewData] = []
+                let ingredients: [IngredientViewData] = []
+                
                 state.destination = .recipeDetail(
                     RecipeReducer.State(
                         recipeID: item.recipeID,
@@ -55,8 +58,12 @@ struct RootReducer {
                         thumbnail: item.thumbnail,
                         serving: item.serving,
                         hasURL: true,
-                        steps: [],
-                        ingredients: []
+                        steps: steps,
+                        ingredients: ingredients,
+                        titleTab: TitleTabReducer.State(
+                            steps: steps,
+                            ingredients: ingredients
+                        )
                     )
                 )
                 return .none
