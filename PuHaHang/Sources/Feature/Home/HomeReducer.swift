@@ -23,6 +23,9 @@ struct HomeReducer {
     }
     
     enum Action {
+        case onAppear
+        case addRecipe(RecipeListItem)
+        case addRecipes([RecipeListItem])
         case recipes(IdentifiedActionOf<RecipeListItemReducer>)
         case delegate(Delegate)
     }
@@ -32,6 +35,10 @@ struct HomeReducer {
             switch action {
             case .onAppear:
                 return reduceOnAppear(state)
+                
+            case .addRecipe(let item):
+                return reduceAddRecipe(&state, item: item)
+                
             case .addRecipes(let items):
                 return reduceAddRecipes(&state, items: items)
                 
@@ -67,6 +74,18 @@ private extension HomeReducer {
             }
         }
     }
+    
+    func reduceAddRecipe(
+        _ state: inout HomeReducer.State,
+        item: RecipeListItem
+    ) -> Effect<Action> {
+        let itemID = UUID()
+        let itemState = RecipeListItemReducer.State(id: itemID, item: item)
+        state.recipes.insert(itemState, at: 0)
+        
+        return .none
+    }
+    
     func reduceAddRecipes(
         _ state: inout HomeReducer.State,
         items: [RecipeListItem]
