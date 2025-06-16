@@ -22,6 +22,8 @@ struct RecipeReducer {
         let ingredients: [IngredientViewData]
         
         var path = StackState<Path.State>()
+        
+        var titleTab = TitleTabReducer.State()
     }
     
     enum Action {
@@ -29,9 +31,14 @@ struct RecipeReducer {
         case didTapCookingButton
         
         case path(StackActionOf<Path>)
+        case titleTab(TitleTabReducer.Action)
     }
     
     var body: some ReducerOf<Self> {
+        Scope(state: \.titleTab, action: \.titleTab) {
+            TitleTabReducer()
+        }
+        
         Reduce { state, action in
             switch action {
             case .didTapContentButton:
@@ -42,7 +49,7 @@ struct RecipeReducer {
                 state.path.append(.cooking(.init()))
                 return .none
                 
-            case .path:
+            case .path, .titleTab:
                 return .none
             }
         }
