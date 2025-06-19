@@ -29,6 +29,9 @@ extension AppColor {
         static let ingredients = Color("text_ingredients")
         static let information = Color("text_info")
         static let emptyList = Color("text_empty_list")
+        static let step = Color("text_step")
+        static let normalInstruction = Color("text_instruction_normal")
+        static let highlightedInstruction = AppColor.main
     }
     
     enum IngredientTodo {

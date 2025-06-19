@@ -28,6 +28,8 @@ struct RecipeView: View {
             switch store.case {
             case .cooking(let store):
                 CookingView(store: store)
+            case .result(let store):
+                ResultView(store: store)
             }
         }
     }
