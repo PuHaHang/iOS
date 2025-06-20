@@ -10,7 +10,7 @@ import Foundation
 struct MockRecipePreviewRepository: RecipePreviewRepository {
     func fetchPreview(for recipeID: String) async throws -> RecipePreview {
         return RecipePreview(
-            recipeID: "임시 ID",
+            recipeID: UUID(),
             thumbnailURL: URL(filePath: "")!,
             title: "임시 레시피 타이틀",
             serving: 1,
@@ -25,7 +25,7 @@ struct MockRecipePreviewRepository: RecipePreviewRepository {
     
     func fetchPreviews(page: Int, pageSize: Int) async throws -> [RecipePreview] {
         let preview = RecipePreview(
-            recipeID: "임시 ID",
+            recipeID: UUID(),
             thumbnailURL: URL(filePath: "")!,
             title: "맛있는 붕어빵",
             serving: 1,

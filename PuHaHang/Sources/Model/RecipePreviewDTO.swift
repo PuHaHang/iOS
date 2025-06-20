@@ -8,8 +8,8 @@
 import Foundation
 
 struct RecipePreviewDTO: Decodable {
-    let recipeID: String
-    let thumbnailURL: URL
+    let recipeID: UUID
+    let thumbnail: String
     let title: String
     let serving: Int
     let ingredients: [IngredientDTO]

@@ -8,7 +8,7 @@
 import UIKit
 
 struct RecipeListItem: Equatable {
-    let recipeID: String
+    let recipeID: UUID
     let thumbnail: UIImage
     let title: String
     let serving: String

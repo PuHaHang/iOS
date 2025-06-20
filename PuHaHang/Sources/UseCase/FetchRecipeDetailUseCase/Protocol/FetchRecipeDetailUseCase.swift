@@ -8,5 +8,5 @@
 import Foundation
 
 protocol FetchRecipeDetailUseCase {
-    func execute(recipeID: String) async -> Result<RecipeDetail, Error>
+    func execute(recipeID: UUID) async -> Result<RecipeDetail, Error>
 }

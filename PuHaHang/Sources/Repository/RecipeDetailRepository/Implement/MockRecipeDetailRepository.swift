@@ -8,7 +8,7 @@
 import Foundation
 
 struct MockRecipeDetailRepository: RecipeDetailRepository {
-    func fetchDetail(for recipeID: String) async throws -> RecipeDetail {
+    func fetchDetail(for recipeID: UUID) async throws -> RecipeDetail {
         return RecipeDetail(
             recipeID: UUID(),
             thumbnailURL: URL(filePath: "")!,
