@@ -13,4 +13,29 @@ struct RecipePreviewDTO: Decodable {
     let title: String
     let serving: Int
     let ingredients: [IngredientDTO]
+    let state: Int
+    
+    enum CodingKeys: String, CodingKey {
+        case recipeID = "recipe_id"
+        case thumbnail
+        case title
+        case serving
+        case ingredients
+        case state
+    }
+}
+
+extension RecipePreviewDTO {
+    func toDomain() -> RecipePreview {
+        let url = URL(string: thumbnail)
+        let ingredients = ingredients.map { $0.toDomain() }
+        
+        return RecipePreview(
+            recipeID: recipeID,
+            thumbnailURL: url,
+            title: title,
+            serving: serving,
+            ingredients: ingredients
+        )
+    }
 }
