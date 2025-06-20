@@ -8,8 +8,8 @@
 import Foundation
 
 struct RecipePreview {
-    let recipeID: String
-    let thumbnailURL: URL
+    let recipeID: UUID
+    let thumbnailURL: URL?
     let title: String
     let serving: Int
     let ingredients: [Ingredient]

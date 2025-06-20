@@ -14,7 +14,7 @@ struct RemoteRecipeDetailRepository: RecipeDetailRepository {
         self.dataSource = dataSource
     }
 
-    func fetchDetail(for recipeID: String) async throws -> RecipeDetail {
+    func fetchDetail(for recipeID: UUID) async throws -> RecipeDetail {
         let recipe = try await dataSource.fetchRecipe(recipeID: recipeID)
         
         return recipe.toDomain()

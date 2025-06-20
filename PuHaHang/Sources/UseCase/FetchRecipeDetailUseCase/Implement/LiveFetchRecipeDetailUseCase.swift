@@ -14,7 +14,7 @@ struct LiveFetchRecipeDetailUseCase: FetchRecipeDetailUseCase {
         self.recipeDetailRepository = recipeDetailRepository
     }
     
-    func execute(recipeID: String) async -> Result<RecipeDetail, Error> {
+    func execute(recipeID: UUID) async -> Result<RecipeDetail, Error> {
         do {
             let detail = try await recipeDetailRepository.fetchDetail(for: recipeID)
             return .success(detail)

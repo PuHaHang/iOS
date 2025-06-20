@@ -8,5 +8,5 @@
 import Foundation
 
 protocol RecipeDetailRepository {
-    func fetchDetail(for recipeID: String) async throws -> RecipeDetail
+    func fetchDetail(for recipeID: UUID) async throws -> RecipeDetail
 }
