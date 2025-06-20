@@ -16,4 +16,14 @@ struct RecipeDataSourceImpl: RecipeDataSource {
         
         return response.value
     }
+    
+    func generateRecipe(from source: String) async throws -> UUID {
+        let request = MFRequest(url: "https://domain.com/v1/convert")
+            .post()
+            .validate()
+            .addParameters(["content": source])
+        let response = try await MF.requestDecodable(of: UUID.self, request)
+        
+        return response.value
+    }
 }
