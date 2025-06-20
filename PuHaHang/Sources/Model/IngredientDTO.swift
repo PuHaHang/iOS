@@ -8,7 +8,17 @@
 import Foundation
 
 struct IngredientDTO: Decodable {
-    let id: String
-    let name: String
+    let id: UUID
+    let ingredient: String
     let amount: String
+}
+
+extension IngredientDTO {
+    func toDomain() -> Ingredient {
+        return Ingredient(
+            id: id,
+            name: ingredient,
+            amount: amount
+        )
+    }
 }

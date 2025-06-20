@@ -137,17 +137,17 @@ private extension RecipeDetail {
             thumbnail: UIImage(),
             serving: "\(self.serving)인분",
             hasURL: true,
-            steps: self.steps.map { $0.toStepViewData() },
+            steps: self.stages.map { $0.toStepViewData() },
             ingredients: self.ingredients.map { $0.toIngredientViewData() }
         )
     }
 }
 
-private extension Step {
+private extension Stage {
     func toStepViewData() -> RecipeStepViewData {
         return RecipeStepViewData(
             id: UUID(),
-            stepTitle: "STEP\(self.stepNumber)",
+            stepTitle: "STEP\(self.step)",
             stepContent: self.instruction
         )
     }

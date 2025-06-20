@@ -7,7 +7,8 @@
 
 import Foundation
 
-struct Step {
-    let stepNumber: Int
+struct Stage {
+    let step: Int
+    let timeline: Double
     let instruction: String
 }
