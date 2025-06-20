@@ -9,7 +9,7 @@ import Dependencies
 import Foundation
 
 private enum FetchRecipeDetailUseCaseKey: DependencyKey {
-    static let liveValue: FetchRecipeDetailUseCase = LiveFetchRecipeDetailUseCase(recipeDetailRepository: MockRecipeDetailRepository())
+    static let liveValue: FetchRecipeDetailUseCase = LiveFetchRecipeDetailUseCase(recipeDetailRepository: RemoteRecipeDetailRepository(dataSource: RecipeDataSourceImpl()))
 }
 
 extension DependencyValues {
