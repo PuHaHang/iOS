@@ -1,0 +1,12 @@
+//
+//  RecipeDataSource.swift
+//  PuHaHang
+//
+//  Created by 디해 on 6/20/25.
+//
+
+import Foundation
+
+protocol RecipeDataSource {
+    func fetchRecipe(recipeID: String) async throws -> RecipeDTO
+}
