@@ -12,3 +12,13 @@ struct IngredientDTO: Decodable {
     let ingredient: String
     let amount: String
 }
+
+extension IngredientDTO {
+    func toDomain() -> Ingredient {
+        return Ingredient(
+            id: id,
+            name: ingredient,
+            amount: amount
+        )
+    }
+}

@@ -16,3 +16,20 @@ struct RecipeDTO: Decodable {
     let ingredients: [IngredientDTO]
     let stages: [StageDTO]
 }
+
+extension RecipeDTO {
+    func toDomain() -> RecipeDetail {
+        let url = URL(string: thumbnail)
+        let ingredients = ingredients.map { $0.toDomain() }
+        let stages = stages.map { $0.toDomain() }
+        
+        return RecipeDetail(
+            recipeID: id,
+            thumbnailURL: url,
+            title: title,
+            serving: serving,
+            ingredients: ingredients,
+            stages: stages
+        )
+    }
+}

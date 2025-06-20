@@ -12,3 +12,13 @@ struct StageDTO: Decodable {
     let timeline: Double
     let description: String
 }
+
+extension StageDTO {
+    func toDomain() -> Stage {
+        return Stage(
+            step: step,
+            timeline: timeline,
+            instruction: description
+        )
+    }
+}
