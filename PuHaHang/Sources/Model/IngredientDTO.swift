@@ -8,7 +8,7 @@
 import Foundation
 
 struct IngredientDTO: Decodable {
-    let id: String
-    let name: String
+    let id: UUID
+    let ingredient: String
     let amount: String
 }

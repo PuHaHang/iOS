@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 struct RecipeViewData {
-    let recipeID: String
+    let recipeID: UUID
     let title: String
     let thumbnail: UIImage
     let serving: String
