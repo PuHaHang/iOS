@@ -10,7 +10,7 @@ import Foundation
 
 private enum FetchRecipePreviewsUseCaseKey: DependencyKey {
     static let liveValue: FetchRecipePreviewsUseCase = LiveFetchRecipePreviewsUseCase(
-        recipePreviewRepository: MockRecipePreviewRepository()
+        recipePreviewRepository: RemoteRecipePreviewRepository(dataSource: RecipePreviewDataSourceImpl())
     )
 }
 
