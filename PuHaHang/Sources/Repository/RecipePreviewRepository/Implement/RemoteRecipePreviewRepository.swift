@@ -14,7 +14,7 @@ struct RemoteRecipePreviewRepository: RecipePreviewRepository {
         self.dataSource = dataSource
     }
     
-    func fetchPreview(for recipeID: String) async throws -> RecipePreview {
+    func fetchPreview(for recipeID: UUID) async throws -> RecipePreview {
         let recipePreview = try await dataSource.fetchPreview(recipeID: recipeID)
         
         return recipePreview.toDomain()
