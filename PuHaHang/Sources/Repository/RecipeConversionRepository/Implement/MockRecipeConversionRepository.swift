@@ -8,7 +8,7 @@
 import Foundation
 
 struct MockRecipeConversionRepository: RecipeConversionRepository {
-    func convert(from input: String) async throws -> String {
-        return "Mock 레시피 ID"
+    func convert(from input: String) async throws -> UUID {
+        return UUID()
     }
 }

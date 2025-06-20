@@ -10,8 +10,8 @@ import Foundation
 
 private enum FetchConvertedPreviewUseCaseKey: DependencyKey {
     static let liveValue: FetchConvertedPreviewUseCase = LiveFetchConvertedPreviewUseCase(
-        recipeConversionRepository: MockRecipeConversionRepository(),
-        recipePreviewRepository: MockRecipePreviewRepository()
+        recipeConversionRepository: RemoteRecipeConversionRepository(dataSource: RecipeDataSourceImpl()),
+        recipePreviewRepository: RemoteRecipePreviewRepository(dataSource: RecipePreviewDataSourceImpl())
     )
 }
 

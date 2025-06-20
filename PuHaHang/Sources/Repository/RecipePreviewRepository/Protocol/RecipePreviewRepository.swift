@@ -8,6 +8,6 @@
 import Foundation
 
 protocol RecipePreviewRepository {
-    func fetchPreview(for recipeID: String) async throws -> RecipePreview
+    func fetchPreview(for recipeID: UUID) async throws -> RecipePreview
     func fetchPreviews(page: Int, pageSize: Int) async throws -> [RecipePreview]
 }

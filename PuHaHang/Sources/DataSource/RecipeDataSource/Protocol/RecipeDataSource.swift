@@ -9,4 +9,5 @@ import Foundation
 
 protocol RecipeDataSource {
     func fetchRecipe(recipeID: UUID) async throws -> RecipeDTO
+    func generateRecipe(from source: String) async throws -> UUID
 }
