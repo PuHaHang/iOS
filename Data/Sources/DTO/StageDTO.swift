@@ -8,7 +8,7 @@
 import Foundation
 import Entity
 
-struct StageDTO: Decodable {
+public struct StageDTO: Decodable {
     let step: Int
     let timeline: Double
     let description: String

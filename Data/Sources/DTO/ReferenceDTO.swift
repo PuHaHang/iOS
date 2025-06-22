@@ -8,7 +8,7 @@
 import Foundation
 import Entity
 
-struct ReferenceDTO: Decodable {
+public struct ReferenceDTO: Decodable {
     let platform: String
     let content: String
 }

@@ -8,7 +8,7 @@
 import Foundation
 import Entity
 
-struct IngredientDTO: Decodable {
+public struct IngredientDTO: Decodable {
     let id: UUID
     let ingredient: String
     let amount: String
