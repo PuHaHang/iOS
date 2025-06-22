@@ -7,6 +7,7 @@
 
 import ComposableArchitecture
 import Foundation
+import Entity
 import UIKit
 
 @Reducer
@@ -105,7 +106,7 @@ extension HomeReducer.Action {
     }
 }
 
-private extension RecipePreview {
+private extension RecipePreviewVO {
     func toRecipeListItem() -> RecipeListItem {
         return RecipeListItem(
             recipeID: self.recipeID,

@@ -7,6 +7,7 @@
 
 import ComposableArchitecture
 import Foundation
+import Entity
 import UIKit
 
 @Reducer
@@ -20,7 +21,7 @@ struct RecipeReducer {
         var path = StackState<Path.State>()
         var titleTab: TitleTabReducer.State
         
-        init(recipe: RecipeDetail) {
+        init(recipe: RecipeDetailVO) {
             let recipeViewData = recipe.toRecipeViewData()
             self.recipeViewData = recipeViewData
             self.titleTab = TitleTabReducer.State(
@@ -98,7 +99,7 @@ private extension RecipeReducer {
     }
 }
 
-private extension RecipeDetail {
+private extension RecipeDetailVO {
     func toRecipeViewData() -> RecipeViewData {
         return RecipeViewData(
             recipeID: self.recipeID,
@@ -112,7 +113,7 @@ private extension RecipeDetail {
     }
 }
 
-private extension Reference {
+private extension ReferenceVO {
     var urlToOpen: URL? {
         switch self {
         case .youtube(let url):
@@ -125,7 +126,7 @@ private extension Reference {
     }
 }
 
-private extension Stage {
+private extension StageVO {
     func toStepViewData() -> RecipeStepViewData {
         return RecipeStepViewData(
             id: UUID(),
@@ -135,7 +136,7 @@ private extension Stage {
     }
 }
 
-private extension Ingredient {
+private extension IngredientVO {
     func toIngredientViewData() -> IngredientViewData {
         return IngredientViewData(
             id: UUID(),

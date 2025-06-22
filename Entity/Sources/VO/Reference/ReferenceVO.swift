@@ -1,5 +1,5 @@
 //
-//  Reference.swift
+//  ReferenceVO.swift
 //  PuHaHang
 //
 //  Created by 디해 on 6/21/25.
@@ -7,13 +7,13 @@
 
 import Foundation
 
-enum Reference {
+public enum ReferenceVO {
     case youtube(URL)
     case text(String)
     case unknown
 
-    static func from(type rawType: String, value: String) -> Reference {
-        if let type = ReferenceType(rawValue: rawType) {
+    public static func from(type rawType: String, value: String) -> ReferenceVO {
+        if let type = ReferenceTypeVO(rawValue: rawType) {
             switch type {
             case .youtube:
                 guard let url = URL(string: value) else { return .unknown }
@@ -27,8 +27,8 @@ enum Reference {
     }
 }
 
-extension Reference {
-    enum ReferenceType: String {
+extension ReferenceVO {
+    enum ReferenceTypeVO: String {
         case youtube
         case text
     }
