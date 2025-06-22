@@ -1,0 +1,10 @@
+// {{ name }}Tests.swift
+
+import Foundation
+import XCTest
+
+final class {{ name }}Tests: XCTestCase {
+    func test_example() {
+        XCTAssertEqual("{{ name }}", "{{ name }}")
+    }
+}
