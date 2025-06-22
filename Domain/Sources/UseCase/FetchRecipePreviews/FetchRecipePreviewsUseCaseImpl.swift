@@ -1,20 +1,21 @@
 //
-//  LiveFetchRecipePreviewsUseCase.swift
+//  FetchRecipePreviewsUseCaseImpl.swift
 //  PuHaHang
 //
 //  Created by 디해 on 6/16/25.
 //
 
 import Foundation
+import Entity
 
-struct LiveFetchRecipePreviewsUseCase: FetchRecipePreviewsUseCase {
+public struct FetchRecipePreviewsUseCaseImpl: FetchRecipePreviewsUseCase {
     private let recipePreviewRepository: RecipePreviewRepository
     
-    init(recipePreviewRepository: RecipePreviewRepository) {
+    public init(recipePreviewRepository: RecipePreviewRepository) {
         self.recipePreviewRepository = recipePreviewRepository
     }
     
-    func execute(page: Int, pageSize: Int) async -> Result<[RecipePreview], Error> {
+    public func execute(page: Int, pageSize: Int) async -> Result<[RecipePreviewVO], Error> {
         do {
             let previews = try await recipePreviewRepository
                 .fetchPreviews(page: page, pageSize: pageSize)

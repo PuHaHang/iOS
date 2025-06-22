@@ -1,20 +1,21 @@
 //
-//  LiveFetchRecipeDetailUseCase.swift
+//  FetchRecipeDetailUseCaseImpl.swift
 //  PuHaHang
 //
 //  Created by 디해 on 6/16/25.
 //
 
 import Foundation
+import Entity
 
-struct LiveFetchRecipeDetailUseCase: FetchRecipeDetailUseCase {
+public struct FetchRecipeDetailUseCaseImpl: FetchRecipeDetailUseCase {
     private let recipeDetailRepository: RecipeDetailRepository
     
-    init(recipeDetailRepository: RecipeDetailRepository) {
+    public init(recipeDetailRepository: RecipeDetailRepository) {
         self.recipeDetailRepository = recipeDetailRepository
     }
     
-    func execute(recipeID: UUID) async -> Result<RecipeDetail, Error> {
+    public func execute(recipeID: UUID) async -> Result<RecipeDetailVO, Error> {
         do {
             let detail = try await recipeDetailRepository.fetchDetail(for: recipeID)
             return .success(detail)
