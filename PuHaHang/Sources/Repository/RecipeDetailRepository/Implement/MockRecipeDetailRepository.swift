@@ -14,6 +14,7 @@ struct MockRecipeDetailRepository: RecipeDetailRepository {
             thumbnailURL: URL(filePath: "")!,
             title: "임시 레시피 타이틀",
             serving: 1,
+            reference: Reference.text(""),
             ingredients: [
                 Ingredient(id: UUID(), name: "마요네즈", amount: "1스푼"),
                 Ingredient(id: UUID(), name: "마요네즈", amount: "1스푼"),

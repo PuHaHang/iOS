@@ -12,6 +12,7 @@ struct RecipeDetail {
     let thumbnailURL: URL?
     let title: String
     let serving: Int
+    let reference: Reference
     let ingredients: [Ingredient]
     let stages: [Stage]
 }

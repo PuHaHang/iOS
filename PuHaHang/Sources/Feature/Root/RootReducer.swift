@@ -101,8 +101,7 @@ private extension RootReducer {
     }
     
     func reduceNavigateToRecipe(_ state: inout State, detail: RecipeDetail) -> Effect<Action> {
-        let viewData = detail.toRecipeViewData()
-        let recipeState = RecipeReducer.State(recipeViewData: viewData)
+        let recipeState = RecipeReducer.State(recipe: detail)
         state.destination = .recipeDetail(recipeState)
         
         return .none
@@ -125,40 +124,6 @@ private extension RecipePreview {
             title: self.title,
             serving: "\(self.serving)인분",
             ingredients: self.ingredients.map { $0.name }.joined(separator: ", ")
-        )
-    }
-}
-
-private extension RecipeDetail {
-    func toRecipeViewData() -> RecipeViewData {
-        return RecipeViewData(
-            recipeID: self.recipeID,
-            title: self.title,
-            thumbnail: UIImage(),
-            serving: "\(self.serving)인분",
-            hasURL: true,
-            steps: self.stages.map { $0.toStepViewData() },
-            ingredients: self.ingredients.map { $0.toIngredientViewData() }
-        )
-    }
-}
-
-private extension Stage {
-    func toStepViewData() -> RecipeStepViewData {
-        return RecipeStepViewData(
-            id: UUID(),
-            stepTitle: "STEP\(self.step)",
-            stepContent: self.instruction
-        )
-    }
-}
-
-private extension Ingredient {
-    func toIngredientViewData() -> IngredientViewData {
-        return IngredientViewData(
-            id: UUID(),
-            ingredient: "\(self.name) \(self.amount)",
-            isChecked: false
         )
     }
 }
