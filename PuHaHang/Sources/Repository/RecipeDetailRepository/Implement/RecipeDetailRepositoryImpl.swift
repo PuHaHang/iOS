@@ -6,15 +6,17 @@
 //
 
 import Foundation
+import Entity
+import Domain
 
-struct RemoteRecipeDetailRepository: RecipeDetailRepository {
+struct RecipeDetailRepositoryImpl: RecipeDetailRepository {
     private let dataSource: RecipeDataSource
     
     init(dataSource: RecipeDataSource) {
         self.dataSource = dataSource
     }
 
-    func fetchDetail(for recipeID: UUID) async throws -> RecipeDetail {
+    func fetchDetail(for recipeID: UUID) async throws -> RecipeDetailVO {
         let recipe = try await dataSource.fetchRecipe(recipeID: recipeID)
         
         return recipe.toDomain()

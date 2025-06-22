@@ -6,8 +6,9 @@
 //
 
 import Foundation
+import Domain
 
-struct RemoteRecipeConversionRepository: RecipeConversionRepository {
+struct RecipeConversionRepositoryImpl: RecipeConversionRepository {
     private let dataSource: RecipeDataSource
     
     init(dataSource: RecipeDataSource) {
