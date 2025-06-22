@@ -20,7 +20,8 @@ struct RecipeReducer {
         var path = StackState<Path.State>()
         var titleTab: TitleTabReducer.State
         
-        init(recipeViewData: RecipeViewData) {
+        init(recipe: RecipeDetail) {
+            let recipeViewData = recipe.toRecipeViewData()
             self.recipeViewData = recipeViewData
             self.titleTab = TitleTabReducer.State(
                 steps: recipeViewData.steps,
@@ -83,6 +84,39 @@ private extension RecipeReducer {
         let cookingState = CookingReducer.State(title: title, steps: steps)
         state.path.append(.cooking(cookingState))
         return .none
+    }
+
+private extension RecipeDetail {
+    func toRecipeViewData() -> RecipeViewData {
+        return RecipeViewData(
+            recipeID: self.recipeID,
+            title: self.title,
+            thumbnail: UIImage(),
+            serving: "\(self.serving)인분",
+            externalLink: self.reference.urlToOpen,
+            steps: self.stages.map { $0.toStepViewData() },
+            ingredients: self.ingredients.map { $0.toIngredientViewData() }
+        )
+    }
+}
+
+private extension Stage {
+    func toStepViewData() -> RecipeStepViewData {
+        return RecipeStepViewData(
+            id: UUID(),
+            stepTitle: "STEP\(self.step)",
+            stepContent: self.instruction
+        )
+    }
+}
+
+private extension Ingredient {
+    func toIngredientViewData() -> IngredientViewData {
+        return IngredientViewData(
+            id: UUID(),
+            ingredient: "\(self.name) \(self.amount)",
+            isChecked: false
+        )
     }
 }
 
