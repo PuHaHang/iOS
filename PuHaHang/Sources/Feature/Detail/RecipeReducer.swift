@@ -100,6 +100,19 @@ private extension RecipeDetail {
     }
 }
 
+private extension Reference {
+    var urlToOpen: URL? {
+        switch self {
+        case .youtube(let url):
+            return url
+        case .text:
+            return nil
+        case .unknown:
+            return nil
+        }
+    }
+}
+
 private extension Stage {
     func toStepViewData() -> RecipeStepViewData {
         return RecipeStepViewData(
