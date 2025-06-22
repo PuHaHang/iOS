@@ -4,7 +4,8 @@ let workspace = Workspace(
     name: "PuHaHang",
     projects: [
         "Entity",
-        "Domain", 
+        "Domain",
+        "Data",
         "PuHaHang"
     ]
 ) 

@@ -42,8 +42,8 @@ let project = Project(
             ],
             dependencies: [
                 .project(target: "Domain", path: "../Domain"),
-                .external(name: "ComposableArchitecture"),
-                .external(name: "Minifire")
+                .project(target: "Data", path: "../Data"),
+                .external(name: "ComposableArchitecture")
             ]
         ),
         
