@@ -28,6 +28,7 @@ extension RecipeDTO {
             thumbnailURL: url,
             title: title,
             serving: serving,
+            reference: reference.toDomain(),
             ingredients: ingredients,
             stages: stages
         )

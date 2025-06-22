@@ -9,5 +9,11 @@ import Foundation
 
 struct ReferenceDTO: Decodable {
     let platform: String
-    let url: String
+    let content: String
+}
+
+extension ReferenceDTO {
+    func toDomain() -> Reference {
+        Reference.from(type: platform, value: content)
+    }
 }
