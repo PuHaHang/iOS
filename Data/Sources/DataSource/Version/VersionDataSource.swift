@@ -13,6 +13,8 @@ public protocol VersionDataSource {
 }
 
 public struct VersionDataSourceImpl: VersionDataSource {
+    public init() { }
+    
     public func fetchVersionRequirement() async throws -> VersionRequirementDTO {
         let request = MFRequest(url: "http://121.157.24.40/v1/intro").validate()
         let response = try await MF.requestDecodable(of: VersionRequirementDTO.self, request)
@@ -22,6 +24,8 @@ public struct VersionDataSourceImpl: VersionDataSource {
 }
 
 public struct MockVersionDataSourceImpl: VersionDataSource {
+    public init() { }
+    
     public func fetchVersionRequirement() async throws -> VersionRequirementDTO {
         return VersionRequirementDTO(
             recommendVersion: "mock mock - 2.2.2",
