@@ -3,6 +3,7 @@ import ProjectDescription
 let project = Project(
     name: "PuHaHang",
     targets: [
+        // 메인 앱 - Domain 모듈에 의존
         .target(
             name: "PuHaHang",
             destinations: .iOS,
@@ -19,8 +20,8 @@ let project = Project(
                     ]
                 ]
             ),
-            sources: ["PuHaHang/Sources/**"],
-            resources: ["PuHaHang/Resources/**"],
+            sources: ["Sources/**"],
+            resources: ["Resources/**"],
             scripts: [
                 .pre(script: """
         if [ -d "$HOME/.local/share/mise/shims" ]; then
@@ -30,7 +31,7 @@ let project = Project(
         fi
         
         SWIFTLINT_PATH=$(which swiftlint)
-        SWIFTLINT_CONFIG_PATH="$SRCROOT/.swiftlint.yml"
+        SWIFTLINT_CONFIG_PATH="$SRCROOT/../.swiftlint.yml"
         
         if [ -n "$SWIFTLINT_PATH" ]; then
             swiftlint --config "$SWIFTLINT_CONFIG_PATH"
@@ -40,19 +41,25 @@ let project = Project(
         """, name: "SwiftLint")
             ],
             dependencies: [
+                .project(target: "Domain", path: "../Domain"),
                 .external(name: "ComposableArchitecture"),
                 .external(name: "Minifire")
             ]
         ),
+        
+        // 메인 앱 테스트
         .target(
             name: "PuHaHangTests",
             destinations: .iOS,
             product: .unitTests,
             bundleId: "io.tuist.PuHaHangTests",
             infoPlist: .default,
-            sources: ["PuHaHang/Tests/**"],
+            sources: ["Tests/**"],
             resources: [],
-            dependencies: [.target(name: "PuHaHang")]
+            dependencies: [
+                .target(name: "PuHaHang"),
+                .project(target: "Domain", path: "../Domain")
+            ]
         ),
     ]
-)
+) 

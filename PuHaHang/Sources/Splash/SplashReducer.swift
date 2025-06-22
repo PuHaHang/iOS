@@ -7,10 +7,12 @@
 
 import ComposableArchitecture
 import Foundation
+import Domain
+import Entity
 
 @Reducer
 struct SplashReducer {
-    @Dependency(\.fetchIntroUseCase) var fetchIntroUseCase
+    @Dependency(\.introUseCase) var introUseCase
     
     @ObservableState
     struct State {
@@ -40,7 +42,7 @@ struct SplashReducer {
 private extension SplashReducer {
     func reduceOnAppear() -> Effect<Action> {
         .run { send in
-            let introResult = await fetchIntroUseCase.execute()
+            let introResult = await introUseCase.execute()
             
             switch introResult {
             case .success(let intro):
@@ -66,7 +68,7 @@ private extension SplashReducer {
     }
 }
 
-private extension Intro {
+private extension IntroVO {
     func toIntroViewData() -> IntroViewData {
         return IntroViewData(
             recommendVersion: self.recommendVersion,
