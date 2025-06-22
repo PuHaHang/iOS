@@ -54,8 +54,7 @@ struct RecipeReducer {
                 }
                 
             case .didTapContentButton:
-                // TODO: - 원본 출처 연결
-                return .none
+                return reduceDidTapContentButton(state)
                 
             case .didTapCookingButton:
                 return reduceDidTapCookingButton(&state)
@@ -85,6 +84,19 @@ private extension RecipeReducer {
         state.path.append(.cooking(cookingState))
         return .none
     }
+    
+    func reduceDidTapContentButton(_ state: State) -> Effect<Action> {
+        guard let externalLink = state.recipeViewData.externalLink else { return .none }
+        
+        UIApplication.shared.open(
+            externalLink,
+            options: [:],
+            completionHandler: nil
+        )
+        
+        return .none
+    }
+}
 
 private extension RecipeDetail {
     func toRecipeViewData() -> RecipeViewData {
