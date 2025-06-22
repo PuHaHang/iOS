@@ -6,15 +6,17 @@
 //
 
 import Foundation
+import Domain
+import Entity
 
-struct TemporaryIntroRepository: IntroRepository {
-    private let dataSource: VersionRemoteDataSource
+struct IntroRepositoryImpl: IntroRepository {
+    private let dataSource: VersionDataSource
     
-    init(dataSource: VersionRemoteDataSource) {
+    init(dataSource: VersionDataSource) {
         self.dataSource = dataSource
     }
     
-    func fetchIntro() async throws -> Intro {
+    func fetchIntro() async throws -> IntroVO {
         let versionRequirement = try await dataSource.fetchVersionRequirement()
         return versionRequirement.toDomain()
     }

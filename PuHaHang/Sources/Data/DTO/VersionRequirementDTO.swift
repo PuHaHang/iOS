@@ -6,15 +6,16 @@
 //
 
 import Foundation
+import Entity
 
-struct VersionRequirementDTO: Decodable {
+public struct VersionRequirementDTO: Decodable {
     let recommendVersion: String
     let minVersion: String
 }
 
-extension VersionRequirementDTO {
-    func toDomain() -> Intro {
-        return Intro(
+public extension VersionRequirementDTO {
+    func toDomain() -> IntroVO {
+        return IntroVO(
             recommendVersion: recommendVersion,
             minVersion: minVersion
         )
