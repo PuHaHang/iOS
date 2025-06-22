@@ -9,14 +9,14 @@ import Foundation
 import Domain
 import Entity
 
-struct IntroRepositoryImpl: IntroRepository {
+public struct IntroRepositoryImpl: IntroRepository {
     private let dataSource: VersionDataSource
     
-    init(dataSource: VersionDataSource) {
+    public init(dataSource: VersionDataSource) {
         self.dataSource = dataSource
     }
     
-    func fetchIntro() async throws -> IntroVO {
+    public func fetchIntro() async throws -> IntroVO {
         let versionRequirement = try await dataSource.fetchVersionRequirement()
         return versionRequirement.toDomain()
     }

@@ -9,8 +9,10 @@ import Foundation
 import Entity
 import Domain
 
-struct MockRecipePreviewRepositoryImpl: RecipePreviewRepository {
-    func fetchPreview(for recipeID: UUID) async throws -> RecipePreviewVO {
+public struct MockRecipePreviewRepositoryImpl: RecipePreviewRepository {
+    public init() { }
+    
+    public func fetchPreview(for recipeID: UUID) async throws -> RecipePreviewVO {
         return RecipePreviewVO(
             recipeID: UUID(),
             thumbnailURL: URL(filePath: "")!,
@@ -25,7 +27,7 @@ struct MockRecipePreviewRepositoryImpl: RecipePreviewRepository {
         )
     }
     
-    func fetchPreviews(page: Int, pageSize: Int) async throws -> [RecipePreviewVO] {
+    public func fetchPreviews(page: Int, pageSize: Int) async throws -> [RecipePreviewVO] {
         let preview = RecipePreviewVO(
             recipeID: UUID(),
             thumbnailURL: URL(filePath: "")!,

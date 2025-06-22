@@ -9,8 +9,10 @@ import Foundation
 import Entity
 import Domain
 
-struct MockRecipeDetailRepositoryImpl: RecipeDetailRepository {
-    func fetchDetail(for recipeID: UUID) async throws -> RecipeDetailVO {
+public struct MockRecipeDetailRepositoryImpl: RecipeDetailRepository {
+    public init() { }
+    
+    public func fetchDetail(for recipeID: UUID) async throws -> RecipeDetailVO {
         return RecipeDetailVO(
             recipeID: UUID(),
             thumbnailURL: URL(filePath: "")!,
