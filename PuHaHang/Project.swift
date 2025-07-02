@@ -46,20 +46,5 @@ let project = Project(
                 .project(target: "Presentation", path: "../Presentation")
             ]
         ),
-        
-        // 메인 앱 테스트
-        .target(
-            name: "PuHaHangTests",
-            destinations: .iOS,
-            product: .unitTests,
-            bundleId: "io.tuist.PuHaHangTests",
-            infoPlist: .default,
-            sources: ["Tests/**"],
-            resources: [],
-            dependencies: [
-                .target(name: "PuHaHang"),
-                .project(target: "Domain", path: "../Domain")
-            ]
-        ),
     ]
 ) 
