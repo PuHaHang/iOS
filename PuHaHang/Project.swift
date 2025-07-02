@@ -43,7 +43,7 @@ let project = Project(
             dependencies: [
                 .project(target: "Domain", path: "../Domain"),
                 .project(target: "Data", path: "../Data"),
-                .external(name: "ComposableArchitecture")
+                .project(target: "Presentation", path: "../Presentation")
             ]
         ),
         
