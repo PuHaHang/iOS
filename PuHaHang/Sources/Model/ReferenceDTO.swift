@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Entity
 
 struct ReferenceDTO: Decodable {
     let platform: String
@@ -13,7 +14,7 @@ struct ReferenceDTO: Decodable {
 }
 
 extension ReferenceDTO {
-    func toDomain() -> Reference {
-        Reference.from(type: platform, value: content)
+    func toDomain() -> ReferenceVO {
+        ReferenceVO.from(type: platform, value: content)
     }
 }

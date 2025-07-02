@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Entity
 
 struct StageDTO: Decodable {
     let step: Int
@@ -14,8 +15,8 @@ struct StageDTO: Decodable {
 }
 
 extension StageDTO {
-    func toDomain() -> Stage {
-        return Stage(
+    func toDomain() -> StageVO {
+        return StageVO(
             step: step,
             timeline: timeline,
             instruction: description

@@ -6,6 +6,7 @@
 //
 
 import ComposableArchitecture
+import Entity
 import Foundation
 import UIKit
 
@@ -30,7 +31,7 @@ struct RootReducer {
         case home(HomeReducer.Action)
         case setting(SettingReducer.Action)
         
-        case navigateToRecipe(RecipeDetail)
+        case navigateToRecipe(RecipeDetailVO)
     }
     
     var body: some ReducerOf<Self> {
@@ -100,7 +101,7 @@ private extension RootReducer {
         }
     }
     
-    func reduceNavigateToRecipe(_ state: inout State, detail: RecipeDetail) -> Effect<Action> {
+    func reduceNavigateToRecipe(_ state: inout State, detail: RecipeDetailVO) -> Effect<Action> {
         let recipeState = RecipeReducer.State(recipe: detail)
         state.destination = .recipeDetail(recipeState)
         
@@ -116,7 +117,7 @@ extension RootReducer {
     }
 }
 
-private extension RecipePreview {
+private extension RecipePreviewVO {
     func toRecipeListItem() -> RecipeListItem {
         return RecipeListItem(
             recipeID: self.recipeID,

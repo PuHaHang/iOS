@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Entity
 
 struct IngredientDTO: Decodable {
     let id: UUID
@@ -14,8 +15,8 @@ struct IngredientDTO: Decodable {
 }
 
 extension IngredientDTO {
-    func toDomain() -> Ingredient {
-        return Ingredient(
+    func toDomain() -> IngredientVO {
+        return IngredientVO(
             id: id,
             name: ingredient,
             amount: amount

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Entity
 
 struct RecipePreviewDTO: Decodable {
     let recipeID: UUID
@@ -26,11 +27,11 @@ struct RecipePreviewDTO: Decodable {
 }
 
 extension RecipePreviewDTO {
-    func toDomain() -> RecipePreview {
+    func toDomain() -> RecipePreviewVO {
         let url = URL(string: thumbnail)
         let ingredients = ingredients.map { $0.toDomain() }
         
-        return RecipePreview(
+        return RecipePreviewVO(
             recipeID: recipeID,
             thumbnailURL: url,
             title: title,
