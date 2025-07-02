@@ -11,7 +11,8 @@ let project = Project(
             bundleId: "io.tuist.PuHaHang.Domain",
             sources: ["Sources/**"],
             dependencies: [
-                .project(target: "Entity", path: "../Entity")
+                .project(target: "Entity", path: "../Entity"),
+                .external(name: "ComposableArchitecture")
             ]
         ),
         
@@ -28,4 +29,4 @@ let project = Project(
             ]
         )
     ]
-) 
+)
