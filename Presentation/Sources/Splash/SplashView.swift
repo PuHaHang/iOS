@@ -8,10 +8,14 @@
 import ComposableArchitecture
 import SwiftUI
 
-struct SplashView: View {
+public struct SplashView: View {
     let store: StoreOf<SplashReducer>
     
-    var body: some View {
+    public init(store: StoreOf<SplashReducer>) {
+        self.store = store
+    }
+    
+    public var body: some View {
         Group {
             switch store.introState {
             case .idle:

@@ -7,26 +7,31 @@
 
 import ComposableArchitecture
 import Foundation
+import Dependencies
 import Domain
 import Entity
 
 @Reducer
-struct SplashReducer {
+public struct SplashReducer {
     @Dependency(\.introUseCase) var introUseCase
     
+    public init() { }
+    
     @ObservableState
-    struct State {
+    public struct State {
         let appTitle: String = "내 손 안의 요리 도우미"
         let appIconName: String = "splash_icon"
         var introState: IntroStateViewData = .idle
+        
+        public init() {}
     }
     
-    enum Action {
+    public enum Action {
         case onAppear
         case introResponse(Result<IntroViewData, Error>)
     }
     
-    var body: some ReducerOf<Self> {
+    public var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
             case .onAppear:

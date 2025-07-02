@@ -6,6 +6,7 @@ let workspace = Workspace(
         "Entity",
         "Domain",
         "Data",
+        "Presentation",
         "PuHaHang"
     ]
 ) 
