@@ -10,21 +10,21 @@ import Dependencies
 
 // MARK: - IntroUseCase DI
 
-private enum IntroUseCaseKey: DependencyKey {
-    static let liveValue: IntroUseCase = {
+public enum IntroUseCaseKey: DependencyKey {
+    public static let liveValue: IntroUseCase = {
         @Dependency(\.introRepository) var introRepository
         return IntroUseCaseImpl(introRepository: introRepository)
     }()
     
     #if DEBUG
-    static let testValue: IntroUseCase = {
+    public static let testValue: IntroUseCase = {
         @Dependency(\.introRepository) var introRepository
         return IntroUseCaseImpl(introRepository: introRepository)
     }()
     #endif
 }
 
-extension DependencyValues {
+public extension DependencyValues {
     var introUseCase: IntroUseCase {
         get { self[IntroUseCaseKey.self] }
         set { self[IntroUseCaseKey.self] = newValue }

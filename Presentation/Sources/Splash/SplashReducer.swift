@@ -7,15 +7,18 @@
 
 import ComposableArchitecture
 import Foundation
+import Dependencies
 import Domain
 import Entity
 
 @Reducer
-struct SplashReducer {
+public struct SplashReducer {
     @Dependency(\.introUseCase) var introUseCase
     
+    public init() { }
+    
     @ObservableState
-    struct State {
+    public struct State {
         let appTitle: String = "내 손 안의 요리 도우미"
         let appIconName: String = "splash_icon"
         var introState: IntroStateViewData = .idle
