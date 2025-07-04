@@ -7,7 +7,6 @@
 
 import ComposableArchitecture
 import SwiftUI
-import YouTubePlayerKit
 
 struct CookingView: View {
     @Bindable var store: StoreOf<CookingReducer>
@@ -15,14 +14,13 @@ struct CookingView: View {
     var body: some View {
         ZStack {
             CookingMainView(store: store)
-                .zIndex(0)
             
-            if store.isPlayerPresented {
+            if let store = store.scope(state: \.destination?.player, action: \.destination.player) {
                 CookingPlayerView(store: store)
                     .zIndex(1)
             }
         }
-        .animation(.easeInOut, value: store.isPlayerPresented)
+        .animation(.easeInOut, value: store.destination != nil)
         .navigationTitle(store.title)
         .navigationBarTitleDisplayMode(.inline)
         .navigationBarBackButtonHidden()
@@ -60,62 +58,6 @@ extension CookingView {
                 .padding(.horizontal, 30)
                 .padding(.bottom, 30)
             }
-        }
-    }
-    
-    private struct CookingPlayerView: View {
-        @Bindable var store: StoreOf<CookingReducer>
-        
-        var body: some View {
-            ZStack {
-                Color.black.opacity(0.2)
-                    .ignoresSafeArea()
-                    .onTapGesture {
-                        store.send(.didTapPlayerBackground)
-                    }
-                
-                VStack {
-                    Spacer().frame(height: 40)
-                    
-                    if case .youtube(let url) = store.reference {
-                        CookingYoutubePlayerView(store: store, url: url)
-                            .frame(width: 300, height: 169)
-                    } else if case .shorts(let url) = store.reference {
-                        CookingYoutubePlayerView(store: store, url: url)
-                            .frame(width: 300, height: 533)
-                    }
-                    
-                    Spacer()
-                }
-            }
-        }
-    }
-    
-    private struct CookingYoutubePlayerView: View {
-        @Bindable var store: StoreOf<CookingReducer>
-        let player: YouTubePlayer
-        
-        init(store: StoreOf<CookingReducer>, url: URL) {
-            let py = YouTubePlayer(url: url)
-            py.parameters = .init(
-                autoPlay: true,
-                startTime: store.startTime,
-                endTime: store.endTime,
-                showControls: false
-            )
-            self.player = py
-            self.store = store
-        }
-        
-        var body: some View {
-            YouTubePlayerView(player)
-                .cornerRadius(20)
-                .shadow(radius: 10)
-                .onReceive(player.currentTimePublisher) { currentTime in
-                    if currentTime >= store.endTime {
-                        store.send(.endTimeReached)
-                    }
-                }
         }
     }
     

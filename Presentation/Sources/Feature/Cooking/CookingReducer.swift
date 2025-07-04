@@ -13,12 +13,13 @@ import YouTubePlayerKit
 struct CookingReducer {
     @ObservableState
     struct State {
+        @Presents var destination: Destination.State?
+        
         let title: String
         let steps: [RecipeStepViewData]
         let reference: ReferenceViewData
         
         var currentStep: Int = 0
-        var isPlayerPresented: Bool = false
         
         var startTime: Measurement<UnitDuration> {
             steps[currentStep].timeline.startTime
@@ -30,17 +31,19 @@ struct CookingReducer {
     }
     
     enum Action {
+        case destination(PresentationAction<Destination.Action>)
+        
         case didTapPrevButton
         case didTapNextButton
         case didTapSourceButton
-        case didTapPlayerBackground
-        case endTimeReached
         
         case delegate(Delegate)
     }
     
     var body: some ReducerOf<Self> {
-        Reduce { state, action in
+        Reduce {
+            state,
+            action in
             switch action {
             case .didTapPrevButton:
                 state.currentStep = max(0, state.currentStep - 1)
@@ -55,21 +58,29 @@ struct CookingReducer {
                 return .none
                 
             case .didTapSourceButton:
-                state.isPlayerPresented = true
+                state.destination = .player(
+                    .init(
+                        reference: state.reference,
+                        startTime: state.startTime,
+                        endTime: state.endTime
+                    )
+                )
                 return .none
                 
-            case .didTapPlayerBackground:
-                state.isPlayerPresented = false
-                return .none
-                
-            case .endTimeReached:
-                state.isPlayerPresented = false
-                return .none
-                
-            case .delegate:
+            case .destination, .delegate:
                 return .none
             }
         }
+        .ifLet(\.$destination, action: \.destination) {
+            Destination.body
+        }
+    }
+}
+
+extension CookingReducer {
+    @Reducer
+    enum Destination {
+        case player(CookingPlayerReducer)
     }
 }
 
