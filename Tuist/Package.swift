@@ -9,6 +9,7 @@ import PackageDescription
         // Default is .staticFramework
         // productTypes: ["Alamofire": .framework,]
         productTypes: [
+            "YouTubePlayerKit": .framework,
             "ComposableArchitecture": .framework
         ]
     )
@@ -21,6 +22,7 @@ let package = Package(
         // .package(url: "https://github.com/Alamofire/Alamofire", from: "5.0.0"),
         // You can read more about dependencies here: https://docs.tuist.io/documentation/tuist/dependencies
         .package(url: "https://github.com/pointfreeco/swift-composable-architecture", from: "1.19.1"),
+        .package(url: "https://github.com/SvenTiigi/YouTubePlayerKit.git", .upToNextMajor(from: "2.0.0")),
         .package(url: "https://github.com/LURKS02/MiniFire", .upToNextMajor(from: "1.0.3"))
     ]
 )

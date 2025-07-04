@@ -11,6 +11,7 @@ let project = Project(
             sources: ["Sources/**"],
             dependencies: [
                 .project(target: "Domain", path: "../Domain"),
+                .external(name: "YouTubePlayerKit"),
                 .external(name: "ComposableArchitecture")
             ]
         ),
