@@ -7,6 +7,7 @@
 
 import ComposableArchitecture
 import Foundation
+import YouTubePlayerKit
 
 @Reducer
 struct CookingReducer {
@@ -14,14 +15,26 @@ struct CookingReducer {
     struct State {
         let title: String
         let steps: [RecipeStepViewData]
+        let reference: ReferenceViewData
         
         var currentStep: Int = 0
+        var isPlayerPresented: Bool = false
+        
+        var startTime: Measurement<UnitDuration> {
+            steps[currentStep].timeline.startTime
+        }
+        
+        var endTime: Measurement<UnitDuration> {
+            steps[currentStep].timeline.endTime
+        }
     }
     
     enum Action {
         case didTapPrevButton
         case didTapNextButton
         case didTapSourceButton
+        case didTapPlayerBackground
+        case endTimeReached
         
         case delegate(Delegate)
     }
@@ -34,15 +47,23 @@ struct CookingReducer {
                 return .none
                 
             case .didTapNextButton:
-                if state.currentStep + 1 == state.steps.count - 1 {
+                if state.currentStep + 1 >= state.steps.count {
                     return .send(.delegate(.navigateToResult))
-                } else if state.currentStep + 1 < state.steps.count - 1 {
-                    state.currentStep = min(state.steps.count - 1, state.currentStep + 1)
+                }  else {
+                    state.currentStep = state.currentStep + 1
                 }
                 return .none
                 
             case .didTapSourceButton:
-                print(">>> tap source")
+                state.isPlayerPresented = true
+                return .none
+                
+            case .didTapPlayerBackground:
+                state.isPlayerPresented = false
+                return .none
+                
+            case .endTimeReached:
+                state.isPlayerPresented = false
                 return .none
                 
             case .delegate:
