@@ -36,6 +36,7 @@ struct CookingReducer {
         case didTapPrevButton
         case didTapNextButton
         case didTapSourceButton
+        case didTapTimerButton
         
         case delegate(Delegate)
     }
@@ -55,6 +56,10 @@ struct CookingReducer {
                 }  else {
                     state.currentStep = state.currentStep + 1
                 }
+                return .none
+                
+            case .didTapTimerButton:
+                state.destination = .timer(.init(timerState: .setting))
                 return .none
                 
             case .didTapSourceButton:
@@ -81,6 +86,7 @@ extension CookingReducer {
     @Reducer
     enum Destination {
         case player(CookingPlayerReducer)
+        case timer(TimerReducer)
     }
 }
 
