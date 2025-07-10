@@ -54,3 +54,10 @@ extension ReceiveVoiceCommandUseCaseKey: @retroactive DependencyKey {
         return ReceiveVoiceCommandUseCaseImpl(voiceCommandRepository: voiceCommandRepository)
     }()
 }
+
+extension StopSpeechRecognitionUseCaseKey: @retroactive DependencyKey {
+    public static let liveValue: any StopSpeechRecognitionUseCase = {
+        @Dependency(\.voiceCommandRepository) var voiceCommandRepository
+        return StopSpeechRecognitionUseCaseImpl(voiceCommandRepository: voiceCommandRepository)
+    }()
+}

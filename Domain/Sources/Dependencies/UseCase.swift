@@ -81,6 +81,22 @@ public extension DependencyValues {
         set { self[RequestVoiceAuthorizationUseCaseKey.self] = newValue }
     }
 }
+
+// MARK: - StopSpeechRecognitionUseCase DI
+
+public enum StopSpeechRecognitionUseCaseKey: TestDependencyKey {
+    #if DEBUG
+    public static let testValue: StopSpeechRecognitionUseCase = EmptyStopSpeechRecognitionUseCase()
+    #endif
+}
+
+public extension DependencyValues {
+    var stopSpeechRecognitionUseCase: StopSpeechRecognitionUseCase {
+        get { self[StopSpeechRecognitionUseCaseKey.self] }
+        set { self[StopSpeechRecognitionUseCaseKey.self] = newValue }
+    }
+}
+
 // MARK: - ReceiveVoiceCommandUseCase DI
 
 public enum ReceiveVoiceCommandUseCaseKey: TestDependencyKey {
