@@ -23,6 +23,7 @@ let package = Package(
         // You can read more about dependencies here: https://docs.tuist.io/documentation/tuist/dependencies
         .package(url: "https://github.com/pointfreeco/swift-composable-architecture", from: "1.19.1"),
         .package(url: "https://github.com/SvenTiigi/YouTubePlayerKit.git", .upToNextMajor(from: "2.0.0")),
-        .package(url: "https://github.com/LURKS02/MiniFire", .upToNextMajor(from: "1.0.3"))
+        .package(url: "https://github.com/LURKS02/MiniFire", .upToNextMajor(from: "1.0.3")),
+        .package(url: "https://github.com/airbnb/lottie-spm.git", from: "4.5.2")
     ]
 )
