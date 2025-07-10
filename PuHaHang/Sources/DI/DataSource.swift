@@ -20,3 +20,7 @@ extension RecipeDataSourceKey: @retroactive DependencyKey {
 extension RecipePreviewDataSourceKey: @retroactive DependencyKey {
     public static let liveValue: any RecipePreviewDataSource = RecipePreviewDataSourceImpl()
 }
+
+extension AudioInputDataSourceKey: @retroactive DependencyKey {
+    public static let liveValue: any AudioInputDataSource = AudioInputDataSourceImpl()
+}

@@ -52,3 +52,17 @@ public extension DependencyValues {
         set { self[RecipePreviewDataSourceKey.self] = newValue }
     }
 }
+// MARK: - AudioInputDataSource DI
+
+public enum AudioInputDataSourceKey: TestDependencyKey {
+    #if DEBUG
+    public static let testValue: AudioInputDataSource = EmptyAudioInputDataSource()
+    #endif
+}
+
+public extension DependencyValues {
+    var audioInputDataSource: AudioInputDataSource {
+        get { self[AudioInputDataSourceKey.self] }
+        set { self[AudioInputDataSourceKey.self] = newValue }
+    }
+}
