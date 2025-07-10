@@ -52,6 +52,22 @@ public extension DependencyValues {
         set { self[RecipePreviewDataSourceKey.self] = newValue }
     }
 }
+
+// MARK: - SpeechRecognizerDataSource DI
+
+public enum SpeechRecognizerDataSourceKey: TestDependencyKey {
+    #if DEBUG
+    public static let testValue: SpeechRecognizerDataSource = EmptySpeechRecognizerDataSource()
+    #endif
+}
+
+public extension DependencyValues {
+    var speechRecognizerDataSource: SpeechRecognizerDataSource {
+        get { self[SpeechRecognizerDataSourceKey.self] }
+        set { self[SpeechRecognizerDataSourceKey.self] = newValue }
+    }
+}
+
 // MARK: - AudioInputDataSource DI
 
 public enum AudioInputDataSourceKey: TestDependencyKey {
