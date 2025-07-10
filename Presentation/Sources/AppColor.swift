@@ -32,6 +32,8 @@ extension AppColor {
         static let step = Color("text_step")
         static let normalInstruction = Color("text_instruction_normal")
         static let highlightedInstruction = AppColor.main
+        static let validVoice = Color("text_voice_valid")
+        static let invalidVoice = Color("text_voice_invalid")
     }
     
     enum IngredientTodo {
@@ -40,5 +42,10 @@ extension AppColor {
         static let uncheckedIcon = Color("icon_unchecked")
         static let checkedText = Color("text_checked")
         static let uncheckedText = AppColor.Text.main
+    }
+    
+    enum Voice {
+        static let validBackground = Color("voice_background_valid")
+        static let invalidBackground = Color("voice_background_invalid")
     }
 }
