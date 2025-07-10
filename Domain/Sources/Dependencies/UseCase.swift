@@ -66,3 +66,18 @@ public extension DependencyValues {
         set { self[FetchRecipePreviewsUseCaseKey.self] = newValue }
     }
 }
+
+// MARK: - RequestVoiceAuthorizationUseCase DI
+
+public enum RequestVoiceAuthorizationUseCaseKey: TestDependencyKey {
+    #if DEBUG
+    public static let testValue: RequestVoiceAuthorizationUseCase = EmptyRequestVoiceAuthorizationUseCase()
+    #endif
+}
+
+public extension DependencyValues {
+    var requestSpeechAuthorizationUseCase: RequestVoiceAuthorizationUseCase {
+        get { self[RequestVoiceAuthorizationUseCaseKey.self] }
+        set { self[RequestVoiceAuthorizationUseCaseKey.self] = newValue }
+    }
+}

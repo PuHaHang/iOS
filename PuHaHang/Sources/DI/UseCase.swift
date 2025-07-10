@@ -40,3 +40,10 @@ extension FetchRecipePreviewsUseCaseKey: @retroactive DependencyKey {
         return FetchRecipePreviewsUseCaseImpl(recipePreviewRepository: recipePreviewRepository)
     }()
 }
+
+extension RequestVoiceAuthorizationUseCaseKey: @retroactive DependencyKey {
+    public static let liveValue: any RequestVoiceAuthorizationUseCase = {
+        @Dependency(\.voiceCommandRepository) var voiceCommandRepository
+        return RequestVoiceAuthorizationUseCaseImpl(voiceCommandRepository: voiceCommandRepository)
+    }()
+}
