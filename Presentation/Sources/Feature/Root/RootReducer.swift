@@ -14,6 +14,7 @@ import UIKit
 struct RootReducer {
     @Dependency(\.fetchRecipeDetailUseCase) var fetchRecipeDetailUseCase
     @Dependency(\.fetchConvertedPreviewUseCase) var fetchConvertedPreviewUseCase
+    @Dependency(\.stopSpeechRecognitionUseCase) var stopSpeechRecognitionUseCase
     
     @ObservableState
     struct State {
@@ -59,6 +60,10 @@ struct RootReducer {
                 
             case .destination(.presented(.convert(.delegate(.generateRecipe(let recipeSource))))):
                 return reduceGenerateRecipe(&state, from: recipeSource)
+                
+            case .destination(.dismiss):
+                stopSpeechRecognitionUseCase.execute()
+                return .none
                 
             case .tabBar, .home, .setting, .destination:
                 return .none
