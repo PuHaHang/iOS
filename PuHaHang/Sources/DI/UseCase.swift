@@ -30,6 +30,13 @@ extension FetchRecipeDetailUseCaseKey: @retroactive DependencyKey {
     }()
 }
 
+extension FetchRecipePreviewUseCaseKey: @retroactive DependencyKey {
+    public static let liveValue: any FetchRecipePreviewUseCase = {
+        @Dependency(\.recipePreviewRepository) var recipePreviewRepository
+        return FetchRecipePreviewUseCaseImpl(recipePreviewRepository: recipePreviewRepository)
+    }()
+}
+
 extension FetchRecipePreviewsUseCaseKey: @retroactive DependencyKey {
     public static let liveValue: any FetchRecipePreviewsUseCase = {
         @Dependency(\.recipePreviewRepository) var recipePreviewRepository

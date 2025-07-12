@@ -54,6 +54,21 @@ public extension DependencyValues {
 
 // MARK: - FetchRecipePreviewUseCase DI
 
+public enum FetchRecipePreviewUseCaseKey: TestDependencyKey {
+    #if DEBUG
+    public static let testValue: FetchRecipePreviewUseCase = EmptyFetchRecipePreviewUseCase()
+    #endif
+}
+
+public extension DependencyValues {
+    var fetchRecipePreviewUseCase: FetchRecipePreviewUseCase {
+        get { self[FetchRecipePreviewUseCaseKey.self] }
+        set { self[FetchRecipePreviewUseCaseKey.self] = newValue }
+    }
+}
+
+// MARK: - FetchRecipePreviewUseCase DI
+
 public enum FetchRecipePreviewsUseCaseKey: TestDependencyKey {
     #if DEBUG
     public static let testValue: FetchRecipePreviewsUseCase = EmptyFetchRecipePreviewsUseCase()
