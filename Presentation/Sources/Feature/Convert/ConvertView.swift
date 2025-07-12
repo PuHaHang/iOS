@@ -12,30 +12,47 @@ struct ConvertView: View {
     @Bindable var store: StoreOf<ConvertReducer>
     
     var body: some View {
-        VStack(spacing: 0) {
-            HighlightedInfoTextView(
-                highlightedText: store.highlightedInfoText,
-                normalText: store.infoText
-            )
-            
-            Image(store.warningIconName)
-                .padding(.bottom, 10)
-            
-            WarningTextView(text: store.warningText)
-            
-            RoundedInputTextField(
-                placeholder: store.textPlaceholder,
-                text: $store.recipeSource
-            )
-            
-            RoundedButton(
-                title: store.buttonText,
-                isEnabled: store.isGenerateButtonEnabled,
-                action: {
-                    store.send(.didTapConvertButton)
-                })
-            
-            Spacer()
+        NavigationStack(path: $store.scope(state: \.path, action: \.path)) {
+            RecipeConvertView(store: store)
+        } destination: { store in
+            switch store.case {
+            case .process(let store):
+                ConversionProcessView(store: store)
+            case .result(let store):
+                ConversionResultView(store: store)
+            }
+        }
+    }
+    
+    struct RecipeConvertView: View {
+        @Bindable var store: StoreOf<ConvertReducer>
+        
+        var body: some View {
+            VStack(spacing: 0) {
+                HighlightedInfoTextView(
+                    highlightedText: store.highlightedInfoText,
+                    normalText: store.infoText
+                )
+                
+                Image(store.warningIconName)
+                    .padding(.bottom, 10)
+                
+                WarningTextView(text: store.warningText)
+                
+                RoundedInputTextField(
+                    placeholder: store.textPlaceholder,
+                    text: $store.recipeSource
+                )
+                
+                RoundedButton(
+                    title: store.buttonText,
+                    isEnabled: store.isGenerateButtonEnabled,
+                    action: {
+                        store.send(.didTapConvertButton)
+                    })
+                
+                Spacer()
+            }
         }
     }
 }
