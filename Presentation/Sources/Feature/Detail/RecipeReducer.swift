@@ -150,7 +150,7 @@ private extension ReferenceVO {
     }
 }
 
-private extension StageVO {
+extension StageVO {
     func toStepViewData() -> RecipeStepViewData {
         let startTimeMeasurement = Measurement(
             value: self.timeline.startTime,
