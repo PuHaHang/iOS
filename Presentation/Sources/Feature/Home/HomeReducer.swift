@@ -28,6 +28,8 @@ struct HomeReducer {
         case addRecipe(RecipeListItem)
         case addRecipes([RecipeListItem])
         case recipes(IdentifiedActionOf<RecipeListItemReducer>)
+        case refresh
+        
         case delegate(Delegate)
     }
     
@@ -45,6 +47,9 @@ struct HomeReducer {
                 
             case .recipes(.element(id: _, action: .didTapItem(let item))):
                 return .send(.delegate(.showRecipeDetail(item)))
+                
+            case .refresh:
+                return reduceRefresh(&state)
                 
             case .delegate:
                 return .none
@@ -97,6 +102,12 @@ private extension HomeReducer {
             state.recipes.insert(itemState, at: 0)
         }
         return .none
+    }
+    
+    func reduceRefresh(_ state: inout HomeReducer.State) -> Effect<Action> {
+        state.page = 0
+        state.recipes = []
+        return .send(.onAppear)
     }
 }
 

@@ -13,7 +13,6 @@ import UIKit
 @Reducer
 struct RootReducer {
     @Dependency(\.fetchRecipeDetailUseCase) var fetchRecipeDetailUseCase
-    @Dependency(\.fetchConvertedPreviewUseCase) var fetchConvertedPreviewUseCase
     @Dependency(\.stopSpeechRecognitionUseCase) var stopSpeechRecognitionUseCase
     
     @ObservableState
@@ -58,8 +57,8 @@ struct RootReducer {
                 let recipeID = item.recipeID
                 return reduceShowRecipeDetail(recipeID: recipeID)
                 
-            case .destination(.presented(.convert(.delegate(.generateRecipe(let recipeSource))))):
-                return reduceGenerateRecipe(&state, from: recipeSource)
+            case .destination(.presented(.convert(.path(.element(_, action: .process(.delegate(.refresh))))))):
+                return .send(.home(.refresh))
                 
             case .destination(.dismiss):
                 stopSpeechRecognitionUseCase.execute()
@@ -93,19 +92,6 @@ private extension RootReducer {
         }
     }
     
-    func reduceGenerateRecipe(_ state: inout State, from source: String) -> Effect<Action> {
-        return .run { send in
-            let result = await fetchConvertedPreviewUseCase.execute(source)
-            switch result {
-            case .success(let preview):
-                let item = preview.toRecipeListItem()
-                await send(.home(.addRecipe(item)))
-            case .failure(let error):
-                print(">>> \(error)")
-            }
-        }
-    }
-    
     func reduceNavigateToRecipe(_ state: inout State, detail: RecipeDetailVO) -> Effect<Action> {
         let recipeState = RecipeReducer.State(recipe: detail)
         state.destination = .recipeDetail(recipeState)
@@ -119,17 +105,5 @@ extension RootReducer {
     enum Destination {
         case convert(ConvertReducer)
         case recipeDetail(RecipeReducer)
-    }
-}
-
-private extension RecipePreviewVO {
-    func toRecipeListItem() -> RecipeListItem {
-        return RecipeListItem(
-            recipeID: self.recipeID,
-            thumbnail: UIImage(),
-            title: self.title,
-            serving: "\(self.serving)인분",
-            ingredients: self.ingredients.map { $0.name }.joined(separator: ", ")
-        )
     }
 }
