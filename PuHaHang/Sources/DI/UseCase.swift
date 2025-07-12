@@ -16,14 +16,10 @@ extension IntroUseCaseKey: @retroactive DependencyKey {
     }()
 }
 
-extension FetchConvertedPreviewUseCaseKey: @retroactive DependencyKey {
-    public static let liveValue: any FetchConvertedPreviewUseCase = {
+extension FetchConvertedRecipeIDUseCaseKey: @retroactive DependencyKey {
+    public static let liveValue: any FetchConvertedRecipeIDUseCase = {
         @Dependency(\.recipeConversionRepository) var recipeConversionRepository
-        @Dependency(\.recipePreviewRepository) var recipePreviewRepository
-        return FetchConvertedPreviewUseCaseImpl(
-            recipeConversionRepository: recipeConversionRepository,
-            recipePreviewRepository: recipePreviewRepository
-        )
+        return FetchConvertedRecipeIDUseCaseImpl(recipeConversionRepository: recipeConversionRepository)
     }()
 }
 
