@@ -15,6 +15,7 @@ public struct RecipeDetailVO {
     public let reference: ReferenceVO
     public let ingredients: [IngredientVO]
     public let stages: [StageVO]
+    public let state: RecipeStateVO
     
     public init(
         recipeID: UUID,
@@ -23,7 +24,8 @@ public struct RecipeDetailVO {
         serving: Int,
         reference: ReferenceVO,
         ingredients: [IngredientVO],
-        stages: [StageVO]
+        stages: [StageVO],
+        state: RecipeStateVO
     ) {
         self.recipeID = recipeID
         self.thumbnailURL = thumbnailURL
@@ -32,5 +34,6 @@ public struct RecipeDetailVO {
         self.reference = reference
         self.ingredients = ingredients
         self.stages = stages
+        self.state = state
     }
 }

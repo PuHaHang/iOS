@@ -36,7 +36,8 @@ extension RecipePreviewDTO {
             thumbnailURL: url,
             title: title,
             serving: serving,
-            ingredients: ingredients
+            ingredients: ingredients,
+            state: state
         )
     }
 }

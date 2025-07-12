@@ -67,7 +67,8 @@ public struct MockRecipeDetailRepositoryImpl: RecipeDetailRepository {
                     timeline: .init(startTime: 20.0, endTime: 24.0),
                     instruction: "임시 레피시 스텝 입니다."
                 )
-            ]
+            ],
+            state: .init(rawValue: 1)
         )
     }
 }

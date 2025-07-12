@@ -16,6 +16,7 @@ public struct RecipeDTO: Decodable {
     let reference: ReferenceDTO
     let ingredients: [IngredientDTO]
     let stages: [StageDTO]
+    let state: Int
 }
 
 extension RecipeDTO {
@@ -23,6 +24,7 @@ extension RecipeDTO {
         let url = URL(string: thumbnail)
         let ingredients = ingredients.map { $0.toDomain() }
         let stages = stages.map { $0.toDomain() }
+        let state = RecipeStateVO.init(rawValue: state)
         
         return RecipeDetailVO(
             recipeID: id,
@@ -31,7 +33,8 @@ extension RecipeDTO {
             serving: serving,
             reference: reference.toDomain(),
             ingredients: ingredients,
-            stages: stages
+            stages: stages,
+            state: state
         )
     }
 }

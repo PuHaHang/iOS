@@ -23,7 +23,8 @@ public struct MockRecipePreviewRepositoryImpl: RecipePreviewRepository {
                 IngredientVO(id: UUID(), name: "마요네즈", amount: "1스푼"),
                 IngredientVO(id: UUID(), name: "마요네즈", amount: "1스푼"),
                 IngredientVO(id: UUID(), name: "마요네즈", amount: "1스푼")
-            ]
+            ],
+            state: 1
         )
     }
     
@@ -38,7 +39,8 @@ public struct MockRecipePreviewRepositoryImpl: RecipePreviewRepository {
                 IngredientVO(id: UUID(), name: "밀가루", amount: "200g"),
                 IngredientVO(id: UUID(), name: "소금", amount: "약간"),
                 IngredientVO(id: UUID(), name: "달걀", amount: "1개")
-            ]
+            ],
+            state: 0
         )
         
         return Array(repeating: preview, count: pageSize)
