@@ -68,19 +68,3 @@ public extension DependencyValues {
         set { self[RecipePreviewRepositoryKey.self] = newValue }
     }
 }
-
-// MARK: - SpeechRecognizerRepository DI
-
-public enum VoiceCommandRepositoryKey: TestDependencyKey {
-    #if DEBUG
-    public static let testValue: VoiceCommandRepository = EmptyVoiceCommandRepository()
-    #endif
-}
-
-public extension DependencyValues {
-    var voiceCommandRepository: VoiceCommandRepository {
-        get { self[VoiceCommandRepositoryKey.self] }
-        set { self[VoiceCommandRepositoryKey.self] = newValue }
-    }
-}
-

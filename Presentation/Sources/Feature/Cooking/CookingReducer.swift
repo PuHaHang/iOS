@@ -12,9 +12,6 @@ import YouTubePlayerKit
 
 @Reducer
 struct CookingReducer {
-    @Dependency(\.requestSpeechAuthorizationUseCase) var requestSpeechAuthorizationUseCase
-    @Dependency(\.startSpeechRecognitionUseCase) var startSpeechRecognitionUseCase
-    @Dependency(\.stopSpeechRecognitionUseCase) var stopSpeechRecognitionUseCase
     
     @ObservableState
     struct State {

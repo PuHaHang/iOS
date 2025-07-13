@@ -13,7 +13,6 @@ import UIKit
 @Reducer
 struct RootReducer {
     @Dependency(\.fetchRecipeDetailUseCase) var fetchRecipeDetailUseCase
-    @Dependency(\.stopSpeechRecognitionUseCase) var stopSpeechRecognitionUseCase
     
     @ObservableState
     struct State {
@@ -61,7 +60,6 @@ struct RootReducer {
                 return .send(.home(.refresh))
                 
             case .destination(.dismiss):
-                stopSpeechRecognitionUseCase.execute()
                 return .none
                 
             case .tabBar, .home, .setting, .destination:
