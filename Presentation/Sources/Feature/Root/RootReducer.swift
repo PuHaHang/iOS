@@ -5,6 +5,7 @@
 //  Created by 디해 on 6/6/25.
 //
 
+import Audio
 import ComposableArchitecture
 import Entity
 import Foundation
@@ -12,6 +13,7 @@ import UIKit
 
 @Reducer
 struct RootReducer {
+    @Dependency(\.audioService) var audioService
     @Dependency(\.fetchRecipeDetailUseCase) var fetchRecipeDetailUseCase
     
     @ObservableState
@@ -60,6 +62,7 @@ struct RootReducer {
                 return .send(.home(.refresh))
                 
             case .destination(.dismiss):
+                audioService.stopCapture()
                 return .none
                 
             case .tabBar, .home, .setting, .destination:

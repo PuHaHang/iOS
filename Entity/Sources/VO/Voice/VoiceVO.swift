@@ -20,6 +20,7 @@ public struct VoiceVO {
 public enum VoiceCommandVO: Equatable {
     case next
     case previous
+    case readStep
     case timer(minutes: Int, seconds: Int)
     case playVideo
     case stopVideo
