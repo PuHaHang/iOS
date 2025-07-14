@@ -19,11 +19,26 @@ struct CookingView: View {
                 CookingPlayerView(store: store)
                     .zIndex(1)
             }
+            
+            if let store = store.scope(state: \.destination?.timer, action: \.destination.timer) {
+                TimerView(store: store)
+                    .zIndex(1)
+            }
         }
         .animation(.easeInOut, value: store.destination != nil)
         .navigationTitle(store.title)
         .navigationBarTitleDisplayMode(.inline)
         .navigationBarBackButtonHidden()
+        .toolbar {
+            ToolbarItem(placement: .topBarLeading) {
+                Button(action: {
+                    store.send(.didTapTimerButton)
+                }) {
+                    Image(systemName: "timer")
+                        .foregroundStyle(.black)
+                }
+            }
+        }
     }
 }
 
