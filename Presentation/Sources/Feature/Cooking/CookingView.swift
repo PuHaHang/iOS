@@ -6,6 +6,7 @@
 //
 
 import ComposableArchitecture
+import Lottie
 import SwiftUI
 
 struct CookingView: View {
@@ -39,6 +40,9 @@ struct CookingView: View {
                 }
             }
         }
+        .onAppear {
+            store.send(.requestAuthorization)
+        }
     }
 }
 
@@ -57,6 +61,8 @@ extension CookingView {
                 .padding(.horizontal, 30)
                 
                 Spacer()
+                
+                MicrophoneControlBar(store: store)
                 
                 StepControlBar(
                     isPlayEnabled: store.reference.hasExternalLink,
@@ -95,6 +101,65 @@ extension CookingView {
         }
     }
     
+    private struct MicrophoneControlBar: View {
+        @Bindable var store: StoreOf<CookingReducer>
+        
+        var body: some View {
+            ZStack {
+                if store.isRecording {
+                    if store.isRecognizing {
+                        LottieView(animation: .named("voice_on"))
+                            .looping()
+                            .animationSpeed(1.2)
+                            .transition(.scaleAndFade)
+                            .frame(height: 140)
+                            .onTapGesture {
+                                store.send(.didTapVoiceButton)
+                            }
+                    } else {
+                        VoiceBalloonView(
+                            text: store.recognizedText,
+                            isValid: store.isCommand
+                        )
+                        .transition(.scaleAndFade)
+                    }
+                } else {
+                    LottieView(animation: .named("voice_on"))
+                        .paused()
+                        .saturation(0)
+                        .opacity(0.3)
+                        .transition(.scaleAndFade)
+                        .frame(height: 140)
+                        .onTapGesture {
+                            store.send(.didTapVoiceButton)
+                        }
+                }
+            }
+            .animation(.easeInOut(duration: 0.2), value: store.isRecognizing)
+        }
+    }
+
+    private struct VoiceBalloonView: View {
+        let text: String
+        let isValid: Bool
+
+        var body: some View {
+            ZStack {
+                Rectangle()
+                    .fill(isValid ? AppColor.Voice.validBackground : AppColor.Voice.invalidBackground)
+                    .cornerRadius(30)
+                    .padding(.horizontal, 32)
+                    .frame(height: 60)
+                    .padding(.vertical, 40)
+
+                Text("\"\(text)\"")
+                    .foregroundStyle(isValid ? AppColor.Text.validVoice : AppColor.Text.invalidVoice)
+                    .font(.system(size: 16))
+                    .fontWeight(.regular)
+            }
+        }
+    }
+    
     private struct StepControlBar: View {
         let isPlayEnabled: Bool
         
@@ -121,5 +186,12 @@ extension CookingView {
                 )
             }
         }
+    }
+}
+
+private extension AnyTransition {
+    static var scaleAndFade: AnyTransition {
+        AnyTransition.scale(scale: 0.8)
+            .combined(with: .opacity)
     }
 }

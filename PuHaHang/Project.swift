@@ -14,7 +14,9 @@ let project = Project(
                     "UILaunchScreen": [
                         "UIColorName": "",
                         "UIImageName": "",
-                    ]
+                    ],
+                    "NSSpeechRecognitionUsageDescription": "음성 인식을 사용하기 위해 필요합니다.",
+                    "NSMicrophoneUsageDescription": "음성 입력을 위해 마이크 접근 권한이 필요합니다."
                 ]
             ),
             sources: ["Sources/**"],

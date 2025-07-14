@@ -66,3 +66,48 @@ public extension DependencyValues {
         set { self[FetchRecipePreviewsUseCaseKey.self] = newValue }
     }
 }
+
+// MARK: - RequestVoiceAuthorizationUseCase DI
+
+public enum RequestVoiceAuthorizationUseCaseKey: TestDependencyKey {
+    #if DEBUG
+    public static let testValue: RequestVoiceAuthorizationUseCase = EmptyRequestVoiceAuthorizationUseCase()
+    #endif
+}
+
+public extension DependencyValues {
+    var requestSpeechAuthorizationUseCase: RequestVoiceAuthorizationUseCase {
+        get { self[RequestVoiceAuthorizationUseCaseKey.self] }
+        set { self[RequestVoiceAuthorizationUseCaseKey.self] = newValue }
+    }
+}
+
+// MARK: - StopSpeechRecognitionUseCase DI
+
+public enum StopSpeechRecognitionUseCaseKey: TestDependencyKey {
+    #if DEBUG
+    public static let testValue: StopSpeechRecognitionUseCase = EmptyStopSpeechRecognitionUseCase()
+    #endif
+}
+
+public extension DependencyValues {
+    var stopSpeechRecognitionUseCase: StopSpeechRecognitionUseCase {
+        get { self[StopSpeechRecognitionUseCaseKey.self] }
+        set { self[StopSpeechRecognitionUseCaseKey.self] = newValue }
+    }
+}
+
+// MARK: - ReceiveVoiceCommandUseCase DI
+
+public enum ReceiveVoiceCommandUseCaseKey: TestDependencyKey {
+    #if DEBUG
+    public static let testValue: ReceiveVoiceCommandUseCase = EmptyReceiveVoiceCommandUseCase()
+    #endif
+}
+
+public extension DependencyValues {
+    var startSpeechRecognitionUseCase: ReceiveVoiceCommandUseCase {
+        get { self[ReceiveVoiceCommandUseCaseKey.self] }
+        set { self[ReceiveVoiceCommandUseCaseKey.self] = newValue }
+    }
+}

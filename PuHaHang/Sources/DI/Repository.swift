@@ -37,3 +37,15 @@ extension RecipePreviewRepositoryKey: @retroactive DependencyKey {
         return RecipePreviewRepositoryImpl(dataSource: recipePreviewDataSource)
     }()
 }
+
+extension VoiceCommandRepositoryKey: @retroactive DependencyKey {
+    public static let liveValue: any VoiceCommandRepository = {
+        @Dependency(\.audioInputDataSource) var audioInputDataSource
+        @Dependency(\.speechRecognizerDataSource) var speechRecognizerDataSource
+        
+        return VoiceCommandRepositoryImpl(
+            audioInputDataSource: audioInputDataSource,
+            speechRecognizerDataSource: speechRecognizerDataSource
+        )
+    }()
+}

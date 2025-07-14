@@ -12,7 +12,8 @@ let project = Project(
             dependencies: [
                 .project(target: "Domain", path: "../Domain"),
                 .external(name: "YouTubePlayerKit"),
-                .external(name: "ComposableArchitecture")
+                .external(name: "ComposableArchitecture"),
+                .external(name: "Lottie")
             ]
         ),
         .target(
