@@ -43,22 +43,7 @@ let project = Project(
             dependencies: [
                 .project(target: "Domain", path: "../Domain"),
                 .project(target: "Data", path: "../Data"),
-                .external(name: "ComposableArchitecture")
-            ]
-        ),
-        
-        // 메인 앱 테스트
-        .target(
-            name: "PuHaHangTests",
-            destinations: .iOS,
-            product: .unitTests,
-            bundleId: "io.tuist.PuHaHangTests",
-            infoPlist: .default,
-            sources: ["Tests/**"],
-            resources: [],
-            dependencies: [
-                .target(name: "PuHaHang"),
-                .project(target: "Domain", path: "../Domain")
+                .project(target: "Presentation", path: "../Presentation")
             ]
         ),
     ]

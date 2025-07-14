@@ -35,7 +35,7 @@ jobs:
         run: |
           xcodebuild test \
             -workspace PuHaHang.xcworkspace \
-            -scheme PuHaHang \
+            -scheme AllTests \
             -destination 'platform=iOS Simulator,name=iPhone 16 Pro,OS=18.2' \
             | xcpretty && exit ${PIPESTATUS[0]}
   
