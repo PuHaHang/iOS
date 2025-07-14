@@ -12,31 +12,15 @@ struct CookingView: View {
     @Bindable var store: StoreOf<CookingReducer>
     
     var body: some View {
-        VStack {
-            Spacer()
+        ZStack {
+            CookingMainView(store: store)
             
-            CookingStepView(
-                title: store.steps[store.currentStep].stepTitle,
-                content: store.steps[store.currentStep].stepContent
-            )
-            .padding(.horizontal, 30)
-            
-            Spacer()
-            
-            StepControlBar(
-                onPrevious: {
-                    store.send(.didTapPrevButton)
-                },
-                onPlay: {
-                    store.send(.didTapSourceButton)
-                },
-                onNext: {
-                    store.send(.didTapNextButton)
-                }
-            )
-            .padding(.horizontal, 30)
-            .padding(.bottom, 30)
+            if let store = store.scope(state: \.destination?.player, action: \.destination.player) {
+                CookingPlayerView(store: store)
+                    .zIndex(1)
+            }
         }
+        .animation(.easeInOut, value: store.destination != nil)
         .navigationTitle(store.title)
         .navigationBarTitleDisplayMode(.inline)
         .navigationBarBackButtonHidden()
@@ -44,6 +28,39 @@ struct CookingView: View {
 }
 
 extension CookingView {
+    private struct CookingMainView: View {
+        @Bindable var store: StoreOf<CookingReducer>
+        
+        var body: some View {
+            VStack {
+                Spacer()
+
+                CookingStepView(
+                    title: store.steps[store.currentStep].stepTitle,
+                    content: store.steps[store.currentStep].stepContent
+                )
+                .padding(.horizontal, 30)
+                
+                Spacer()
+                
+                StepControlBar(
+                    isPlayEnabled: store.reference.hasExternalLink,
+                    onPrevious: {
+                        store.send(.didTapPrevButton)
+                    },
+                    onPlay: {
+                        store.send(.didTapSourceButton)
+                    },
+                    onNext: {
+                        store.send(.didTapNextButton)
+                    }
+                )
+                .padding(.horizontal, 30)
+                .padding(.bottom, 30)
+            }
+        }
+    }
+    
     private struct CookingStepView: View {
         let title: String
         let content: String
@@ -64,6 +81,8 @@ extension CookingView {
     }
     
     private struct StepControlBar: View {
+        let isPlayEnabled: Bool
+        
         let onPrevious: () -> Void
         let onPlay: () -> Void
         let onNext: () -> Void
@@ -77,7 +96,7 @@ extension CookingView {
                 )
                 RoundedButton(
                     systemImageName: "play.fill",
-                    isEnabled: true,
+                    isEnabled: isPlayEnabled,
                     action: onPlay
                 )
                 RoundedButton(

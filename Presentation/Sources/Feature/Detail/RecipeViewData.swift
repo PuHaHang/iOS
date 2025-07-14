@@ -13,11 +13,7 @@ struct RecipeViewData {
     let title: String
     let thumbnail: UIImage
     let serving: String
-    let externalLink: URL?
+    let reference: ReferenceViewData
     let steps: [RecipeStepViewData]
     let ingredients: [IngredientViewData]
-    
-    var hasExternalLink: Bool {
-        externalLink != nil
-    }
 }

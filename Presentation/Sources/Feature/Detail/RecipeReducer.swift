@@ -81,13 +81,17 @@ private extension RecipeReducer {
     func reduceDidTapCookingButton(_ state: inout State) -> Effect<Action> {
         let title = state.recipeViewData.title
         let steps = state.recipeViewData.steps
-        let cookingState = CookingReducer.State(title: title, steps: steps)
+        let cookingState = CookingReducer.State(
+            title: title,
+            steps: steps,
+            reference: state.recipeViewData.reference
+        )
         state.path.append(.cooking(cookingState))
         return .none
     }
     
     func reduceDidTapContentButton(_ state: State) -> Effect<Action> {
-        guard let externalLink = state.recipeViewData.externalLink else { return .none }
+        guard let externalLink = state.recipeViewData.reference.externalLink else { return .none }
         
         UIApplication.shared.open(
             externalLink,
@@ -106,7 +110,7 @@ private extension RecipeDetailVO {
             title: self.title,
             thumbnail: UIImage(),
             serving: "\(self.serving)인분",
-            externalLink: self.reference.urlToOpen,
+            reference: self.reference.toReferenceViewData(),
             steps: self.stages.map { $0.toStepViewData() },
             ingredients: self.ingredients.map { $0.toIngredientViewData() }
         )
@@ -114,9 +118,29 @@ private extension RecipeDetailVO {
 }
 
 private extension ReferenceVO {
+    func toReferenceViewData() -> ReferenceViewData {
+        switch self {
+        case .youtube(let url):
+            return .youtube(url)
+            
+        case .shorts(let url):
+            return .shorts(url)
+            
+        case .text(let content):
+            return .text(content)
+            
+        case .unknown:
+            return .unknown
+        }
+    }
+}
+
+private extension ReferenceVO {
     var urlToOpen: URL? {
         switch self {
         case .youtube(let url):
+            return url
+        case .shorts(let url):
             return url
         case .text:
             return nil
@@ -128,10 +152,24 @@ private extension ReferenceVO {
 
 private extension StageVO {
     func toStepViewData() -> RecipeStepViewData {
+        let startTimeMeasurement = Measurement(
+            value: self.timeline.startTime,
+            unit: UnitDuration.seconds
+        )
+        let endTimeMeasurement = Measurement(
+            value: self.timeline.endTime,
+            unit: UnitDuration.seconds
+        )
+        let timeline = TimeLineViewData(
+            startTime: startTimeMeasurement,
+            endTime: endTimeMeasurement
+        )
+        
         return RecipeStepViewData(
             id: UUID(),
             stepTitle: "STEP\(self.step)",
-            stepContent: self.instruction
+            stepContent: self.instruction,
+            timeline: timeline
         )
     }
 }

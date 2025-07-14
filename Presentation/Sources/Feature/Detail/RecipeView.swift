@@ -77,7 +77,7 @@ private extension RecipeView {
                 
                 OriginalContentButton(action: action)
                     .padding(15)
-                    .disabled(!store.recipeViewData.hasExternalLink)
+                    .disabled(!store.recipeViewData.reference.hasExternalLink)
             }
         }
     }

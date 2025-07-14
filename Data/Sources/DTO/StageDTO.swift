@@ -10,7 +10,8 @@ import Entity
 
 public struct StageDTO: Decodable {
     let step: Int
-    let timeline: Double
+    let startTime: Double
+    let endTime: Double
     let description: String
 }
 
@@ -18,7 +19,10 @@ extension StageDTO {
     func toDomain() -> StageVO {
         return StageVO(
             step: step,
-            timeline: timeline,
+            timeline: TimelineVO(
+                startTime: startTime,
+                endTime: endTime
+            ),
             instruction: description
         )
     }

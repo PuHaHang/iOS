@@ -9,6 +9,7 @@ import Foundation
 
 public enum ReferenceVO {
     case youtube(URL)
+    case shorts(URL)
     case text(String)
     case unknown
 
@@ -18,6 +19,9 @@ public enum ReferenceVO {
             case .youtube:
                 guard let url = URL(string: value) else { return .unknown }
                 return .youtube(url)
+            case .shorts:
+                guard let url = URL(string: value) else { return .unknown }
+                return .shorts(url)
             case .text:
                 return .text(value)
             }
@@ -30,6 +34,7 @@ public enum ReferenceVO {
 extension ReferenceVO {
     enum ReferenceTypeVO: String {
         case youtube
+        case shorts
         case text
     }
 }
