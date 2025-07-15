@@ -15,6 +15,7 @@ extension AppColor {
     enum Component {
         static let plusButton = AppColor.main
         static let disabledButton = Color("button_disabled")
+        static let textFieldBackground = Color("textfield_background")
     }
     
     enum TabBar {
@@ -34,6 +35,7 @@ extension AppColor {
         static let highlightedInstruction = AppColor.main
         static let validVoice = Color("text_voice_valid")
         static let invalidVoice = Color("text_voice_invalid")
+        static let example = Color("text_example")
     }
     
     enum IngredientTodo {
