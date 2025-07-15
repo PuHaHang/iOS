@@ -43,3 +43,10 @@ extension FetchRecipePreviewsUseCaseKey: @retroactive DependencyKey {
         return FetchRecipePreviewsUseCaseImpl(recipePreviewRepository: recipePreviewRepository)
     }()
 }
+
+extension LaunchOnboardingCheckUseCaseKey: @retroactive DependencyKey {
+    public static let liveValue: any LaunchOnboardingCheckUseCase = {
+        @Dependency(\.onboardingRepository) var onboardingRepository
+        return LaunchOnboardingCheckUseCaseImpl(onboardingRepository: onboardingRepository)
+    }()
+}

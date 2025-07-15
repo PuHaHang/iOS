@@ -81,3 +81,18 @@ public extension DependencyValues {
         set { self[FetchRecipePreviewsUseCaseKey.self] = newValue }
     }
 }
+
+// MARK: - LaunchOnboardingCheckUseCase DI
+
+public enum LaunchOnboardingCheckUseCaseKey: TestDependencyKey {
+    #if DEBUG
+    public static let testValue: LaunchOnboardingCheckUseCase = EmptyLaunchOnboardingCheckUseCase()
+    #endif
+}
+
+public extension DependencyValues {
+    var launchOnboardingCheckUseCase: LaunchOnboardingCheckUseCase {
+        get { self[LaunchOnboardingCheckUseCaseKey.self] }
+        set { self[LaunchOnboardingCheckUseCaseKey.self] = newValue }
+    }
+}
