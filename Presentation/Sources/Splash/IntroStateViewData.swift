@@ -9,6 +9,7 @@ import Foundation
 
 enum IntroStateViewData {
     case idle
-    case success(IntroViewData)
+    case onboarding
+    case success
     case failure(Error)
 }
