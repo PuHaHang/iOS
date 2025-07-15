@@ -97,7 +97,7 @@ private extension ConvertView {
             TextField(placeholder, text: $text)
                 .font(.system(size: 16, weight: .medium))
                 .padding(20)
-                .background(Color.gray.opacity(0.1))
+                .background(AppColor.Component.textFieldBackground)
                 .cornerRadius(10)
                 .padding(.horizontal, 25)
                 .padding(.bottom, 25)
