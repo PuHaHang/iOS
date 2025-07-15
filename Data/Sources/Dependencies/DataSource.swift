@@ -52,3 +52,18 @@ public extension DependencyValues {
         set { self[RecipePreviewDataSourceKey.self] = newValue }
     }
 }
+
+// MARK: - OnboardingDataSource DI
+
+public enum OnboardingDataSourceKey: TestDependencyKey {
+    #if DEBUG
+    public static let testValue: OnboardingDataSource = EmptyOnboardingDataSource()
+    #endif
+}
+
+public extension DependencyValues {
+    var onboardingDataSource: OnboardingDataSource {
+        get { self[OnboardingDataSourceKey.self] }
+        set { self[OnboardingDataSourceKey.self] = newValue }
+    }
+}
