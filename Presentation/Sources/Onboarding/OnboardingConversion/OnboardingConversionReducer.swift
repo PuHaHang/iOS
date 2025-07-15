@@ -57,6 +57,20 @@ struct OnboardingConversionReducer {
 }
 
 extension OnboardingConversionReducer {
+    @discardableResult
+    func requestPushPermission() async -> Bool {
+        let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
+        let granted = await withCheckedContinuation { continuation in
+            UNUserNotificationCenter.current().requestAuthorization(
+                options: authOptions) { granted, _ in
+                    continuation.resume(returning: granted)
+                }
+        }
+        return granted
+    }
+}
+
+extension OnboardingConversionReducer {
     enum Delegate {
         case navigateToConversionResult(RecipePreviewViewData)
     }
