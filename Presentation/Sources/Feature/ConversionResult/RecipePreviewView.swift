@@ -9,7 +9,7 @@ import ComposableArchitecture
 import SwiftUI
 
 struct RecipePreviewView: View {
-    @Bindable var store: StoreOf<ConversionResultReducer>
+    let recipePreviewViewData: RecipePreviewViewData
     
     var body: some View {
         ScrollView {
@@ -18,17 +18,24 @@ struct RecipePreviewView: View {
                     .padding(.bottom, 20)
                 
                 RecipeOverviewView(
-                    title: store.recipePreviewViewData.title,
-                    serving: store.recipePreviewViewData.serving
+                    title: recipePreviewViewData.title,
+                    serving: recipePreviewViewData.serving
                 )
                 .padding(.horizontal, 20)
                 .padding(.bottom, 30)
                 
-                RecipeStepView(steps: store.recipePreviewViewData.steps)
+                RecipeStepView(steps: recipePreviewViewData.steps)
                 .padding(.horizontal, 17)
             }
         }
         .scrollIndicators(.hidden)
+        .frame(width: 300, height: 480)
+        .clipShape(RoundedRectangle(cornerRadius: 20))
+        .background(
+            RoundedRectangle(cornerRadius: 20)
+                .fill(Color.white)
+                .shadow(color: .black.opacity(0.1), radius: 10, x: 0, y: 0)
+        )
     }
 }
 
