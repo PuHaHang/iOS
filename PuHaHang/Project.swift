@@ -8,7 +8,7 @@ let project = Project(
             name: "PuHaHang",
             destinations: .iOS,
             product: .app,
-            bundleId: "io.tuist.PuHaHang",
+            bundleId: "com.puhahang.recipe-it",
             infoPlist: .extendingDefault(
                 with: [
                     "UILaunchScreen": [
@@ -16,11 +16,16 @@ let project = Project(
                         "UIImageName": "",
                     ],
                     "NSSpeechRecognitionUsageDescription": "음성 인식을 사용하기 위해 필요합니다.",
-                    "NSMicrophoneUsageDescription": "음성 입력을 위해 마이크 접근 권한이 필요합니다."
+                    "NSMicrophoneUsageDescription": "음성 입력을 위해 마이크 접근 권한이 필요합니다.",
+                    "UIBackgroundModes": ["remote-notification"],
+                    "FirebaseAppDelegateProxyEnabled": false
                 ]
             ),
             sources: ["Sources/**"],
             resources: ["Resources/**"],
+            entitlements: .dictionary([
+                "aps-environment": "development"
+            ]),
             scripts: [
                 .pre(script: """
         if [ -d "$HOME/.local/share/mise/shims" ]; then
@@ -42,8 +47,16 @@ let project = Project(
             dependencies: [
                 .project(target: "Domain", path: "../Domain"),
                 .project(target: "Data", path: "../Data"),
-                .project(target: "Presentation", path: "../Presentation")
-            ]
+                .project(target: "Presentation", path: "../Presentation"),
+                .external(name: "FirebaseCore"),
+                .external(name: "FirebaseInstallations"),
+                .external(name: "FirebaseMessaging")
+            ],
+            settings: .settings(
+                base: [
+                    "OTHER_LDFLAGS": ["-ObjC"]
+                ]
+            )
         ),
     ]
 ) 
