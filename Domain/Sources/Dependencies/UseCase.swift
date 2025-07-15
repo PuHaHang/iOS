@@ -96,3 +96,18 @@ public extension DependencyValues {
         set { self[LaunchOnboardingCheckUseCaseKey.self] = newValue }
     }
 }
+
+// MARK: - LaunchOnboardingCompleteUseCase DI
+
+public enum LaunchOnboardingCompleteUseCaseKey: TestDependencyKey {
+    #if DEBUG
+    public static let testValue: LaunchOnboardingCompleteUseCase = EmptyLaunchOnboardingCompleteUseCase()
+    #endif
+}
+
+public extension DependencyValues {
+    var launchOnboardingCompleteUseCase: LaunchOnboardingCompleteUseCase {
+        get { self[LaunchOnboardingCompleteUseCaseKey.self] }
+        set { self[LaunchOnboardingCompleteUseCaseKey.self] = newValue }
+    }
+}

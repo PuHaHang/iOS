@@ -50,3 +50,10 @@ extension LaunchOnboardingCheckUseCaseKey: @retroactive DependencyKey {
         return LaunchOnboardingCheckUseCaseImpl(onboardingRepository: onboardingRepository)
     }()
 }
+
+extension LaunchOnboardingCompleteUseCaseKey: @retroactive DependencyKey {
+    public static let liveValue: any LaunchOnboardingCompleteUseCase = {
+        @Dependency(\.onboardingRepository) var onboardingRepository
+        return LaunchOnboardingCompleteUseCaseImpl(onboardingRepository: onboardingRepository)
+    }()
+}
