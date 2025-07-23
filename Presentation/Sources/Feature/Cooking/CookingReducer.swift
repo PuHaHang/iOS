@@ -355,7 +355,7 @@ private extension CookingReducer {
             return .previous
         }
         
-        if ["다음"].contains(normalized) {
+        if ["다음", "앞으로"].contains(normalized) {
             return .next
         }
         
