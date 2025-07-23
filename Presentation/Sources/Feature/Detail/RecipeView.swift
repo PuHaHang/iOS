@@ -30,6 +30,8 @@ struct RecipeView: View {
                 CookingOnboardingIntroView(store: store)
             case .voicePermission(let store):
                 VoicePermissionView(store: store)
+            case .cookingIntroduction(let store):
+                CookingIntroductionView(store: store)
             case .cooking(let store):
                 CookingView(store: store)
             case .result(let store):
