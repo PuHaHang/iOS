@@ -36,6 +36,7 @@ extension AppColor {
         static let validVoice = Color("text_voice_valid")
         static let invalidVoice = Color("text_voice_invalid")
         static let example = Color("text_example")
+        static let subTitle = Color("text_sub_title")
     }
     
     enum IngredientTodo {
