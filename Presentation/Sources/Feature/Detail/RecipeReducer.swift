@@ -58,6 +58,9 @@ struct RecipeReducer {
             case .path(.element(_, .voicePermission(.delegate(.navigateToCookingIntroduction)))):
                 return reduceNavigateToCookingIntroduction(&state)
                 
+            case .path(.element(_, .cookingIntroduction(.delegate(.navigateToCompletion)))):
+                return reduceNavigateToCompletion(&state)
+                
             case .path(.element(_, .completion(.delegate(.navigateToCooking)))):
                 return reduceNavigateToCooking(&state)
                 
@@ -120,6 +123,12 @@ private extension RecipeReducer {
         state.path.append(.cookingIntroduction(.init()))
         return .none
     }
+    
+    func reduceNavigateToCompletion(_ state: inout State) -> Effect<Action> {
+        state.path.append(.completion(.init()))
+        return .none
+    }
+    
     func reduceNavigateToCooking(_ state: inout State) -> Effect<Action> {
         let title = state.recipeViewData.title
         let steps = state.recipeViewData.steps
@@ -232,6 +241,7 @@ extension RecipeReducer {
         case cookingIntroduction(CookingIntroductionReducer)
         case voicePermission(VoicePermissionReducer)
         case cookingOnboarding(CookingOnboardingIntroReducer)
+        case completion(CookingCompletionReducer)
         case cooking(CookingReducer)
         case result(ResultReducer)
     }
