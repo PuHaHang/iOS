@@ -120,11 +120,7 @@ extension CookingView {
             ZStack {
                 if store.isRecording {
                     if store.isRecognizing {
-                        LottieView(animation: .named("voice_on"))
-                            .looping()
-                            .animationSpeed(1.2)
-                            .transition(.scaleAndFade)
-                            .frame(height: 140)
+                        MicrophoneView(isActive: true)
                             .onTapGesture {
                                 store.send(.didTapVoiceButton)
                             }
@@ -136,12 +132,7 @@ extension CookingView {
                         .transition(.scaleAndFade)
                     }
                 } else {
-                    LottieView(animation: .named("voice_on"))
-                        .paused()
-                        .saturation(0)
-                        .opacity(0.3)
-                        .transition(.scaleAndFade)
-                        .frame(height: 140)
+                    MicrophoneView(isActive: false)
                         .onTapGesture {
                             store.send(.didTapVoiceButton)
                         }
@@ -171,39 +162,44 @@ extension CookingView {
             }
         }
     }
-    
-    private struct StepControlBar: View {
-        let isPlayEnabled: Bool
-        
-        let onPrevious: () -> Void
-        let onPlay: () -> Void
-        let onNext: () -> Void
-
-        var body: some View {
-            HStack(spacing: 10) {
-                RoundedButton(
-                    title: "이전",
-                    isEnabled: true,
-                    action: onPrevious
-                )
-                RoundedButton(
-                    systemImageName: "play.fill",
-                    isEnabled: isPlayEnabled,
-                    action: onPlay
-                )
-                RoundedButton(
-                    title: "다음",
-                    isEnabled: true,
-                    action: onNext
-                )
-            }
-        }
-    }
 }
 
-private extension AnyTransition {
-    static var scaleAndFade: AnyTransition {
-        AnyTransition.scale(scale: 0.8)
-            .combined(with: .opacity)
+struct StepControlBar: View {
+    let isPlayEnabled: Bool
+    
+    let onPrevious: () -> Void
+    let onPlay: () -> Void
+    let onNext: () -> Void
+
+    init(
+        isPlayEnabled: Bool,
+        onPrevious: (() -> Void)? = nil,
+        onPlay: (() -> Void)? = nil,
+        onNext: (() -> Void)? = nil
+    ) {
+        self.isPlayEnabled = isPlayEnabled
+        self.onPrevious = onPrevious ?? {}
+        self.onPlay = onPlay ?? {}
+        self.onNext = onNext ?? {}
+    }
+
+    var body: some View {
+        HStack(spacing: 10) {
+            RoundedButton(
+                title: "이전",
+                isEnabled: true,
+                action: onPrevious
+            )
+            RoundedButton(
+                systemImageName: "play.fill",
+                isEnabled: isPlayEnabled,
+                action: onPlay
+            )
+            RoundedButton(
+                title: "다음",
+                isEnabled: true,
+                action: onNext
+            )
+        }
     }
 }
