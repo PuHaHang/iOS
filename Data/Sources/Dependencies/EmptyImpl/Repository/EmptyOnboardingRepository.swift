@@ -13,7 +13,15 @@ struct EmptyOnboardingRepository: OnboardingRepository {
         throwUnimplemented()
     }
     
+    func isFirstCooking() -> Bool {
+        throwUnimplemented()
+    }
+    
     func setFirstLaunchCompleted() {
+        throwUnimplemented()
+    }
+    
+    func setFirstCookingCompleted() {
         throwUnimplemented()
     }
 }

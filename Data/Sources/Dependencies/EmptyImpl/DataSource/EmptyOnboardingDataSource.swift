@@ -12,7 +12,15 @@ public struct EmptyOnboardingDataSource: OnboardingDataSource {
         throwUnimplemented()
     }
     
+    public func getIsFirstCooking() -> Bool {
+        throwUnimplemented()
+    }
+    
     public func setFirstLaunchCompleted() {
+        throwUnimplemented()
+    }
+    
+    public func setFirstCookingCompleted() {
         throwUnimplemented()
     }
 }

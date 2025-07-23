@@ -9,5 +9,7 @@ import Foundation
 
 public protocol OnboardingRepository {
     func isFirstLaunch() -> Bool
+    func isFirstCooking() -> Bool
     func setFirstLaunchCompleted()
+    func setFirstCookingCompleted()
 }

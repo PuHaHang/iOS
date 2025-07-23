@@ -18,8 +18,16 @@ public struct OnboardingRepositoryImpl: OnboardingRepository {
     public func isFirstLaunch() -> Bool {
         dataSource.getIsFirstLaunch()
     }
+    
+    public func isFirstCooking() -> Bool {
+        dataSource.getIsFirstCooking()
+    }
 
     public func setFirstLaunchCompleted() {
         dataSource.setFirstLaunchCompleted()
+    }
+    
+    public func setFirstCookingCompleted() {
+        dataSource.setFirstCookingCompleted()
     }
 }
