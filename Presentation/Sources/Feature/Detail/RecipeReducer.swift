@@ -13,6 +13,7 @@ import UIKit
 @Reducer
 struct RecipeReducer {
     @Dependency(\.dismiss) var dismiss
+    @Dependency(\.cookingOnboardingCheckUseCase) var cookingOnboardingCheckUseCase
     
     @ObservableState
     struct State {
@@ -34,6 +35,8 @@ struct RecipeReducer {
     enum Action {
         case didTapContentButton
         case didTapCookingButton
+        case navigateToCooking
+        case navigateToCookingOnboarding
         
         case path(StackActionOf<Path>)
         case titleTab(TitleTabReducer.Action)
@@ -49,10 +52,19 @@ struct RecipeReducer {
             case .path(.element(_, .cooking(.delegate(.navigateToResult)))):
                 return reduceNavigateToResult(&state)
                 
+            case .path(.element(_, .completion(.delegate(.navigateToCooking)))):
+                return reduceNavigateToCooking(&state)
+                
             case .path(.element(_, .result(.delegate(.didRequestDismiss)))):
                 return .run { _ in
                     await dismiss()
                 }
+                
+            case .navigateToCooking:
+                return reduceNavigateToCooking(&state)
+                
+            case .navigateToCookingOnboarding:
+                return reduceNavigateToCookingOnboarding(&state)
                 
             case .didTapContentButton:
                 return reduceDidTapContentButton(state)
@@ -79,6 +91,21 @@ private extension RecipeReducer {
     }
     
     func reduceDidTapCookingButton(_ state: inout State) -> Effect<Action> {
+        let isFirstCooking = cookingOnboardingCheckUseCase.execute()
+        
+        if isFirstCooking {
+            return .send(.navigateToCookingOnboarding)
+        } else {
+            return .send(.navigateToCooking)
+        }
+    }
+    
+    func reduceNavigateToCookingOnboarding(_ state: inout State) -> Effect<Action> {
+        state.path.append(.cookingOnboarding(.init()))
+        return .none
+    }
+    
+    func reduceNavigateToCooking(_ state: inout State) -> Effect<Action> {
         let title = state.recipeViewData.title
         let steps = state.recipeViewData.steps
         let cookingState = CookingReducer.State(
@@ -187,6 +214,7 @@ private extension IngredientVO {
 extension RecipeReducer {
     @Reducer
     enum Path {
+        case cookingOnboarding(CookingOnboardingIntroReducer)
         case cooking(CookingReducer)
         case result(ResultReducer)
     }

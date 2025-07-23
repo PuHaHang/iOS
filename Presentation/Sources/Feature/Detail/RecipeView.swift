@@ -26,6 +26,8 @@ struct RecipeView: View {
             }
         } destination: { store in
             switch store.case {
+            case .cookingOnboarding(let store):
+                CookingOnboardingIntroView(store: store)
             case .cooking(let store):
                 CookingView(store: store)
             case .result(let store):
