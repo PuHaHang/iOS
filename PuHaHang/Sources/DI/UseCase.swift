@@ -57,3 +57,17 @@ extension LaunchOnboardingCompleteUseCaseKey: @retroactive DependencyKey {
         return LaunchOnboardingCompleteUseCaseImpl(onboardingRepository: onboardingRepository)
     }()
 }
+
+extension CookingOnboardingCheckUseCaseKey: @retroactive DependencyKey {
+    public static let liveValue: any CookingOnboardingCheckUseCase = {
+        @Dependency(\.onboardingRepository) var onboardingRepository
+        return CookingOnboardingCheckUseCaseImpl(onboardingRepository: onboardingRepository)
+    }()
+}
+
+extension CookingOnboardingCompleteUseCaseKey: @retroactive DependencyKey {
+    public static let liveValue: any CookingOnboardingCompleteUseCase = {
+        @Dependency(\.onboardingRepository) var onboardingRepository
+        return CookingOnboardingCompleteUseCaseImpl(onboardingRepository: onboardingRepository)
+    }()
+}

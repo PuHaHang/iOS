@@ -111,3 +111,33 @@ public extension DependencyValues {
         set { self[LaunchOnboardingCompleteUseCaseKey.self] = newValue }
     }
 }
+
+// MARK: - CookingOnboardingCheckUseCase DI
+
+public enum CookingOnboardingCheckUseCaseKey: TestDependencyKey {
+    #if DEBUG
+    public static let testValue: CookingOnboardingCheckUseCase = EmptyCookingOnboardingCheckUseCase()
+    #endif
+}
+
+public extension DependencyValues {
+    var cookingOnboardingCheckUseCase: CookingOnboardingCheckUseCase {
+        get { self[CookingOnboardingCheckUseCaseKey.self] }
+        set { self[CookingOnboardingCheckUseCaseKey.self] = newValue }
+    }
+}
+
+// MARK: - CookingOnboardingCompleteUseCase DI
+
+public enum CookingOnboardingCompleteUseCaseKey: TestDependencyKey {
+    #if DEBUG
+    public static let testValue: CookingOnboardingCompleteUseCase = EmptyCookingOnboardingCompleteUseCase()
+    #endif
+}
+
+public extension DependencyValues {
+    var cookingOnboardingCompleteUseCase: CookingOnboardingCompleteUseCase {
+        get { self[CookingOnboardingCompleteUseCaseKey.self] }
+        set { self[CookingOnboardingCompleteUseCaseKey.self] = newValue }
+    }
+}
