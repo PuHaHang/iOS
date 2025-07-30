@@ -7,6 +7,7 @@
 
 import ComposableArchitecture
 import Foundation
+import Shared
 
 @Reducer
 struct OnboardingResultReducer {
@@ -14,11 +15,8 @@ struct OnboardingResultReducer {
     
     @ObservableState
     struct State {
-        let titleText: String = "레시피가 완성되었어요!"
-        let subTitleText: String = """
-            이제 레시핏과 함께
-            요리를 시작해볼까요?
-            """
+        let titleText: String = LocalizationHelper.onboardingResultTitle
+        let subTitleText: String = LocalizationHelper.onboardingResultSubtitle
         let imageURL: URL?
     }
     

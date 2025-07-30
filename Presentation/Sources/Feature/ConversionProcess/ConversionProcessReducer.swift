@@ -6,6 +6,7 @@
 //
 
 import ComposableArchitecture
+import Shared
 import Entity
 import Foundation
 import UIKit
@@ -146,7 +147,7 @@ extension RecipeDetailVO {
             recipeID: self.recipeID,
             thumbnail: self.thumbnailURL,
             title: self.title,
-            serving: "\(self.serving)인분",
+            serving: "\(self.serving)\(LocalizationHelper.recipeServingUnit)",
             steps: self.stages.map { $0.toStepViewData() }
         )
     }

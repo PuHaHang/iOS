@@ -7,6 +7,7 @@
 
 import ComposableArchitecture
 import Lottie
+import Shared
 import SwiftUI
 
 struct ConversionProcessView: View {
@@ -37,13 +38,13 @@ struct RecipeConvertingView: View {
                 .frame(width: 140)
                 .padding(.bottom, 33)
             
-            Text("레시피를 만들고 있어요")
+            Text(LocalizationHelper.conversionProcessTitle)
                 .fontWeight(.bold)
                 .font(.system(size: 23))
                 .padding(.bottom, 25)
                 .foregroundStyle(AppColor.Text.main)
             
-            Text("화면을 떠나셔도 괜찮아요.\n변환이 완료되면 알림을 보내드릴게요.")
+            Text(LocalizationHelper.conversionProcessSubtitle)
                 .font(.system(size: 14))
                 .fontWeight(.medium)
                 .foregroundStyle(AppColor.Text.information)

@@ -7,6 +7,7 @@
 
 import ComposableArchitecture
 import Foundation
+import Shared
 import Entity
 import UIKit
 
@@ -161,7 +162,7 @@ private extension RecipeDetailVO {
             recipeID: self.recipeID,
             title: self.title,
             thumbnail: self.thumbnailURL,
-            serving: "\(self.serving)인분",
+            serving: "\(self.serving)\(LocalizationHelper.recipeServingUnit)",
             reference: self.reference.toReferenceViewData(),
             steps: self.stages.map { $0.toStepViewData() },
             ingredients: self.ingredients.map { $0.toIngredientViewData() }
@@ -219,7 +220,7 @@ extension StageVO {
         
         return RecipeStepViewData(
             id: UUID(),
-            stepTitle: "STEP\(self.step)",
+            stepTitle: LocalizationHelper.detailStepTitle.localized(with: self.step),
             stepContent: self.instruction,
             timeline: timeline
         )

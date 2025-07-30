@@ -7,6 +7,7 @@
 
 import ComposableArchitecture
 import Foundation
+import Shared
 
 @Reducer
 struct VoicePermissionReducer {
@@ -14,14 +15,8 @@ struct VoicePermissionReducer {
     
     @ObservableState
     struct State {
-        let titleText: String = """
-            음성 인식을 사용하려면
-            권한이 필요해요
-            """
-        let subTitleText: String = """
-            아래 버튼을 눌러
-            음성 인식 권한을 켜주세요.
-            """
+        let titleText: String = LocalizationHelper.onboardingVoicePermissionTitle
+        let subTitleText: String = LocalizationHelper.onboardingVoicePermissionSubtitle
     }
     
     enum Action {

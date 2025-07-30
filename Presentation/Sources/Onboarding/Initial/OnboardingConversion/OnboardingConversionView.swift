@@ -6,6 +6,7 @@
 //
 
 import ComposableArchitecture
+import Shared
 import SwiftUI
 
 struct OnboardingConversionView: View {
@@ -23,7 +24,7 @@ struct OnboardingConversionView: View {
                 .multilineTextAlignment(.center)
                 .padding(.bottom, 43)
             
-            MiniRoundedButton(title: "알림 켜기") {
+            MiniRoundedButton(title: LocalizationHelper.onboardingConversionNotification) {
                 store.send(.didTapNotiPermissionButton)
             }
         }

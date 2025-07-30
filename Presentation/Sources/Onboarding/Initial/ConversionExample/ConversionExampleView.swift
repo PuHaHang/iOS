@@ -6,6 +6,7 @@
 //
 
 import ComposableArchitecture
+import Shared
 import SwiftUI
 
 struct ConversionExampleView: View {
@@ -40,7 +41,7 @@ struct ConversionExampleView: View {
             
             Spacer()
             
-            RoundedButton(title: "변환하기") {
+            RoundedButton(title: LocalizationHelper.onboardingConversionExampleConvert) {
                 store.send(.didTapConvertButton)
             }
             .padding(.bottom, 50)

@@ -7,17 +7,15 @@
 
 import ComposableArchitecture
 import Foundation
+import Shared
 
 @Reducer
 struct ConversionExampleReducer {
     @ObservableState
     struct State {
-        let titleText: String = "직접 해볼까요?"
-        let subTitleText: String = """
-            레시핏이 예시를 미리 넣어뒀어요.
-            <변환하기> 버튼을 눌러보세요.
-            """
-        let exampleURL: String = "https://www.youtube.com/watch?v=7F-cUfGQK1w"
+        let titleText: String = LocalizationHelper.onboardingConversionExampleTitle
+        let subTitleText: String = LocalizationHelper.onboardingConversionExampleSubtitle
+        let exampleURL: String = LocalizationHelper.onboardingConversionExampleURL
     }
     
     enum Action {

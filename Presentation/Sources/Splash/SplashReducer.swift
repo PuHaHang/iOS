@@ -7,6 +7,7 @@
 
 import ComposableArchitecture
 import Foundation
+import Shared
 import Dependencies
 import Domain
 import Entity
@@ -66,7 +67,7 @@ public struct SplashReducer {
                 return .send(.configureWithLanguage(deviceLanguage))
                 
             case .configureWithLanguage(let language):
-                state.appSubTitle = "내 손 안의 요리 도우미"
+                state.appSubTitle = LocalizationHelper.splashSubtitle
                 state.appTitle = "title_icon"
                 return .none
                 

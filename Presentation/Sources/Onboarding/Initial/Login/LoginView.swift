@@ -7,6 +7,7 @@
 
 import ComposableArchitecture
 import Lottie
+import Shared
 import SwiftUI
 
 struct LoginView: View {
@@ -55,7 +56,7 @@ struct LoginView: View {
                 
                 Spacer()
                 
-                RoundedButton(title: "시작하기") {
+                RoundedButton(title: LocalizationHelper.onboardingLoginStart) {
                     store.send(.didTapStartButton)
                 }
                 .padding(.bottom, 50)

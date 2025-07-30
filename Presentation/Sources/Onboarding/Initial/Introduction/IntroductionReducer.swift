@@ -7,16 +7,14 @@
 
 import ComposableArchitecture
 import Foundation
+import Shared
 
 @Reducer
 struct IntroductionReducer {
     @ObservableState
     struct State {
-        let titleText: String = """
-            요리하고 싶은 영상이나 글을 넣으면
-            레시피로 바꿔드릴게요.
-            """
-        let subTitleText: String = "(유튜브 영상, 쇼츠, 텍스트를 지원해요.)"
+        let titleText: String = LocalizationHelper.onboardingIntroductionTitle
+        let subTitleText: String = LocalizationHelper.onboardingIntroductionSubtitle
     }
     
     enum Action {

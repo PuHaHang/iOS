@@ -9,6 +9,7 @@ import ComposableArchitecture
 import Foundation
 import Login
 import LocaleProvider
+import Shared
 import UIKit
 
 @Reducer
@@ -18,11 +19,8 @@ struct LoginReducer {
     
     @ObservableState
     struct State {
-        let titleText: String = "레시핏에 오신 것을 환영합니다!"
-        let subTitleText: String = """
-            유튜브, 쇼츠, 텍스트를
-            간편하게 레시피로 바꿔보세요.
-            """
+        let titleText: String = LocalizationHelper.onboardingLoginWelcome
+        let subTitleText: String = LocalizationHelper.onboardingLoginSubtitle
         
         var path = StackState<Path.State>()
     }

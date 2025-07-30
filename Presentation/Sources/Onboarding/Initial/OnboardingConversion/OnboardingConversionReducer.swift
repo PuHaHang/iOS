@@ -7,6 +7,7 @@
 
 import ComposableArchitecture
 import Foundation
+import Shared
 import UIKit
 import UserNotifications
 
@@ -16,10 +17,7 @@ struct OnboardingConversionReducer {
     
     @ObservableState
     struct State {
-        let permissionGuideText: String = """
-            이 기능을 사용하려면 알림 권한이 필요해요.
-            아래 버튼을 눌러주세요.
-            """
+        let permissionGuideText: String = LocalizationHelper.onboardingConversionPermissionGuide
     }
     
     enum Action {

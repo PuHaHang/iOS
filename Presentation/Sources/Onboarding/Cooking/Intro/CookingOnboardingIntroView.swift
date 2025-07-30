@@ -7,6 +7,7 @@
 
 import ComposableArchitecture
 import Lottie
+import Shared
 import SwiftUI
 
 struct CookingOnboardingIntroView: View {
@@ -42,7 +43,7 @@ struct CookingOnboardingIntroView: View {
                 .foregroundStyle(AppColor.Text.information)
                 .padding(.bottom, 50)
             
-            RoundedButton(title: "시작하기") {
+            RoundedButton(title: LocalizationHelper.onboardingCookingIntroStart) {
                 store.send(.didTapStartButton)
             }
             .padding(.bottom, 50)

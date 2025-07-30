@@ -6,6 +6,7 @@
 //
 
 import ComposableArchitecture
+import Shared
 import SwiftUI
 
 struct SettingView: View {
@@ -15,8 +16,8 @@ struct SettingView: View {
         NavigationView {
             List {
                 SettingRowView(
-                    title: "인스타그램 방문하기",
-                    subtitle: "최신 소식과 레시피를 확인하세요",
+                    title: LocalizationHelper.settingsInstagramTitle,
+                    subtitle: LocalizationHelper.settingsInstagramSubtitle,
                     iconName: "camera"
                 ) {
                     store.send(.visitInstagram)

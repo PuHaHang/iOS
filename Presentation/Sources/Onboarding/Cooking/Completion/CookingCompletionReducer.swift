@@ -7,6 +7,7 @@
 
 import ComposableArchitecture
 import Foundation
+import Shared
 
 @Reducer
 struct CookingCompletionReducer {
@@ -14,10 +15,7 @@ struct CookingCompletionReducer {
     
     @ObservableState
     struct State {
-        let titleText: String = """
-            좋아요!
-            이제 요리를 시작해볼까요?
-            """
+        let titleText: String = LocalizationHelper.onboardingCookingCompletionTitle
     }
     
     enum Action {

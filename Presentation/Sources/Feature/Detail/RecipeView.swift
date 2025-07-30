@@ -7,6 +7,7 @@
 
 import ComposableArchitecture
 import Kingfisher
+import Shared
 import SwiftUI
 
 struct RecipeView: View {
@@ -18,7 +19,7 @@ struct RecipeView: View {
                 RecipeContentView(store: store)
                 
                 RoundedButton(
-                    title: "요리하기",
+                    title: LocalizationHelper.detailCooking,
                     isEnabled: true
                 ) {
                     store.send(.didTapCookingButton)

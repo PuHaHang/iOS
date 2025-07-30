@@ -8,6 +8,7 @@
 import ComposableArchitecture
 import Foundation
 import Entity
+import Shared
 import UIKit
 
 @Reducer
@@ -219,7 +220,7 @@ private extension RecipePreviewVO {
             recipeID: self.recipeID,
             thumbnail: self.thumbnailURL,
             title: self.title,
-            serving: "\(self.servings)인분",
+            serving: "\(self.servings)\(LocalizationHelper.recipeServingUnit)",
             ingredients: self.ingredients.map { $0.name }.joined(separator: ", "),
             state: self.state.toRecipeStateViewData()
         )

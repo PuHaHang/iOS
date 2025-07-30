@@ -5,6 +5,7 @@
 //  Created by 디해 on 6/12/25.
 //
 
+import Shared
 import SwiftUI
 
 enum TitleTabBarItem: CaseIterable {
@@ -14,9 +15,9 @@ enum TitleTabBarItem: CaseIterable {
     var title: String {
         switch self {
         case .steps:
-            "요리 단계"
+            LocalizationHelper.recipeStep
         case .ingredients:
-            "재료"
+            LocalizationHelper.recipeIngredient
         }
     }
 }
