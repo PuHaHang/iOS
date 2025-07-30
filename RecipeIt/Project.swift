@@ -25,7 +25,10 @@ let project = Project(
                 ]
             ),
             sources: ["Sources/**"],
-            resources: ["Resources/**"],
+            resources: [
+                "Resources/**",
+                .glob(pattern: "Resources/*.lproj/**")
+            ],
             entitlements: .dictionary([
                 "aps-environment": "development"
             ]),

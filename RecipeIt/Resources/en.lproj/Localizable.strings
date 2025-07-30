@@ -1,0 +1,157 @@
+/* 
+  Localizable.strings
+  RecipeIt
+  
+  Created by 디해 on 6/13/25.
+*/
+
+// MARK: - Common
+"common.ok" = "OK";
+"common.cancel" = "Cancel";
+"common.save" = "Save";
+"common.delete" = "Delete";
+"common.edit" = "Edit";
+"common.back" = "Back";
+
+// MARK: - Tab Bar
+"tab.home" = "Home";
+"tab.convert" = "Convert";
+"tab.cooking" = "Cooking";
+"tab.settings" = "Settings";
+
+// MARK: - Home
+"home.title" = "RecipeIt";
+"home.subtitle" = "Convert recipes with voice";
+
+// MARK: - Convert
+"convert.title" = "Recipe Conversion";
+"convert.placeholder" = "Tell your recipe with voice";
+"convert.start_recording" = "Start Recording";
+"convert.stop_recording" = "Stop Recording";
+"convert.processing" = "Converting...";
+
+// MARK: - Cooking
+"cooking.title" = "Cooking";
+"cooking.ingredients" = "Ingredients";
+"cooking.steps" = "Steps";
+"cooking.timer" = "Timer";
+"cooking.start" = "Start";
+"cooking.pause" = "Pause";
+"cooking.reset" = "Reset";
+
+// MARK: - Settings
+"settings.title" = "Settings";
+"settings.language" = "Language";
+"settings.notifications" = "Notifications";
+"settings.about" = "About";
+
+// MARK: - Onboarding
+"onboarding.welcome" = "Welcome to RecipeIt";
+"onboarding.description" = "Convert and cook recipes with voice";
+"onboarding.start" = "Get Started";
+
+// MARK: - Error Messages
+"error.network" = "Network error occurred";
+"error.voice_recognition" = "Voice recognition failed";
+"error.conversion" = "Recipe conversion failed";
+"error.unknown" = "Unknown error occurred";
+
+// MARK: - Success Messages
+"success.conversion" = "Recipe conversion completed";
+"success.saved" = "Saved successfully";
+
+// MARK: - Onboarding
+"onboarding.login.welcome" = "Welcome to RecipeIt!";
+"onboarding.login.subtitle" = "Convert YouTube, Shorts, and text\ninto recipes easily.";
+"onboarding.login.start" = "Get Started";
+"onboarding.introduction.title" = "Put in the video or text you want to cook\nand we'll turn it into a recipe for you.";
+"onboarding.introduction.subtitle" = "(Supports YouTube videos, Shorts, and text.)";
+"onboarding.introduction.next" = "Next";
+"onboarding.conversion.example.convert" = "Convert";
+"onboarding.result.start" = "Get Started";
+"onboarding.cooking.intro.start" = "Get Started";
+"onboarding.cooking.completion.ok" = "OK";
+"onboarding.cooking.voice.permission" = "Enable Voice";
+"onboarding.conversion.notification" = "Enable Notifications";
+
+// MARK: - Convert
+"convert.highlighted_info" = "Recipe you want to convert";
+"convert.info" = "\nPlease enter";
+"convert.warning" = "Only YouTube videos, Shorts URLs, and recipe text can be converted.\nDetailed descriptions and captions work better.";
+"convert.placeholder" = "Enter content.";
+"convert.button" = "Convert";
+
+// MARK: - Conversion Process
+"conversion.process.title" = "Creating your recipe";
+"conversion.process.subtitle" = "It's okay to leave the screen.\nWe'll send you a notification when conversion is complete.";
+
+// MARK: - Conversion Result
+"conversion.result.title" = "Recipe is ready!";
+"conversion.result.ok" = "OK";
+
+// MARK: - Cooking
+"cooking.previous" = "Previous";
+"cooking.next" = "Next";
+"cooking.completion.title" = "Completed!";
+"cooking.completion.home" = "Go Home";
+
+// MARK: - Timer
+"timer.setting.title" = "Timer Setting";
+"timer.minute" = "%d min";
+"timer.second" = "%d sec";
+"timer.remaining" = "Remaining Time";
+"timer.completion" = "Timer has ended.";
+"timer.set" = "Set";
+"timer.cancel" = "Cancel";
+"timer.ok" = "OK";
+
+// MARK: - Detail
+"detail.cooking" = "Cook";
+"detail.original_content" = "View Original";
+
+// MARK: - Settings
+"settings.instagram.title" = "Visit Instagram";
+"settings.instagram.subtitle" = "Check latest news and recipes";
+
+// MARK: - Onboarding Additional
+"onboarding.conversion.example.title" = "Want to try it yourself?";
+"onboarding.conversion.example.subtitle" = "RecipeIt has prepared an example for you.\nClick the <Convert> button.";
+"onboarding.conversion.example.url" = "https://www.youtube.com/watch?v=7F-cUfGQK1w";
+"onboarding.conversion.permission.guide" = "Notification permission is required to use this feature.\nPlease click the button below.";
+"onboarding.cooking.intro.title" = "Let's start your first cooking\nwith RecipeIt?";
+"onboarding.cooking.intro.subtitle" = "We provide these features";
+"onboarding.cooking.intro.introduction" = "- View original video/source\n- Voice control\n- Timer setting";
+"onboarding.cooking.completion.title" = "Great!\nNow let's start cooking?";
+"onboarding.voice.permission.title" = "Voice recognition permission\nis required to use voice";
+"onboarding.voice.permission.subtitle" = "Click the button below\nto enable voice recognition permission.";
+"onboarding.result.title" = "Recipe is ready!";
+"onboarding.result.subtitle" = "Now let's start cooking\nwith RecipeIt?";
+
+// MARK: - Home
+"home.empty.title" = "No converted recipes yet";
+"home.empty.subtitle" = "Try converting a recipe";
+
+// MARK: - Splash
+"splash.subtitle" = "Your cooking assistant in your hand";
+
+// MARK: - Detail
+"detail.step.title" = "STEP%d";
+
+// MARK: - Cooking Introduction
+"cooking.introduction.skip" = "Tap the screen to continue";
+"cooking.introduction.microphone.title" = "Great job!\n\nVoice recognition will stay on.";
+"cooking.introduction.microphone.introduction" = "Tap the microphone button\nto turn off voice recognition.";
+"cooking.introduction.step.title" = "You can freely move between\nprevious / next steps.";
+"cooking.introduction.step.subtitle" = "Previous / Back\nNext / Forward";
+"cooking.introduction.play.title" = "Tap the play button\nto check the original video.";
+"cooking.introduction.play.subtitle" = "Play video / Show video / Play\nStop video / Turn off video / Stop";
+"cooking.introduction.timer.title" = "You can set a timer\nwhen needed during cooking.";
+"cooking.introduction.timer.subtitle" = "Timer X minutes X seconds\nCancel timer / Turn off timer";
+"cooking.introduction.speaker.title" = "You can listen to explanations\nwith the read-aloud feature.";
+"cooking.introduction.speaker.subtitle" = "Read it / Read recipe / Read step";
+
+// MARK: - Recipe
+"recipe.step" = "Step";
+"recipe.ingredient" = "Ingredient";
+"recipe.serving" = "Serving";
+"recipe.serving.unit" = "serving"; 

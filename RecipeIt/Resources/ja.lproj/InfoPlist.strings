@@ -1,0 +1,11 @@
+/* 
+  InfoPlist.strings
+  RecipeIt
+  
+  Created by 디해 on 6/13/25.
+*/
+
+CFBundleDisplayName = "レシピイット";
+NSHumanReadableCopyright = "Copyright © 2025 PuHaHang. All rights reserved.";
+NSSpeechRecognitionUsageDescription = "音声認識を使用するために必要です。";
+NSMicrophoneUsageDescription = "音声入力のためにマイクアクセスが必要です。"; 
