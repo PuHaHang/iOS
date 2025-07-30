@@ -38,6 +38,18 @@ struct CookingView: View {
                     Image(systemName: "timer")
                         .foregroundStyle(.black)
                 }
+                .disabled(store.isPresentingModal)
+            }
+        }
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button(action: {
+                    store.send(.didTapSpeakingButton)
+                }) {
+                    Image(systemName: "ear")
+                        .foregroundStyle(.black)
+                }
+                .disabled(store.isPresentingModal)
             }
         }
         .onAppear {

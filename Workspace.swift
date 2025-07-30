@@ -7,6 +7,7 @@ let workspace = Workspace(
         "Domain",
         "Data",
         "Presentation",
+        "Audio",
         "PuHaHang"
     ],
     schemes: [
@@ -19,6 +20,7 @@ let workspace = Workspace(
                     .testableTarget(target: .project(path: "Domain", target: "DomainTests")),
                     .testableTarget(target: .project(path: "Data", target: "DataTests")),
                     .testableTarget(target: .project(path: "Entity", target: "EntityTests")),
+                    .testableTarget(target: .project(path: "Audio", target: "AudioTests")),
                     .testableTarget(target: .project(path: "Presentation", target: "PresentationTests"))
                 ],
                 configuration: .debug
