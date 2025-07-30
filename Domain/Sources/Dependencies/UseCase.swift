@@ -24,16 +24,16 @@ public extension DependencyValues {
 
 // MARK: - FetchConvertedPreviewUseCase DI
 
-public enum FetchConvertedPreviewUseCaseKey: TestDependencyKey {
+public enum FetchConvertedRecipeIDUseCaseKey: TestDependencyKey {
     #if DEBUG
-    public static let testValue: FetchConvertedPreviewUseCase = EmptyFetchConvertedPreviewUseCase()
+    public static let testValue: FetchConvertedRecipeIDUseCase = EmptyFetchConvertedPreviewUseCase()
     #endif
 }
 
 public extension DependencyValues {
-    var fetchConvertedPreviewUseCase: FetchConvertedPreviewUseCase {
-        get { self[FetchConvertedPreviewUseCaseKey.self] }
-        set { self[FetchConvertedPreviewUseCaseKey.self] = newValue }
+    var fetchConvertedRecipeIDUseCase: FetchConvertedRecipeIDUseCase {
+        get { self[FetchConvertedRecipeIDUseCaseKey.self] }
+        set { self[FetchConvertedRecipeIDUseCaseKey.self] = newValue }
     }
 }
 
@@ -49,6 +49,21 @@ public extension DependencyValues {
     var fetchRecipeDetailUseCase: FetchRecipeDetailUseCase {
         get { self[FetchRecipeDetailUseCaseKey.self] }
         set { self[FetchRecipeDetailUseCaseKey.self] = newValue }
+    }
+}
+
+// MARK: - FetchRecipePreviewUseCase DI
+
+public enum FetchRecipePreviewUseCaseKey: TestDependencyKey {
+    #if DEBUG
+    public static let testValue: FetchRecipePreviewUseCase = EmptyFetchRecipePreviewUseCase()
+    #endif
+}
+
+public extension DependencyValues {
+    var fetchRecipePreviewUseCase: FetchRecipePreviewUseCase {
+        get { self[FetchRecipePreviewUseCaseKey.self] }
+        set { self[FetchRecipePreviewUseCaseKey.self] = newValue }
     }
 }
 

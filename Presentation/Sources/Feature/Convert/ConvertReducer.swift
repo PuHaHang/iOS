@@ -28,12 +28,15 @@ struct ConvertReducer {
         var isGenerateButtonEnabled: Bool {
             !recipeSource.isEmpty
         }
+        
+        var path = StackState<Path.State>()
     }
     
     enum Action: Equatable, BindableAction {
         case binding(BindingAction<State>)
         case didTapConvertButton
-        case delegate(Delegate)
+        
+        case path(StackActionOf<Path>)
     }
     
     var body: some ReducerOf<Self> {
@@ -42,23 +45,34 @@ struct ConvertReducer {
         Reduce { state, action in
             switch action {
             case .didTapConvertButton:
-                return .concatenate(
-                    .send(.delegate(.generateRecipe(state.recipeSource))),
-                    .run { _ in await dismiss() }
-                )
+                let source = state.recipeSource
+                state.path.append(.process(.init(recipeSource: source)))
+                return .none
+                
+            case .path(.element(_, action: .process(.delegate(.navigateToResult(let preview))))):
+                state.path.append(.result(.init(recipePreviewViewData: preview)))
+                return .none
+                
+            case .path(.element(_, action: .result(.delegate(.didRequestDismiss)))):
+                return .run { _ in await dismiss() }
                 
             case .binding:
                 return .none
                 
-            case .delegate:
+            case .path:
                 return .none
             }
+        }
+        .forEach(\.path, action: \.path) {
+            Path.body
         }
     }
 }
 
-extension ConvertReducer.Action {
-    enum Delegate: Equatable {
-        case generateRecipe(String)
+extension ConvertReducer {
+    @Reducer(state: .equatable, action: .equatable)
+    enum Path {
+        case process(ConversionProcessReducer)
+        case result(ConversionResultReducer)
     }
 }

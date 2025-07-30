@@ -5,11 +5,10 @@
 //  Created by 디해 on 7/2/25.
 //
 
-import Entity
 import Foundation
 
-struct EmptyFetchConvertedPreviewUseCase: FetchConvertedPreviewUseCase {
-    func execute(_ source: String) async -> Result<RecipePreviewVO, any Error> {
+struct EmptyFetchConvertedPreviewUseCase: FetchConvertedRecipeIDUseCase {
+    func execute(_ source: String) async -> Result<UUID, any Error> {
         unimplementedFailure()
     }
 }

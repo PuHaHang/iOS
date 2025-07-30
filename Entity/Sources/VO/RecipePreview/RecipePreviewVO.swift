@@ -13,18 +13,21 @@ public struct RecipePreviewVO {
     public let title: String
     public let serving: Int
     public let ingredients: [IngredientVO]
+    public let state: RecipeStateVO
     
     public init(
         recipeID: UUID,
         thumbnailURL: URL?,
         title: String,
         serving: Int,
-        ingredients: [IngredientVO]
+        ingredients: [IngredientVO],
+        state: Int
     ) {
         self.recipeID = recipeID
         self.thumbnailURL = thumbnailURL
         self.title = title
         self.serving = serving
         self.ingredients = ingredients
+        self.state = RecipeStateVO(rawValue: state)
     }
 }
