@@ -12,7 +12,7 @@ import UserNotifications
 
 @Reducer
 struct OnboardingConversionReducer {
-    @Dependency(\.fetchRecipeDetailUseCase) var fetchRecipeDetailUseCase
+    @Dependency(\.fetchOnboardingImageUseCase) var fetchOnboardingImageUseCase
     
     @ObservableState
     struct State {
@@ -24,7 +24,7 @@ struct OnboardingConversionReducer {
     
     enum Action {
         case didTapNotiPermissionButton
-        case requestSampleRecipe
+        case requestSampleImage
         case delegate(Delegate)
     }
     
@@ -34,18 +34,17 @@ struct OnboardingConversionReducer {
             case .didTapNotiPermissionButton:
                 return .run { send in
                     await requestPushPermission()
-                    await send(.requestSampleRecipe)
+                    await send(.requestSampleImage)
                 }
                 
-            case .requestSampleRecipe:
+            case .requestSampleImage:
                 return .run { send in
-                    let result = await fetchRecipeDetailUseCase.execute(recipeID: UUID())
+                    let result = try await fetchOnboardingImageUseCase.execute()
                     switch result {
-                    case .success(let detail):
-                        let preview = detail.toRecipePreviewViewData()
-                        await send(.delegate(.navigateToConversionResult(preview)))
+                    case .success(let url):
+                        await send(.delegate(.navigateToConversionResult(url)))
                     case .failure(let error):
-                        print(">>> \(error)")
+                        await send(.delegate(.navigateToConversionResult(nil)))
                     }
                 }
                 
@@ -72,6 +71,6 @@ extension OnboardingConversionReducer {
 
 extension OnboardingConversionReducer {
     enum Delegate {
-        case navigateToConversionResult(RecipePreviewViewData)
+        case navigateToConversionResult(URL?)
     }
 }

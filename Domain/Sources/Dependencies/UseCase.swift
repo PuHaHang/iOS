@@ -203,3 +203,18 @@ public extension DependencyValues {
         set { self[SetConversionLanguageUseCaseKey.self] = newValue }
     }
 }
+
+// MARK: - FetchOnboardingImageUseCase DI
+
+public enum FetchOnboardingImageUseCaseKey: TestDependencyKey {
+    #if DEBUG
+    public static var testValue: FetchOnboardingImageUseCase = EmptyFetchOnboardingImageUseCase()
+    #endif
+}
+
+public extension DependencyValues {
+    var fetchOnboardingImageUseCase: FetchOnboardingImageUseCase {
+        get { self[FetchOnboardingImageUseCaseKey.self] }
+        set { self[FetchOnboardingImageUseCaseKey.self] = newValue }
+    }
+}

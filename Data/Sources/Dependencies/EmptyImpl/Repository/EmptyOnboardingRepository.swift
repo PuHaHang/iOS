@@ -24,4 +24,8 @@ struct EmptyOnboardingRepository: OnboardingRepository {
     func setFirstCookingCompleted() {
         throwUnimplemented()
     }
+    
+    func fetchOnboardingImage() async throws -> URL {
+        throwUnimplemented()
+    }
 }

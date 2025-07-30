@@ -6,12 +6,13 @@
 //
 
 import Foundation
+import Minifire
 
 public struct OnboardingDataSourceImpl: OnboardingDataSource {
     private let launchOnboardingKey = "onboarding_launch"
     private let cookingOnboardingKey = "onboarding_cooking"
     
-    public init() { }
+    public init() {}
     
     public func getIsFirstLaunch() -> Bool {
         UserDefaults.standard.object(forKey: launchOnboardingKey) as? Bool ?? true
@@ -27,5 +28,17 @@ public struct OnboardingDataSourceImpl: OnboardingDataSource {
     
     public func setFirstCookingCompleted() {
         UserDefaults.standard.set(false, forKey: cookingOnboardingKey)
+    }
+    
+    public func fetchOnboardingImage() async throws -> String {
+        let request = MFRequest(url: "/api/v1/onboarding")
+            .get()
+            .validate()
+        
+        let response = try await MF
+            .setErrorDecoder(ServerDecoder.shared)
+            .requestDecodable(of: OnboardingImageDTO.self, request)
+        
+        return response.value.image
     }
 }

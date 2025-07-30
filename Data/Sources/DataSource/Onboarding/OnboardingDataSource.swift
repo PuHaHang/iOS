@@ -12,4 +12,5 @@ public protocol OnboardingDataSource {
     func getIsFirstCooking() -> Bool
     func setFirstLaunchCompleted()
     func setFirstCookingCompleted()
+    func fetchOnboardingImage() async throws -> String
 }

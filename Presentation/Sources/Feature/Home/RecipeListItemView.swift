@@ -6,6 +6,7 @@
 //
 
 import ComposableArchitecture
+import Kingfisher
 import SwiftUI
 
 struct RecipeListItemView: View {
@@ -13,8 +14,9 @@ struct RecipeListItemView: View {
     
     var body: some View {
         HStack(spacing: 15) {
-            Image(uiImage: store.item.thumbnail)
+            KFImage.url(store.item.thumbnail)
                 .resizable()
+                .scaledToFill()
                 .frame(width: 100, height: 100)
                 .clipShape(RoundedRectangle(cornerRadius: 10))
             

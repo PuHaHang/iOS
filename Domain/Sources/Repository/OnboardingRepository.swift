@@ -12,4 +12,5 @@ public protocol OnboardingRepository {
     func isFirstCooking() -> Bool
     func setFirstLaunchCompleted()
     func setFirstCookingCompleted()
+    func fetchOnboardingImage() async throws -> URL
 }
