@@ -23,4 +23,8 @@ public struct EmptyOnboardingDataSource: OnboardingDataSource {
     public func setFirstCookingCompleted() {
         throwUnimplemented()
     }
+    
+    public func fetchOnboardingImage() async throws -> String {
+        throwUnimplemented()
+    }
 }

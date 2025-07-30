@@ -21,5 +21,8 @@ struct RecipeIngredientView: View {
                 .frame(height: 90)
         }
         .padding(.horizontal, 10)
+        .onAppear {
+            store.send(.onAppear)
+        }
     }
 }

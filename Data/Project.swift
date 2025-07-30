@@ -11,6 +11,7 @@ let project = Project(
             sources: ["Sources/**"],
             dependencies: [
                 .project(target: "Domain", path: "../Domain"),
+                .project(target: "Login", path: "../Login"),
                 .external(name: "Minifire"),
                 .external(name: "ComposableArchitecture")
             ]

@@ -16,7 +16,7 @@ public struct RecipeDetailRepositoryImpl: RecipeDetailRepository {
         self.dataSource = dataSource
     }
 
-    public func fetchDetail(for recipeID: UUID) async throws -> RecipeDetailVO {
+    public func fetchDetail(for recipeID: Int64) async throws -> RecipeDetailVO {
         let recipe = try await dataSource.fetchRecipe(recipeID: recipeID)
         
         return recipe.toDomain()

@@ -6,6 +6,7 @@
 //
 
 import ComposableArchitecture
+import Kingfisher
 import SwiftUI
 
 struct RecipeView: View {
@@ -77,7 +78,7 @@ private extension RecipeView {
         
         var body: some View {
             ZStack(alignment: .bottomLeading) {
-                Image(uiImage: store.recipeViewData.thumbnail)
+                KFImage.url(store.recipeViewData.thumbnail)
                     .resizable()
                     .scaledToFill()
                     .frame(height: 250)

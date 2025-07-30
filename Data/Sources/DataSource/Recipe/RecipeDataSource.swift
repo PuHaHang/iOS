@@ -8,6 +8,7 @@
 import Foundation
 
 public protocol RecipeDataSource {
-    func fetchRecipe(recipeID: UUID) async throws -> RecipeDTO
-    func generateRecipe(from source: String) async throws -> UUID
+    func fetchRecipe(recipeID: Int64) async throws -> RecipeDTO
+    func generateRecipe(from source: String) async throws -> RecipeConversionDTO
+    func filterCompletedRecipeIDs(from ids: [Int64]) async throws -> CompletedRecipeDTO
 }

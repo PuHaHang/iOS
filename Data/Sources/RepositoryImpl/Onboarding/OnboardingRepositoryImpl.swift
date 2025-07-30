@@ -30,4 +30,10 @@ public struct OnboardingRepositoryImpl: OnboardingRepository {
     public func setFirstCookingCompleted() {
         dataSource.setFirstCookingCompleted()
     }
+    
+    public func fetchOnboardingImage() async throws -> URL {
+        let imageURLString = try await dataSource.fetchOnboardingImage()
+        guard let url = URL(string: imageURLString) else { throw DataSourceError.invalidURL }
+        return url
+    }
 }

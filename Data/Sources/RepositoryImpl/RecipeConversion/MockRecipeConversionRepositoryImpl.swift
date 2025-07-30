@@ -11,7 +11,11 @@ import Domain
 public struct MockRecipeConversionRepositoryImpl: RecipeConversionRepository {
     public init() { }
     
-    public func convert(from input: String) async throws -> UUID {
-        return UUID()
+    public func convert(from input: String) async throws -> Int64 {
+        return 0
+    }
+    
+    public func filterCompletedConversionRecipeIDs(from ids: [Int64]) async throws -> [Int64] {
+        return [1, 2]
     }
 }

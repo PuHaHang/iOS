@@ -9,7 +9,7 @@ import Entity
 import Foundation
 
 struct EmptyFetchRecipePreviewUseCase: FetchRecipePreviewUseCase {
-    func execute(recipeID: UUID) async -> Result<RecipePreviewVO, any Error> {
+    func execute(recipeID: Int64) async -> Result<RecipePreviewVO, any Error> {
         unimplementedFailure()
     }
 }

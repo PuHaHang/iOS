@@ -8,7 +8,7 @@
 import Foundation
 
 public struct EmptyRecipePreviewDataSource: RecipePreviewDataSource {
-    public func fetchPreview(recipeID: UUID) async throws -> RecipePreviewDTO {
+    public func fetchPreview(recipeID: Int64) async throws -> RecipePreviewDTO {
         throwUnimplemented()
     }
     

@@ -26,6 +26,7 @@ struct RecipeReducer {
             let recipeViewData = recipe.toRecipeViewData()
             self.recipeViewData = recipeViewData
             self.titleTab = TitleTabReducer.State(
+                recipeID: recipeViewData.recipeID,
                 steps: recipeViewData.steps,
                 ingredients: recipeViewData.ingredients
             )
@@ -159,7 +160,7 @@ private extension RecipeDetailVO {
         return RecipeViewData(
             recipeID: self.recipeID,
             title: self.title,
-            thumbnail: UIImage(),
+            thumbnail: self.thumbnailURL,
             serving: "\(self.serving)인분",
             reference: self.reference.toReferenceViewData(),
             steps: self.stages.map { $0.toStepViewData() },
@@ -228,7 +229,7 @@ extension StageVO {
 private extension IngredientVO {
     func toIngredientViewData() -> IngredientViewData {
         return IngredientViewData(
-            id: UUID(),
+            id: self.id,
             ingredient: "\(self.name) \(self.amount)",
             isChecked: false
         )

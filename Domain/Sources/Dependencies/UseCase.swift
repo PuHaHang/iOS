@@ -141,3 +141,95 @@ public extension DependencyValues {
         set { self[CookingOnboardingCompleteUseCaseKey.self] = newValue }
     }
 }
+
+// MARK: - FetchUILanguageUseCase DI
+
+public enum FetchUILanguageUseCaseKey: TestDependencyKey {
+    #if DEBUG
+    public static let testValue: FetchUILanguageUseCase = EmptyFetchUILanguageUseCase()
+    #endif
+}
+
+public extension DependencyValues {
+    var fetchUILanguageUseCase: FetchUILanguageUseCase {
+        get { self[FetchUILanguageUseCaseKey.self] }
+        set { self[FetchUILanguageUseCaseKey.self] = newValue }
+    }
+}
+
+// MARK: - SetUILanguageUseCase DI
+
+public enum SetUILanguageUseCaseKey: TestDependencyKey {
+    #if DEBUG
+    public static var testValue: SetUILanguageUseCase = EmptySetUILanguageUseCase()
+    #endif
+}
+
+public extension DependencyValues {
+    var setUILanguageUseCase: SetUILanguageUseCase {
+        get { self[SetUILanguageUseCaseKey.self] }
+        set { self[SetUILanguageUseCaseKey.self] = newValue }
+    }
+}
+
+// MARK: - FetchConversionLanguageUseCase DI
+
+public enum FetchConversionLanguageUseCaseKey: TestDependencyKey {
+    #if DEBUG
+    public static var testValue: FetchConversionLanguageUseCase = EmptyFetchConversionLanguageUseCase()
+    #endif
+}
+
+public extension DependencyValues {
+    var fetchConversionLanguageUseCase: FetchConversionLanguageUseCase {
+        get { self[FetchConversionLanguageUseCaseKey.self] }
+        set {
+            self[FetchConversionLanguageUseCaseKey.self] = newValue
+        }
+    }
+}
+
+// MARK: - SetConversionLanguageUseCase DI
+
+public enum SetConversionLanguageUseCaseKey: TestDependencyKey {
+    #if DEBUG
+    public static var testValue: SetConversionLanguageUseCase = EmptySetConversionLanguageUseCase()
+    #endif
+}
+
+public extension DependencyValues {
+    var setConversionLanguageUseCase: SetConversionLanguageUseCase {
+        get { self[SetConversionLanguageUseCaseKey.self] }
+        set { self[SetConversionLanguageUseCaseKey.self] = newValue }
+    }
+}
+
+// MARK: - FetchOnboardingImageUseCase DI
+
+public enum FetchOnboardingImageUseCaseKey: TestDependencyKey {
+    #if DEBUG
+    public static var testValue: FetchOnboardingImageUseCase = EmptyFetchOnboardingImageUseCase()
+    #endif
+}
+
+public extension DependencyValues {
+    var fetchOnboardingImageUseCase: FetchOnboardingImageUseCase {
+        get { self[FetchOnboardingImageUseCaseKey.self] }
+        set { self[FetchOnboardingImageUseCaseKey.self] = newValue }
+    }
+}
+
+// MARK: - FetchCompletedRecipeConversionIDsUseCase DI
+
+public enum FetchCompletedRecipeConversionIDsUseCaseKey: TestDependencyKey {
+    #if DEBUG
+    public static var testValue: FetchCompletedRecipeConversionIDsUseCase = EmptyFetchCompletedRecipeConversionIDsUseCase()
+    #endif
+}
+
+public extension DependencyValues {
+    var fetchCompletedRecipeConversionIDsUseCase: FetchCompletedRecipeConversionIDsUseCase {
+        get { self[FetchCompletedRecipeConversionIDsUseCaseKey.self] }
+        set { self[FetchCompletedRecipeConversionIDsUseCaseKey.self] = newValue }
+    }
+}

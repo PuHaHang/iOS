@@ -18,7 +18,10 @@ let project = Project(
                     "NSSpeechRecognitionUsageDescription": "음성 인식을 사용하기 위해 필요합니다.",
                     "NSMicrophoneUsageDescription": "음성 입력을 위해 마이크 접근 권한이 필요합니다.",
                     "UIBackgroundModes": ["remote-notification"],
-                    "FirebaseAppDelegateProxyEnabled": false
+                    "FirebaseAppDelegateProxyEnabled": false,
+                    "NSAppTransportSecurity": [
+                        "NSAllowsArbitraryLoads": true
+                    ]
                 ]
             ),
             sources: ["Sources/**"],
@@ -47,16 +50,10 @@ let project = Project(
             dependencies: [
                 .project(target: "Domain", path: "../Domain"),
                 .project(target: "Data", path: "../Data"),
-                .project(target: "Presentation", path: "../Presentation"),
-                .external(name: "FirebaseCore"),
-                .external(name: "FirebaseInstallations"),
-                .external(name: "FirebaseMessaging")
-            ],
-            settings: .settings(
-                base: [
-                    "OTHER_LDFLAGS": ["-ObjC"]
-                ]
-            )
+                .project(target: "Shared", path: "../Shared/Shared"),
+                .project(target: "Login", path: "../Login"),
+                .project(target: "Presentation", path: "../Presentation")
+            ]
         ),
     ]
 ) 

@@ -14,7 +14,7 @@ public struct FetchConvertedRecipeIDUseCaseImpl: FetchConvertedRecipeIDUseCase {
         self.recipeConversionRepository = recipeConversionRepository
     }
     
-    public func execute(_ source: String) async -> Result<UUID, Error> {
+    public func execute(_ source: String) async -> Result<Int64, Error> {
         do {
             let recipeID = try await recipeConversionRepository.convert(from: source)
             return .success(recipeID)

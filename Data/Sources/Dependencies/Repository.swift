@@ -83,3 +83,18 @@ public extension DependencyValues {
         set { self[OnboardingRepositoryKey.self] = newValue }
     }
 }
+
+// MARK: - LanguageRepository DI
+
+public enum LanguageRepositoryKey: TestDependencyKey {
+    #if DEBUG
+    public static let testValue: LanguageRepository = EmptyLanguageRepository()
+    #endif
+}
+
+public extension DependencyValues {
+    var languageRepository: LanguageRepository {
+        get { self[LanguageRepositoryKey.self] }
+        set { self[LanguageRepositoryKey.self] = newValue }
+    }
+}

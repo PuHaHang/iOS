@@ -44,3 +44,10 @@ extension OnboardingRepositoryKey: @retroactive DependencyKey {
         return OnboardingRepositoryImpl(dataSource: onboardingDataSource)
     }()
 }
+
+extension LanguageRepositoryKey: @retroactive DependencyKey {
+    public static let liveValue: any LanguageRepository = {
+        @Dependency(\.languageDataSource) var languageDataSource
+        return LanguageRepositoryImpl(dataSource: languageDataSource)
+    }()
+}

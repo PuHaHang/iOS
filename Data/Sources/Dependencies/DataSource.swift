@@ -67,3 +67,18 @@ public extension DependencyValues {
         set { self[OnboardingDataSourceKey.self] = newValue }
     }
 }
+
+// MARK: - LanguageDataSource
+
+public enum LanguageDataSourceKey: TestDependencyKey {
+    #if DEBUG
+    public static let testValue: LanguageDataSource = EmptyLanguageDataSource()
+    #endif
+}
+
+public extension DependencyValues {
+    var languageDataSource: LanguageDataSource {
+        get { self[LanguageDataSourceKey.self] }
+        set { self[LanguageDataSourceKey.self] = newValue }
+    }
+}

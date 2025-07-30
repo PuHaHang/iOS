@@ -8,6 +8,6 @@
 import Foundation
 
 public protocol RecipePreviewDataSource {
-    func fetchPreview(recipeID: UUID) async throws -> RecipePreviewDTO
+    func fetchPreview(recipeID: Int64) async throws -> RecipePreviewDTO
     func fetchPreviews(page: Int, pageSize: Int) async throws -> [RecipePreviewDTO]
 }

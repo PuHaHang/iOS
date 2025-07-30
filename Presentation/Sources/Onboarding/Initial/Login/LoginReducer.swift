@@ -7,10 +7,15 @@
 
 import ComposableArchitecture
 import Foundation
+import Login
+import LocaleProvider
 import UIKit
 
 @Reducer
 struct LoginReducer {
+    @Dependency(\.localeProvider) var localeProvider
+    @Dependency(\.loginManager) var loginManager
+    
     @ObservableState
     struct State {
         let titleText: String = "레시핏에 오신 것을 환영합니다!"
@@ -24,6 +29,9 @@ struct LoginReducer {
     
     enum Action {
         case didTapStartButton
+        case createGuest
+        case navigateToIntroduction
+        case didAuthenticate(String)
         
         case path(StackActionOf<Path>)
         case delegate(Delegate)
@@ -31,10 +39,35 @@ struct LoginReducer {
     
     var body: some ReducerOf<Self> {
         Reduce {
-            state,
-            action in
+            state, action in
             switch action {
             case .didTapStartButton:
+                let token = loginManager.loadLocalToken()
+                guard let token else { return .send(.createGuest) }
+                
+                return .send(.didAuthenticate(token))
+                
+            case .createGuest:
+                let region = localeProvider.getCurrentRegion()
+                return .run { send in
+                    do {
+                        let token = try await loginManager.createGuestToken(region: region)
+                        loginManager.saveLocalToken(token)
+                        await send(.didAuthenticate(token))
+                    } catch {
+                        print(">>> \(error)")
+                    }
+                }
+                
+            case .didAuthenticate(let token):
+                Task {
+                    let fcmToken = try await loginManager.loadFCMToken()
+                    try await loginManager.update(fcmToken: fcmToken, for: token)
+                }
+                
+                return .send(.navigateToIntroduction)
+                
+            case .navigateToIntroduction:
                 state.path.append(.introduction(.init()))
                 return .none
                 
@@ -46,14 +79,15 @@ struct LoginReducer {
                 state.path.append(.process(.init()))
                 return .none
                 
-            case .path(.element(id: _, action: .process(.delegate(.navigateToConversionResult(let preview))))):
-                state.path.append(.result(.init(recipePreviewViewData: preview)))
+            case .path(.element(id: _, action: .process(.delegate(.navigateToConversionResult(let url))))):
+                state.path.append(.result(.init(imageURL: url)))
                 return .none
                 
             case .path(.element(id: _, action: .result(.delegate(.didRequestDismiss)))):
                 return .send(.delegate(.didRequestDismiss))
                 
-            case .path, .delegate:
+            case .path,
+                    .delegate:
                 return .none
             }
         }

@@ -12,13 +12,16 @@ import UIKit
 
 @Reducer
 struct HomeReducer {
+    @Dependency(\.incompletedRecipeIDStore) var incompletedRecipeIDStore
     @Dependency(\.fetchRecipePreviewsUseCase) var fetchRecipePreviewsUseCase
+    @Dependency(\.fetchRecipePreviewUseCase) var fetchRecipePreviewUseCase
+    @Dependency(\.fetchCompletedRecipeConversionIDsUseCase) var fetchCompletedRecipeConversionIDsUseCase
     
     @ObservableState
     struct State {
         let titleIconName: String = "title_icon"
         let pageSize: Int = 10
-        var page: Int = 0
+        var page: Int = 1
         
         var recipes: IdentifiedArrayOf<RecipeListItemReducer.State> = []
     }
@@ -26,9 +29,16 @@ struct HomeReducer {
     enum Action {
         case onAppear
         case addRecipe(RecipeListItem)
+        case updateRecipe(RecipeListItem)
         case addRecipes([RecipeListItem])
+        case checkIfNeedsPolling
         case recipes(IdentifiedActionOf<RecipeListItemReducer>)
         case refresh
+        case addConvertingId(Int64)
+        case startPolling
+        case pollTick
+        case cancelTick
+        case completedRecipeIDsRepsponse([Int64])
         
         case delegate(Delegate)
     }
@@ -37,10 +47,16 @@ struct HomeReducer {
         Reduce { state, action in
             switch action {
             case .onAppear:
-                return reduceOnAppear(state)
+                return reduceOnAppear(&state)
                 
             case .addRecipe(let item):
                 return reduceAddRecipe(&state, item: item)
+                
+            case .updateRecipe(let item):
+                if let index = state.recipes.firstIndex(where: { $0.item.recipeID == item.recipeID }) {
+                    state.recipes[index].item = item
+                }
+                return .none
                 
             case .addRecipes(let items):
                 return reduceAddRecipes(&state, items: items)
@@ -50,6 +66,70 @@ struct HomeReducer {
                 
             case .refresh:
                 return reduceRefresh(&state)
+                
+            case .addConvertingId(let recipeId):
+                return .run { send in
+                    await incompletedRecipeIDStore.add(recipeId)
+                    await send(.startPolling)
+                }
+                
+            case .checkIfNeedsPolling:
+                return .run { [recipes = state.recipes] send in
+                    var needsPolling = false
+                    
+                    for recipeState in recipes {
+                        let item = recipeState.item
+                        if item.state != .completed {
+                            await incompletedRecipeIDStore.add(item.recipeID)
+                            needsPolling = true
+                        }
+                    }
+
+                    if needsPolling {
+                        await send(.startPolling)
+                    }
+                }
+                
+            case .startPolling:
+                return .run { send in
+                    for await _ in Timer
+                        .publish(every: 5, on: .main, in: .common)
+                        .autoconnect()
+                        .values {
+                        await send(.pollTick)
+                    }
+                }
+                .cancellable(id: CancelID.polling)
+                
+            case .pollTick:
+                return .run { send in
+                    let ids = await incompletedRecipeIDStore.get()
+                    guard !ids.isEmpty else { return await send(.cancelTick) }
+                    
+                    guard let result = try? await fetchCompletedRecipeConversionIDsUseCase.execute(ids: ids) else { return }
+                    
+                    await send(.completedRecipeIDsRepsponse(result))
+                }
+                
+            case .completedRecipeIDsRepsponse(let ids):
+                return .run { send in
+                    await incompletedRecipeIDStore.remove(ids)
+                    
+                    for id in ids {
+                        let result = await fetchRecipePreviewUseCase.execute(recipeID: id)
+                        
+                        switch result {
+                        case .success(let preview):
+                            let item = preview.toRecipeListItem()
+                            await send(.updateRecipe(item))
+                        case .failure:
+                            continue
+                        }
+                    }
+                }
+
+            case .cancelTick:
+                return .cancel(id: CancelID.polling)
                 
             case .delegate:
                 return .none
@@ -62,7 +142,10 @@ struct HomeReducer {
 }
 
 private extension HomeReducer {
-    func reduceOnAppear(_ state: HomeReducer.State) -> Effect<Action> {
+    func reduceOnAppear(_ state: inout HomeReducer.State) -> Effect<Action> {
+        state.page = 1
+        state.recipes = []
+        
         let page = state.page
         let pageSize = state.pageSize
         return .run { send in
@@ -75,6 +158,7 @@ private extension HomeReducer {
             case .success(let previews):
                 let items = previews.map { $0.toRecipeListItem() }
                 await send(.addRecipes(items))
+                await send(.checkIfNeedsPolling)
             case .failure(let error):
                 print(">>> Error: \(error)")
             }
@@ -105,13 +189,17 @@ private extension HomeReducer {
     }
     
     func reduceRefresh(_ state: inout HomeReducer.State) -> Effect<Action> {
-        state.page = 0
+        state.page = 1
         state.recipes = []
         return .send(.onAppear)
     }
 }
 
-extension HomeReducer.Action {
+extension HomeReducer {
+    enum CancelID {
+        case polling
+    }
+    
     enum Delegate: Equatable {
         case showRecipeDetail(RecipeListItem)
     }
@@ -121,10 +209,11 @@ private extension RecipePreviewVO {
     func toRecipeListItem() -> RecipeListItem {
         return RecipeListItem(
             recipeID: self.recipeID,
-            thumbnail: UIImage(),
+            thumbnail: self.thumbnailURL,
             title: self.title,
-            serving: "\(self.serving)인분",
-            ingredients: self.ingredients.map { $0.name }.joined(separator: ", ")
+            serving: "\(self.servings)인분",
+            ingredients: self.ingredients.map { $0.name }.joined(separator: ", "),
+            state: self.state.toRecipeStateViewData()
         )
     }
 }

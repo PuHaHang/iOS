@@ -61,6 +61,9 @@ struct RootReducer {
             case .destination(.presented(.convert(.path(.element(_, action: .process(.delegate(.refresh))))))):
                 return .send(.home(.refresh))
                 
+            case .destination(.presented(.convert(.path(.element(_, action: .process(.delegate(.startedConvertingRecipe(let recipeID)))))))):
+                return .send(.home(.addConvertingId(recipeID)))
+                
             case .destination(.presented(.onboarding(.delegate(.didRequestDismiss)))):
                 state.destination = nil
                 return .none
@@ -83,7 +86,7 @@ struct RootReducer {
 }
 
 private extension RootReducer {
-    func reduceShowRecipeDetail(recipeID: UUID) -> Effect<Action> {
+    func reduceShowRecipeDetail(recipeID: Int64) -> Effect<Action> {
         return .run { send in
             let result = await fetchRecipeDetailUseCase.execute(recipeID: recipeID)
             

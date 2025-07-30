@@ -12,33 +12,33 @@ import Domain
 public struct MockRecipeDetailRepositoryImpl: RecipeDetailRepository {
     public init() { }
     
-    public func fetchDetail(for recipeID: UUID) async throws -> RecipeDetailVO {
+    public func fetchDetail(for recipeID: Int64) async throws -> RecipeDetailVO {
         return RecipeDetailVO(
-            recipeID: UUID(),
-            thumbnailURL: URL(filePath: "")!,
+            recipeID: 0,
+            thumbnailURL: URL(string: "https://images.unsplash.com/photo-1600891964599-f61ba0e24092")!,
             title: "임시 레시피 타이틀",
             serving: 1,
             reference: ReferenceVO.youtube(URL(string: "https://youtu.be/engr8PvZ98Q?si=UywXhbCmQkG4GvDR")!),
             ingredients: [
                 IngredientVO(
-                    id: UUID(),
+                    id: 0,
                     name: "마요네즈",
-                    amount: "1스푼"
+                    amount: "1"
                 ),
                 IngredientVO(
-                    id: UUID(),
+                    id: 1,
                     name: "마요네즈",
-                    amount: "1스푼"
+                    amount: "1"
                 ),
                 IngredientVO(
-                    id: UUID(),
+                    id: 2,
                     name: "마요네즈",
-                    amount: "1스푼"
+                    amount: "1"
                 ),
                 IngredientVO(
-                    id: UUID(),
+                    id: 3,
                     name: "마요네즈",
-                    amount: "1스푼"
+                    amount: "1"
                 )
             ],
             stages: [
@@ -67,8 +67,7 @@ public struct MockRecipeDetailRepositoryImpl: RecipeDetailRepository {
                     timeline: .init(startTime: 20.0, endTime: 24.0),
                     instruction: "임시 레피시 스텝 입니다."
                 )
-            ],
-            state: .init(rawValue: 1)
+            ]
         )
     }
 }

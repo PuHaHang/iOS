@@ -6,6 +6,7 @@
 //
 
 import ComposableArchitecture
+import Kingfisher
 import SwiftUI
 
 struct RecipePreviewView: View {
@@ -14,7 +15,7 @@ struct RecipePreviewView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 0) {
-                RecipeImageContentView()
+                RecipeImageContentView(imageURL: recipePreviewViewData.thumbnail)
                     .padding(.bottom, 20)
                 
                 RecipeOverviewView(
@@ -41,10 +42,10 @@ struct RecipePreviewView: View {
 
 private extension RecipePreviewView {
     struct RecipeImageContentView: View {
-        let recipeImage: UIImage = UIImage(color: .red)
+        let imageURL: URL?
         
         var body: some View {
-            Image(uiImage: recipeImage)
+            KFImage.url(imageURL)
                 .resizable()
                 .scaledToFill()
                 .frame(height: 180)

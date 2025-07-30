@@ -9,6 +9,6 @@ import Foundation
 import Entity
 
 public protocol RecipePreviewRepository {
-    func fetchPreview(for recipeID: UUID) async throws -> RecipePreviewVO
+    func fetchPreview(for recipeID: Int64) async throws -> RecipePreviewVO
     func fetchPreviews(page: Int, pageSize: Int) async throws -> [RecipePreviewVO]
 }
