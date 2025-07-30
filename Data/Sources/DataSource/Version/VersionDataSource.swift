@@ -16,8 +16,10 @@ public struct VersionDataSourceImpl: VersionDataSource {
     public init() { }
     
     public func fetchVersionRequirement() async throws -> VersionRequirementDTO {
-        let request = MFRequest(url: "http://121.157.24.40/v1/intro").validate()
-        let response = try await MF.requestDecodable(of: VersionRequirementDTO.self, request)
+        let request = MFRequest(url: "http://121.157.24.40/api/v1/intro").validate()
+        let response = try await MF
+            .setErrorDecoder(ServerDecoder.shared)
+            .requestDecodable(of: VersionRequirementDTO.self, request)
         
         return response.value
     }

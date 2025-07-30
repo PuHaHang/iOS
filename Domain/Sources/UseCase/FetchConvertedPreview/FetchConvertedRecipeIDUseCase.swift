@@ -8,5 +8,5 @@
 import Foundation
 
 public protocol FetchConvertedRecipeIDUseCase {
-    func execute(_ source: String) async -> Result<UUID, Error>
+    func execute(_ source: String) async -> Result<Int64, Error>
 }

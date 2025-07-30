@@ -15,7 +15,7 @@ public struct FetchRecipePreviewUseCaseImpl: FetchRecipePreviewUseCase {
         self.recipePreviewRepository = recipePreviewRepository
     }
     
-    public func execute(recipeID: UUID) async -> Result<RecipePreviewVO, Error> {
+    public func execute(recipeID: Int64) async -> Result<RecipePreviewVO, Error> {
         do {
             let preview = try await recipePreviewRepository.fetchPreview(for: recipeID)
             return .success(preview)

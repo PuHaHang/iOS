@@ -46,8 +46,8 @@ struct LoginReducer {
                 state.path.append(.process(.init()))
                 return .none
                 
-            case .path(.element(id: _, action: .process(.delegate(.navigateToConversionResult(let preview))))):
-                state.path.append(.result(.init(recipePreviewViewData: preview)))
+            case .path(.element(id: _, action: .process(.delegate(.navigateToConversionResult(let url))))):
+                state.path.append(.result(.init(imageURL: url)))
                 return .none
                 
             case .path(.element(id: _, action: .result(.delegate(.didRequestDismiss)))):

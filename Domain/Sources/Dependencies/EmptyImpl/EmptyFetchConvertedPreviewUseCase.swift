@@ -8,7 +8,7 @@
 import Foundation
 
 struct EmptyFetchConvertedPreviewUseCase: FetchConvertedRecipeIDUseCase {
-    func execute(_ source: String) async -> Result<UUID, any Error> {
+    func execute(_ source: String) async -> Result<Int64, any Error> {
         unimplementedFailure()
     }
 }

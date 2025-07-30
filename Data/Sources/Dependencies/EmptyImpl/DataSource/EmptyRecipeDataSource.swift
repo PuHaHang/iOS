@@ -8,11 +8,13 @@
 import Foundation
 
 public struct EmptyRecipeDataSource: RecipeDataSource {
-    public func fetchRecipe(recipeID: UUID) async throws -> RecipeDTO {
+    public func fetchRecipe(recipeID: Int64) async throws -> RecipeDTO {
         throwUnimplemented()
     }
     
-    public func generateRecipe(from source: String) async throws -> UUID {
+    public func generateRecipe(from source: String) async throws -> RecipeConversionDTO {
+        throwUnimplemented()
+    }
         throwUnimplemented()
     }
 }

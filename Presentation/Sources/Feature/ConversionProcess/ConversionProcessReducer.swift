@@ -17,12 +17,12 @@ struct ConversionProcessReducer {
     
     struct State: Equatable {
         let recipeSource: String
-        var recipeConversionID: UUID?
+        var recipeConversionID: Int64?
     }
     
     enum Action: Equatable {
         case onAppear
-        case recipeConversionResponse(UUID)
+        case recipeConversionResponse(Int64)
         
         case startPolling
         case stopPolling
@@ -67,16 +67,16 @@ private extension ConversionProcessReducer {
         return .run { send in
             let result = await fetchConvertedRecipeIDUseCase.execute(source)
             switch result {
-            case .success(let uuid):
+            case .success(let id):
                 await send(.delegate(.refresh))
-                await send(.recipeConversionResponse(uuid))
+                await send(.recipeConversionResponse(id))
             case .failure(let error):
                 print(">>> \(error)")
             }
         }
     }
     
-    func reduceRecipeConversionResponse(_ state: inout State, id: UUID) -> Effect<Action> {
+    func reduceRecipeConversionResponse(_ state: inout State, id: Int64) -> Effect<Action> {
         state.recipeConversionID = id
         return .send(.startPolling)
     }
@@ -84,7 +84,7 @@ private extension ConversionProcessReducer {
     func reduceStartPolling() -> Effect<Action> {
         return .run { send in
             for await _ in Timer
-                .publish(every: 4, on: .main, in: .common)
+                .publish(every: 5, on: .main, in: .common)
                 .autoconnect()
                 .values {
                 await send(.pollTick)
@@ -154,6 +154,7 @@ extension ConversionProcessReducer {
     
     enum Delegate: Equatable {
         case refresh
+        case startedConvertingRecipe(Int64)
         case navigateToResult(RecipePreviewViewData)
     }
 }

@@ -8,9 +8,10 @@
 import UIKit
 
 struct RecipeListItem: Equatable {
-    let recipeID: UUID
-    let thumbnail: UIImage
+    let recipeID: Int64
+    let thumbnail: URL?
     let title: String
     let serving: String
     let ingredients: String
+    let state: RecipeStateViewData
 }

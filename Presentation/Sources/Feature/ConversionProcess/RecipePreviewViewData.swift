@@ -8,8 +8,8 @@
 import UIKit
 
 struct RecipePreviewViewData: Equatable {
-    let recipeID: UUID
-    let thumbnail: UIImage
+    let recipeID: Int64
+    let thumbnail: URL?
     let title: String
     let serving: String
     let steps: [RecipeStepViewData]

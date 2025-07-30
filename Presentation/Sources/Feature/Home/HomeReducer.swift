@@ -18,7 +18,7 @@ struct HomeReducer {
     struct State {
         let titleIconName: String = "title_icon"
         let pageSize: Int = 10
-        var page: Int = 0
+        var page: Int = 1
         
         var recipes: IdentifiedArrayOf<RecipeListItemReducer.State> = []
     }
@@ -105,7 +105,7 @@ private extension HomeReducer {
     }
     
     func reduceRefresh(_ state: inout HomeReducer.State) -> Effect<Action> {
-        state.page = 0
+        state.page = 1
         state.recipes = []
         return .send(.onAppear)
     }
@@ -121,10 +121,11 @@ private extension RecipePreviewVO {
     func toRecipeListItem() -> RecipeListItem {
         return RecipeListItem(
             recipeID: self.recipeID,
-            thumbnail: UIImage(),
+            thumbnail: self.thumbnailURL,
             title: self.title,
-            serving: "\(self.serving)인분",
-            ingredients: self.ingredients.map { $0.name }.joined(separator: ", ")
+            serving: "\(self.servings)인분",
+            ingredients: self.ingredients.map { $0.name }.joined(separator: ", "),
+            state: self.state.toRecipeStateViewData()
         )
     }
 }

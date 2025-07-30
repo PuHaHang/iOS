@@ -8,24 +8,22 @@
 import Foundation
 
 public struct RecipeDetailVO {
-    public let recipeID: UUID
+    public let recipeID: Int64
     public let thumbnailURL: URL?
     public let title: String
     public let serving: Int
     public let reference: ReferenceVO
     public let ingredients: [IngredientVO]
     public let stages: [StageVO]
-    public let state: RecipeStateVO
     
     public init(
-        recipeID: UUID,
+        recipeID: Int64,
         thumbnailURL: URL?,
         title: String,
         serving: Int,
         reference: ReferenceVO,
         ingredients: [IngredientVO],
-        stages: [StageVO],
-        state: RecipeStateVO
+        stages: [StageVO]
     ) {
         self.recipeID = recipeID
         self.thumbnailURL = thumbnailURL
@@ -34,6 +32,5 @@ public struct RecipeDetailVO {
         self.reference = reference
         self.ingredients = ingredients
         self.stages = stages
-        self.state = state
     }
 }

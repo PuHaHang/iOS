@@ -83,7 +83,7 @@ struct RootReducer {
 }
 
 private extension RootReducer {
-    func reduceShowRecipeDetail(recipeID: UUID) -> Effect<Action> {
+    func reduceShowRecipeDetail(recipeID: Int64) -> Effect<Action> {
         return .run { send in
             let result = await fetchRecipeDetailUseCase.execute(recipeID: recipeID)
             

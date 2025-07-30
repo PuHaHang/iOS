@@ -9,5 +9,5 @@ import Foundation
 import Entity
 
 public protocol RecipeDetailRepository {
-    func fetchDetail(for recipeID: UUID) async throws -> RecipeDetailVO
+    func fetchDetail(for recipeID: Int64) async throws -> RecipeDetailVO
 }

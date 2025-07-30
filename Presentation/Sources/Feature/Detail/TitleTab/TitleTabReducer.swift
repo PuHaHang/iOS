@@ -18,9 +18,9 @@ struct TitleTabReducer {
         var recipeStep: RecipeStepReducer.State
         var recipeIngredient: RecipeIngredientReducer.State
         
-        init(steps: [RecipeStepViewData], ingredients: [IngredientViewData]) {
+        init(recipeID: Int64, steps: [RecipeStepViewData], ingredients: [IngredientViewData]) {
             self.recipeStep = RecipeStepReducer.State(steps: steps)
-            self.recipeIngredient = RecipeIngredientReducer.State(ingredients: ingredients)
+            self.recipeIngredient = RecipeIngredientReducer.State(recipeID: recipeID, ingredients: ingredients)
         }
     }
     

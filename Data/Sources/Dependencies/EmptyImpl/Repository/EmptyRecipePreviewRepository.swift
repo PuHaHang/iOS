@@ -10,7 +10,7 @@ import Entity
 import Foundation
 
 struct EmptyRecipePreviewRepository: RecipePreviewRepository {
-    func fetchPreview(for recipeID: UUID) async throws -> RecipePreviewVO {
+    func fetchPreview(for recipeID: Int64) async throws -> RecipePreviewVO {
         throwUnimplemented()
     }
     

@@ -9,7 +9,9 @@ import Domain
 import Foundation
 
 struct EmptyRecipeConversionRepository: RecipeConversionRepository {
-    func convert(from input: String) async throws -> UUID {
+    func convert(from input: String) async throws -> Int64 {
+        throwUnimplemented()
+    }
         throwUnimplemented()
     }
 }

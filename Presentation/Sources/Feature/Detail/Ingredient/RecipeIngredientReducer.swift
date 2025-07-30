@@ -12,9 +12,11 @@ import Foundation
 struct RecipeIngredientReducer {
     @ObservableState
     struct State {
+        let recipeID: Int64
         var ingredients: IdentifiedArrayOf<IngredientItemReducer.State>
         
-        init(ingredients: [IngredientViewData]) {
+        init(recipeID: Int64, ingredients: [IngredientViewData]) {
+            self.recipeID = recipeID
             self.ingredients = IdentifiedArrayOf(uniqueElements: ingredients.map {
                 IngredientItemReducer.State(
                     id: $0.id,

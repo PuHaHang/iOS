@@ -8,5 +8,5 @@
 import Foundation
 
 public protocol RecipeConversionRepository {
-    func convert(from input: String) async throws -> UUID
+    func convert(from input: String) async throws -> Int64
 }

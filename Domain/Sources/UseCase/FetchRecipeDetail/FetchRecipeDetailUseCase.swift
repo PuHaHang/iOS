@@ -9,5 +9,5 @@ import Foundation
 import Entity
 
 public protocol FetchRecipeDetailUseCase {
-    func execute(recipeID: UUID) async -> Result<RecipeDetailVO, Error>
+    func execute(recipeID: Int64) async -> Result<RecipeDetailVO, Error>
 }

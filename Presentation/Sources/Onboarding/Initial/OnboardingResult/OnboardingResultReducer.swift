@@ -19,7 +19,7 @@ struct OnboardingResultReducer {
             이제 레시핏과 함께
             요리를 시작해볼까요?
             """
-        let recipePreviewViewData: RecipePreviewViewData
+        let imageURL: URL?
     }
     
     enum Action {

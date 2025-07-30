@@ -15,7 +15,7 @@ public struct FetchRecipeDetailUseCaseImpl: FetchRecipeDetailUseCase {
         self.recipeDetailRepository = recipeDetailRepository
     }
     
-    public func execute(recipeID: UUID) async -> Result<RecipeDetailVO, Error> {
+    public func execute(recipeID: Int64) async -> Result<RecipeDetailVO, Error> {
         do {
             let detail = try await recipeDetailRepository.fetchDetail(for: recipeID)
             return .success(detail)

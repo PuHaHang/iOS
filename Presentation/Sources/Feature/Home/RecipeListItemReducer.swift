@@ -13,7 +13,7 @@ struct RecipeListItemReducer {
     @ObservableState
     struct State: Equatable, Identifiable {
         let id: UUID
-        let item: RecipeListItem
+        var item: RecipeListItem
         
         static func == (lhs: RecipeListItemReducer.State, rhs: RecipeListItemReducer.State) -> Bool {
             lhs.id == rhs.id

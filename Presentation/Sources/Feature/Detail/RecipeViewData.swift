@@ -9,9 +9,9 @@ import Foundation
 import UIKit
 
 struct RecipeViewData {
-    let recipeID: UUID
+    let recipeID: Int64
     let title: String
-    let thumbnail: UIImage
+    let thumbnail: URL?
     let serving: String
     let reference: ReferenceViewData
     let steps: [RecipeStepViewData]

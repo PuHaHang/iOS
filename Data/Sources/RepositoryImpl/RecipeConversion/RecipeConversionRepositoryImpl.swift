@@ -15,8 +15,8 @@ public struct RecipeConversionRepositoryImpl: RecipeConversionRepository {
         self.dataSource = dataSource
     }
     
-    public func convert(from input: String) async throws -> UUID {
-        let recipeID = try await dataSource.generateRecipe(from: input)
+    public func convert(from input: String) async throws -> Int64 {
+        let recipeID = try await dataSource.generateRecipe(from: input).recipeID
         return recipeID
     }
 }

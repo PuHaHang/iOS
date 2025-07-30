@@ -9,18 +9,18 @@ import Foundation
 import Entity
 
 public struct RecipePreviewDTO: Decodable {
-    let recipeID: UUID
-    let thumbnail: String
-    let title: String
-    let serving: Int
-    let ingredients: [IngredientDTO]
-    let state: Int
+    let recipeID: Int64
+    let title: String?
+    let thumbnail: String?
+    let servings: Int?
+    let ingredients: [IngredientDTO]?
+    let state: String
     
     enum CodingKeys: String, CodingKey {
-        case recipeID = "recipe_id"
-        case thumbnail
+        case recipeID = "recipeId"
         case title
-        case serving
+        case thumbnail
+        case servings
         case ingredients
         case state
     }
@@ -28,15 +28,18 @@ public struct RecipePreviewDTO: Decodable {
 
 extension RecipePreviewDTO {
     func toDomain() -> RecipePreviewVO {
-        let url = URL(string: thumbnail)
-        let ingredients = ingredients.map { $0.toDomain() }
+        var url: URL?
+        if let thumbnail { url = URL(string: thumbnail) }
+        
+        var ingredientVOs: [IngredientVO] = []
+        if let ingredients { ingredientVOs = ingredients.map { $0.toDomain()} }
         
         return RecipePreviewVO(
             recipeID: recipeID,
             thumbnailURL: url,
-            title: title,
-            serving: serving,
-            ingredients: ingredients,
+            title: title ?? "",
+            servings: servings ?? 0,
+            ingredients: ingredientVOs,
             state: state
         )
     }
