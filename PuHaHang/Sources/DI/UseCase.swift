@@ -43,3 +43,31 @@ extension FetchRecipePreviewsUseCaseKey: @retroactive DependencyKey {
         return FetchRecipePreviewsUseCaseImpl(recipePreviewRepository: recipePreviewRepository)
     }()
 }
+
+extension LaunchOnboardingCheckUseCaseKey: @retroactive DependencyKey {
+    public static let liveValue: any LaunchOnboardingCheckUseCase = {
+        @Dependency(\.onboardingRepository) var onboardingRepository
+        return LaunchOnboardingCheckUseCaseImpl(onboardingRepository: onboardingRepository)
+    }()
+}
+
+extension LaunchOnboardingCompleteUseCaseKey: @retroactive DependencyKey {
+    public static let liveValue: any LaunchOnboardingCompleteUseCase = {
+        @Dependency(\.onboardingRepository) var onboardingRepository
+        return LaunchOnboardingCompleteUseCaseImpl(onboardingRepository: onboardingRepository)
+    }()
+}
+
+extension CookingOnboardingCheckUseCaseKey: @retroactive DependencyKey {
+    public static let liveValue: any CookingOnboardingCheckUseCase = {
+        @Dependency(\.onboardingRepository) var onboardingRepository
+        return CookingOnboardingCheckUseCaseImpl(onboardingRepository: onboardingRepository)
+    }()
+}
+
+extension CookingOnboardingCompleteUseCaseKey: @retroactive DependencyKey {
+    public static let liveValue: any CookingOnboardingCompleteUseCase = {
+        @Dependency(\.onboardingRepository) var onboardingRepository
+        return CookingOnboardingCompleteUseCaseImpl(onboardingRepository: onboardingRepository)
+    }()
+}

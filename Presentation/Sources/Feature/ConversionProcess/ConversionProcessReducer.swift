@@ -121,7 +121,7 @@ private extension ConversionProcessReducer {
     }
 }
 
-private extension RecipeDetailVO {
+extension RecipeDetailVO {
     func toRecipePreviewViewData() -> RecipePreviewViewData {
         return RecipePreviewViewData(
             recipeID: self.recipeID,

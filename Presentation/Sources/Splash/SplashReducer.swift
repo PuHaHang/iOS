@@ -14,6 +14,7 @@ import Entity
 @Reducer
 public struct SplashReducer {
     @Dependency(\.introUseCase) var introUseCase
+    @Dependency(\.launchOnboardingCheckUseCase) var launchOnboardingCheckUseCase
     
     public init() { }
     
@@ -64,7 +65,13 @@ private extension SplashReducer {
     ) -> Effect<Action> {
         switch result {
         case .success(let data):
-            state.introState = .success(data)
+            let isFirstLaunch = launchOnboardingCheckUseCase.execute()
+            if isFirstLaunch {
+                state.introState = .onboarding
+            } else {
+                state.introState = .success
+            }
+            
         case .failure(let error):
             state.introState = .failure(error)
         }

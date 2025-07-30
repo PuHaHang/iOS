@@ -61,6 +61,10 @@ struct RootReducer {
             case .destination(.presented(.convert(.path(.element(_, action: .process(.delegate(.refresh))))))):
                 return .send(.home(.refresh))
                 
+            case .destination(.presented(.onboarding(.delegate(.didRequestDismiss)))):
+                state.destination = nil
+                return .none
+                
             case .destination(.dismiss):
                 audioService.stopCapture()
                 return .none
@@ -106,5 +110,6 @@ extension RootReducer {
     enum Destination {
         case convert(ConvertReducer)
         case recipeDetail(RecipeReducer)
+        case onboarding(LoginReducer)
     }
 }

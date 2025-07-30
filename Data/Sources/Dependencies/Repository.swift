@@ -68,3 +68,18 @@ public extension DependencyValues {
         set { self[RecipePreviewRepositoryKey.self] = newValue }
     }
 }
+
+// MARK: - OnboardingRepository DI
+
+public enum OnboardingRepositoryKey: TestDependencyKey {
+    #if DEBUG
+    public static let testValue: OnboardingRepository = EmptyOnboardingRepository()
+    #endif
+}
+
+public extension DependencyValues {
+    var onboardingRepository: OnboardingRepository {
+        get { self[OnboardingRepositoryKey.self] }
+        set { self[OnboardingRepositoryKey.self] = newValue }
+    }
+}

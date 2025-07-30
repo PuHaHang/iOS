@@ -81,3 +81,63 @@ public extension DependencyValues {
         set { self[FetchRecipePreviewsUseCaseKey.self] = newValue }
     }
 }
+
+// MARK: - LaunchOnboardingCheckUseCase DI
+
+public enum LaunchOnboardingCheckUseCaseKey: TestDependencyKey {
+    #if DEBUG
+    public static let testValue: LaunchOnboardingCheckUseCase = EmptyLaunchOnboardingCheckUseCase()
+    #endif
+}
+
+public extension DependencyValues {
+    var launchOnboardingCheckUseCase: LaunchOnboardingCheckUseCase {
+        get { self[LaunchOnboardingCheckUseCaseKey.self] }
+        set { self[LaunchOnboardingCheckUseCaseKey.self] = newValue }
+    }
+}
+
+// MARK: - LaunchOnboardingCompleteUseCase DI
+
+public enum LaunchOnboardingCompleteUseCaseKey: TestDependencyKey {
+    #if DEBUG
+    public static let testValue: LaunchOnboardingCompleteUseCase = EmptyLaunchOnboardingCompleteUseCase()
+    #endif
+}
+
+public extension DependencyValues {
+    var launchOnboardingCompleteUseCase: LaunchOnboardingCompleteUseCase {
+        get { self[LaunchOnboardingCompleteUseCaseKey.self] }
+        set { self[LaunchOnboardingCompleteUseCaseKey.self] = newValue }
+    }
+}
+
+// MARK: - CookingOnboardingCheckUseCase DI
+
+public enum CookingOnboardingCheckUseCaseKey: TestDependencyKey {
+    #if DEBUG
+    public static let testValue: CookingOnboardingCheckUseCase = EmptyCookingOnboardingCheckUseCase()
+    #endif
+}
+
+public extension DependencyValues {
+    var cookingOnboardingCheckUseCase: CookingOnboardingCheckUseCase {
+        get { self[CookingOnboardingCheckUseCaseKey.self] }
+        set { self[CookingOnboardingCheckUseCaseKey.self] = newValue }
+    }
+}
+
+// MARK: - CookingOnboardingCompleteUseCase DI
+
+public enum CookingOnboardingCompleteUseCaseKey: TestDependencyKey {
+    #if DEBUG
+    public static let testValue: CookingOnboardingCompleteUseCase = EmptyCookingOnboardingCompleteUseCase()
+    #endif
+}
+
+public extension DependencyValues {
+    var cookingOnboardingCompleteUseCase: CookingOnboardingCompleteUseCase {
+        get { self[CookingOnboardingCompleteUseCaseKey.self] }
+        set { self[CookingOnboardingCompleteUseCaseKey.self] = newValue }
+    }
+}

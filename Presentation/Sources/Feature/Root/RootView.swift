@@ -34,5 +34,8 @@ struct RootView: View {
         .sheet(item: $store.scope(state: \.destination?.recipeDetail, action: \.destination.recipeDetail)) { store in
             RecipeView(store: store)
         }
+        .fullScreenCover(item: $store.scope(state: \.destination?.onboarding, action: \.destination.onboarding)) { store in
+            LoginView(store: store)
+        }
     }
 }

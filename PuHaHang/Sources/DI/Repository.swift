@@ -37,3 +37,10 @@ extension RecipePreviewRepositoryKey: @retroactive DependencyKey {
         return RecipePreviewRepositoryImpl(dataSource: recipePreviewDataSource)
     }()
 }
+
+extension OnboardingRepositoryKey: @retroactive DependencyKey {
+    public static let liveValue: any OnboardingRepository = {
+        @Dependency(\.onboardingDataSource) var onboardingDataSource
+        return OnboardingRepositoryImpl(dataSource: onboardingDataSource)
+    }()
+}

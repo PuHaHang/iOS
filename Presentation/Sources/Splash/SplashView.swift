@@ -23,6 +23,10 @@ public struct SplashView: View {
                     appTitle: store.appTitle,
                     appIconName: store.appIconName
                 )
+            case .onboarding:
+                RootView(store: Store(initialState: RootReducer.State(destination: .onboarding(.init())), reducer: {
+                    RootReducer()
+                }))
             case .success:
                 RootView(store: Store(initialState: RootReducer.State(), reducer: {
                     RootReducer()

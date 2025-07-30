@@ -15,3 +15,12 @@ public func unimplementedFailure<T>(
 ) -> T {
     fatalError("Domain Error: \(function) was called in an unimplemented use case at \(file):\(line)")
 }
+
+@inline(__always)
+public func unimplementedFailure(
+    function: String = #function,
+    file: String = #fileID,
+    line: Int = #line
+) -> Never {
+    fatalError("Domain Error: \(function) was called in an unimplemented use case at \(file):\(line)")
+}
