@@ -5,8 +5,10 @@
 //  Created by 디해 on 7/14/25.
 //
 
+import ComposableArchitecture
 import Foundation
 import Firebase
+import Login
 import UIKit
 import UserNotifications
 
@@ -36,5 +38,12 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
 extension AppDelegate: MessagingDelegate {
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
         print("Firebase registration token: \(String(describing: fcmToken))")
+        guard let token = fcmToken else { return }
+        
+        Task {
+            @Dependency(\.loginManager) var loginManager
+            guard let userToken = loginManager.loadLocalToken() else { return }
+            try await loginManager.update(fcmToken: token, for: userToken)
+        }
     }
 }

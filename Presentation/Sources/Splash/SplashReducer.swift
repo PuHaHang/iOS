@@ -10,12 +10,14 @@ import Foundation
 import Dependencies
 import Domain
 import Entity
+import Login
 
 @Reducer
 public struct SplashReducer {
     @Dependency(\.fetchUILanguageUseCase) var fetchLanguageUseCase
     @Dependency(\.setUILanguageUseCase) var setUILanguageUseCase
     @Dependency(\.localeProvider) var localeProvider
+    @Dependency(\.loginManager) var loginManager
     @Dependency(\.introUseCase) var introUseCase
     @Dependency(\.launchOnboardingCheckUseCase) var launchOnboardingCheckUseCase
     
@@ -23,7 +25,7 @@ public struct SplashReducer {
     
     @ObservableState
     public struct State {
-        let appTitle: String = "내 손 안의 요리 도우미"
+        var appTitle: String = ""
         let appIconName: String = "splash_icon"
         var introState: IntroStateViewData = .idle
         
@@ -32,6 +34,7 @@ public struct SplashReducer {
     
     public enum Action {
         case onAppear
+        case loadIntro
         case introResponse(Result<IntroViewData, Error>)
         case initializeLanguage
         case configureWithLanguage(String)
@@ -42,6 +45,18 @@ public struct SplashReducer {
             switch action {
             case .onAppear:
                 return reduceOnAppear()
+                
+            case .loadIntro:
+                return .run { send in
+                    let introResult = await introUseCase.execute()
+                    
+                    switch introResult {
+                    case .success(let intro):
+                        await send(.introResponse(.success(intro.toIntroViewData())))
+                    case .failure(let error):
+                        await send(.introResponse(.failure(error)))
+                    }
+                }
                 
             case .initializeLanguage:
                 let deviceLanguage = localeProvider.getCurrentLanguage()
@@ -84,6 +99,7 @@ private extension SplashReducer {
         case .success(let data):
             let isFirstLaunch = launchOnboardingCheckUseCase.execute()
             if isFirstLaunch {
+                loginManager.deleteLocalToken()
                 state.introState = .onboarding
             } else {
                 state.introState = .success
