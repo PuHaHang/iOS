@@ -24,3 +24,7 @@ extension RecipePreviewDataSourceKey: @retroactive DependencyKey {
 extension OnboardingDataSourceKey: @retroactive DependencyKey {
     public static let liveValue: any OnboardingDataSource = OnboardingDataSourceImpl()
 }
+
+extension LanguageDataSourceKey: @retroactive DependencyKey {
+    public static let liveValue: any LanguageDataSource = LanguageDataSourceImpl()
+}

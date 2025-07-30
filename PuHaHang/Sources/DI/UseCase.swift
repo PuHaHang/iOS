@@ -71,3 +71,45 @@ extension CookingOnboardingCompleteUseCaseKey: @retroactive DependencyKey {
         return CookingOnboardingCompleteUseCaseImpl(onboardingRepository: onboardingRepository)
     }()
 }
+
+extension FetchUILanguageUseCaseKey: @retroactive DependencyKey {
+    public static let liveValue: any FetchUILanguageUseCase = {
+        @Dependency(\.languageRepository) var languageRepository
+        return FetchUILanguageUseCaseImpl(languageRepository: languageRepository)
+    }()
+}
+
+extension SetUILanguageUseCaseKey: @retroactive DependencyKey {
+    public static let liveValue: any SetUILanguageUseCase = {
+        @Dependency(\.languageRepository) var languageRepository
+        return SetUILanguageUseCaseImpl(languageRepository: languageRepository)
+    }()
+}
+
+extension FetchConversionLanguageUseCaseKey: @retroactive DependencyKey {
+    public static let liveValue: any FetchConversionLanguageUseCase = {
+        @Dependency(\.languageRepository) var languageRepository
+        return FetchConversionLanguageUseCaseImpl(languageRepository: languageRepository)
+    }()
+}
+
+extension SetConversionLanguageUseCaseKey: @retroactive DependencyKey {
+    public static let liveValue: any SetConversionLanguageUseCase = {
+        @Dependency(\.languageRepository) var languageRepository
+        return SetConversionLanguageUseCaseImpl(languageRepository: languageRepository)
+    }()
+}
+
+extension FetchOnboardingImageUseCaseKey: @retroactive DependencyKey {
+    public static let liveValue: any FetchOnboardingImageUseCase = {
+        @Dependency(\.onboardingRepository) var onboardingRepository
+        return FetchOnboardingImageUseCaseImpl(onboardingRepository: onboardingRepository)
+    }()
+}
+
+extension FetchCompletedRecipeConversionIDsUseCaseKey: @retroactive DependencyKey {
+    public static let liveValue: any FetchCompletedRecipeConversionIDsUseCase = {
+        @Dependency(\.recipeConversionRepository) var recipeConversionRepository
+        return FetchCompletedRecipeConversionIDsUseCaseImpl(recipeConversionRepository: recipeConversionRepository)
+    }()
+}
