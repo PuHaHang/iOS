@@ -1,7 +1,7 @@
 import ProjectDescription
 
 let workspace = Workspace(
-    name: "PuHaHang",
+    name: "RecipeIt",
     projects: [
         "Entity",
         "Domain",
@@ -12,7 +12,7 @@ let workspace = Workspace(
         "Shared/Modules/LocaleProvider",
         "Shared/Modules/Audio",
         "Shared/Shared",
-        "PuHaHang"
+        "RecipeIt"
     ],
     schemes: [
         Scheme.scheme(
