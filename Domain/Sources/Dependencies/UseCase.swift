@@ -218,3 +218,18 @@ public extension DependencyValues {
         set { self[FetchOnboardingImageUseCaseKey.self] = newValue }
     }
 }
+
+// MARK: - FetchCompletedRecipeConversionIDsUseCase DI
+
+public enum FetchCompletedRecipeConversionIDsUseCaseKey: TestDependencyKey {
+    #if DEBUG
+    public static var testValue: FetchCompletedRecipeConversionIDsUseCase = EmptyFetchCompletedRecipeConversionIDsUseCase()
+    #endif
+}
+
+public extension DependencyValues {
+    var fetchCompletedRecipeConversionIDsUseCase: FetchCompletedRecipeConversionIDsUseCase {
+        get { self[FetchCompletedRecipeConversionIDsUseCaseKey.self] }
+        set { self[FetchCompletedRecipeConversionIDsUseCaseKey.self] = newValue }
+    }
+}

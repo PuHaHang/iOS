@@ -61,6 +61,9 @@ struct RootReducer {
             case .destination(.presented(.convert(.path(.element(_, action: .process(.delegate(.refresh))))))):
                 return .send(.home(.refresh))
                 
+            case .destination(.presented(.convert(.path(.element(_, action: .process(.delegate(.startedConvertingRecipe(let recipeID)))))))):
+                return .send(.home(.addConvertingId(recipeID)))
+                
             case .destination(.presented(.onboarding(.delegate(.didRequestDismiss)))):
                 state.destination = nil
                 return .none

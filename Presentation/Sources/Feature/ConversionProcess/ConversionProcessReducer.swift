@@ -13,6 +13,7 @@ import UIKit
 @Reducer
 struct ConversionProcessReducer {
     @Dependency(\.fetchConvertedRecipeIDUseCase) var fetchConvertedRecipeIDUseCase
+    @Dependency(\.fetchRecipePreviewUseCase) var fetchRecipePreviewUseCase
     @Dependency(\.fetchRecipeDetailUseCase) var fetchRecipeDetailUseCase
     
     struct State: Equatable {
@@ -27,7 +28,8 @@ struct ConversionProcessReducer {
         case startPolling
         case stopPolling
         case pollTick
-        case pollResponse(RecipePreviewViewData)
+        case pollResponse(RecipeStateViewData)
+        case loadCompletedRecipe
         
         case delegate(Delegate)
     }
@@ -50,8 +52,24 @@ struct ConversionProcessReducer {
             case .pollTick:
                 return reducePollTick(state)
                 
-            case .pollResponse(let preview):
-                return reducePollResponse(preview: preview)
+            case .pollResponse(let recipeState):
+                return reducePollResponse(state: recipeState)
+                
+            case .loadCompletedRecipe:
+                guard let id = state.recipeConversionID else { return .none }
+                return .run { send in
+                    let result = await fetchRecipeDetailUseCase.execute(recipeID: id)
+                    
+                    switch result {
+                    case .success(let detail):
+                        let preview = detail.toRecipePreviewViewData()
+                        await send(.delegate(.startedConvertingRecipe(id)))
+                        await send(.delegate(.navigateToResult(preview)))
+                        
+                    case .failure(let error):
+                        print(">>> \(error)")
+                    }
+                }
                 
             case .delegate:
                 return .none
@@ -97,11 +115,12 @@ private extension ConversionProcessReducer {
         guard let id = state.recipeConversionID else { return .none }
         
         return .run { send in
-            let result = await fetchRecipeDetailUseCase.execute(recipeID: id)
+            let result = await fetchRecipePreviewUseCase.execute(recipeID: id)
             switch result {
-            case .success(let detail):
-                let preview = detail.toRecipePreviewViewData()
-                await send(.pollResponse(preview))
+            case .success(let preview):
+                let recipeState = preview.state.toRecipeStateViewData()
+                
+                await send(.pollResponse(recipeState))
                 
             case .failure(let error):
                 print(">>> \(error)")
@@ -109,11 +128,11 @@ private extension ConversionProcessReducer {
         }
     }
     
-    func reducePollResponse(preview: RecipePreviewViewData) -> Effect<Action> {
-        if preview.state == .completed {
+    func reducePollResponse(state: RecipeStateViewData) -> Effect<Action> {
+        if state == .completed {
             return .concatenate(
                 .send(.stopPolling),
-                .send(.delegate(.navigateToResult(preview)))
+                .send(.loadCompletedRecipe)
             )
         }
         
@@ -125,22 +144,39 @@ extension RecipeDetailVO {
     func toRecipePreviewViewData() -> RecipePreviewViewData {
         return RecipePreviewViewData(
             recipeID: self.recipeID,
-            thumbnail: UIImage(),
+            thumbnail: self.thumbnailURL,
             title: self.title,
             serving: "\(self.serving)인분",
-            steps: self.stages.map { $0.toStepViewData() },
-            state: self.state.toRecipeStateViewData()
+            steps: self.stages.map { $0.toStepViewData() }
         )
     }
 }
 
-private extension RecipeStateVO {
+extension RecipeStateVO {
     func toRecipeStateViewData() -> RecipeStateViewData {
         switch self {
-        case .inProgress:
+        case .pending:
+            return .inProgress
+        case .pended:
+            return .inProgress
+        case .verifying:
+            return .inProgress
+        case .verified:
+            return .inProgress
+        case .transforming:
+            return .inProgress
+        case .transformed:
+            return .inProgress
+        case .processing:
+            return .inProgress
+        case .evaluating:
             return .inProgress
         case .completed:
             return .completed
+        case .failed:
+            return .failed
+        case .cancelled:
+            return .failed
         case .unknown:
             return .unknown
         }

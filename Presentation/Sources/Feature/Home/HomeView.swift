@@ -42,6 +42,7 @@ extension HomeView {
                 Color.clear
                     .frame(height: 120)
                     .listRowInsets(EdgeInsets())
+                    .listRowSeparator(.hidden)
             }
             .listStyle(PlainListStyle())
             .scrollIndicators(.hidden)

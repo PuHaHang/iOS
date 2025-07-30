@@ -19,4 +19,8 @@ public struct RecipeConversionRepositoryImpl: RecipeConversionRepository {
         let recipeID = try await dataSource.generateRecipe(from: input).recipeID
         return recipeID
     }
+    
+    public func filterCompletedConversionRecipeIDs(from ids: [Int64]) async throws -> [Int64] {
+        try await dataSource.filterCompletedRecipeIDs(from: ids).recipes
+    }
 }

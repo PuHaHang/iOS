@@ -13,7 +13,6 @@ struct RecipePreviewViewData: Equatable {
     let title: String
     let serving: String
     let steps: [RecipeStepViewData]
-    let state: RecipeStateViewData
     
     static func == (lhs: Self, rhs: Self) -> Bool {
         lhs.recipeID == rhs.recipeID

@@ -14,5 +14,8 @@ public struct MockRecipeConversionRepositoryImpl: RecipeConversionRepository {
     public func convert(from input: String) async throws -> Int64 {
         return 0
     }
+    
+    public func filterCompletedConversionRecipeIDs(from ids: [Int64]) async throws -> [Int64] {
+        return [1, 2]
     }
 }
