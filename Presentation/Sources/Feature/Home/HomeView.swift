@@ -15,10 +15,13 @@ struct HomeView: View {
         VStack(spacing: 0) {
             TitleBarView(titleIconName: store.titleIconName)
             
-            if store.recipes.isEmpty {
-                RecipeListEmptyView()
-            } else {
+            switch store.listState {
+            case .idle:
+                Spacer()
+            case .loaded:
                 RecipeListSectionView(store: store)
+            case .empty:
+                RecipeListEmptyView()
             }
         }
         .onAppear {
@@ -58,8 +61,11 @@ extension HomeView {
                     .frame(height: 110)
                 
                 Image(titleIconName)
-                    .padding(.leading, 10)
-                    .padding(.bottom, 10)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 65)
+                    .padding(.leading, 15)
+                    .padding(.bottom, 15)
             }
         }
     }

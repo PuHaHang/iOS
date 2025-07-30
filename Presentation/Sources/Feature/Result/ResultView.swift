@@ -6,6 +6,7 @@
 //
 
 import ComposableArchitecture
+import Lottie
 import SwiftUI
 
 struct ResultView: View {
@@ -46,7 +47,10 @@ extension ResultView {
                     .fontWeight(.semibold)
                     .padding(.bottom, 20)
                 
-                Image("clap_icon")
+                LottieView(animation: .named("celebration"))
+                    .looping()
+                    .animationSpeed(0.4)
+                    .frame(maxHeight: 200)
             }
         }
     }

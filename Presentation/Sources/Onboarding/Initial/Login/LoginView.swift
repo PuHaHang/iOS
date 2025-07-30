@@ -6,6 +6,7 @@
 //
 
 import ComposableArchitecture
+import Lottie
 import SwiftUI
 
 struct LoginView: View {
@@ -38,13 +39,19 @@ struct LoginView: View {
                     .fontWeight(.bold)
                     .foregroundStyle(AppColor.Text.main)
                     .padding(.top, 80)
-                    .padding(.bottom, 25)
+                    .padding(.bottom, 20)
                 
                 Text(store.subTitleText)
                     .font(.system(size: 16))
                     .fontWeight(.medium)
                     .foregroundStyle(AppColor.Text.information)
                     .multilineTextAlignment(.center)
+                
+                Spacer()
+                
+                
+                LottieView(animation: .named("kitchen"))
+                    .looping()
                 
                 Spacer()
                 

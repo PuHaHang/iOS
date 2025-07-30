@@ -57,6 +57,7 @@ struct SettingRowView: View {
                     .foregroundColor(AppColor.Text.information)
             }
             .padding(.vertical, 8)
+            .contentShape(Rectangle())
         }
         .buttonStyle(PlainButtonStyle())
     }

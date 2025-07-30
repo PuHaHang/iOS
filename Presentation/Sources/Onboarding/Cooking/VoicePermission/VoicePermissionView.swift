@@ -6,6 +6,7 @@
 //
 
 import ComposableArchitecture
+import Lottie
 import SwiftUI
 
 struct VoicePermissionView: View {
@@ -19,6 +20,12 @@ struct VoicePermissionView: View {
                 .multilineTextAlignment(.center)
                 .foregroundStyle(AppColor.Text.main)
                 .padding(.top, 80)
+        
+            Spacer()
+            
+            LottieView(animation: .named("speaking_audio"))
+                .looping()
+                .frame(width: 100, height: 100)
             
             Spacer()
             

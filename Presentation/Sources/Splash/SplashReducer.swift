@@ -25,6 +25,7 @@ public struct SplashReducer {
     
     @ObservableState
     public struct State {
+        var appSubTitle: String = ""
         var appTitle: String = ""
         let appIconName: String = "splash_icon"
         var introState: IntroStateViewData = .idle
@@ -52,6 +53,7 @@ public struct SplashReducer {
                     
                     switch introResult {
                     case .success(let intro):
+                        try await Task.sleep(nanoseconds: 2_000_000_000)
                         await send(.introResponse(.success(intro.toIntroViewData())))
                     case .failure(let error):
                         await send(.introResponse(.failure(error)))
@@ -64,7 +66,8 @@ public struct SplashReducer {
                 return .send(.configureWithLanguage(deviceLanguage))
                 
             case .configureWithLanguage(let language):
-                state.appTitle = "내 손 안의 요리 도우미"
+                state.appSubTitle = "내 손 안의 요리 도우미"
+                state.appTitle = "title_icon"
                 return .none
                 
             case .introResponse(let result):

@@ -24,6 +24,7 @@ struct HomeReducer {
         var page: Int = 1
         
         var recipes: IdentifiedArrayOf<RecipeListItemReducer.State> = []
+        var listState: RecipeListState = .idle
     }
     
     enum Action {
@@ -185,6 +186,7 @@ private extension HomeReducer {
             let itemState = RecipeListItemReducer.State(id: itemID, item: item)
             state.recipes.insert(itemState, at: 0)
         }
+        state.listState = state.recipes.isEmpty ? .empty : .loaded
         return .none
     }
     
@@ -202,6 +204,12 @@ extension HomeReducer {
     
     enum Delegate: Equatable {
         case showRecipeDetail(RecipeListItem)
+    }
+    
+    enum RecipeListState {
+        case idle
+        case loaded
+        case empty
     }
 }
 
