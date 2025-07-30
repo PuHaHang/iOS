@@ -1,5 +1,5 @@
 {
-  "originHash" : "696ca290594a8ab29e05865e73609166720c29afe8de16083bff68ec25736fab",
+  "originHash" : "f05fd3126cdd7657ecd72e927495164f8037670720e0781576ffc86713654183",
   "pins" : [
     {
       "identity" : "abseil-cpp-binary",
@@ -101,6 +101,15 @@
       }
     },
     {
+      "identity" : "kingfisher",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/onevcat/Kingfisher.git",
+      "state" : {
+        "revision" : "2015fda791daa72c8058619545a593bf8c1dd59f",
+        "version" : "8.5.0"
+      }
+    },
+    {
       "identity" : "leveldb",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/firebase/leveldb.git",
@@ -123,8 +132,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/LURKS02/MiniFire",
       "state" : {
-        "revision" : "87c7f580d4f5d104f17061f5c87cc61b6696e9f5",
-        "version" : "1.0.3"
+        "revision" : "9994913891b5ec31b31d015e1b70021dabf2ac94",
+        "version" : "1.0.7"
       }
     },
     {
