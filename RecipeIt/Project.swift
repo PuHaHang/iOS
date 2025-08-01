@@ -1,11 +1,11 @@
 import ProjectDescription
 
 let project = Project(
-    name: "PuHaHang",
+    name: "RecipeIt",
     targets: [
         // 메인 앱 - Domain 모듈에 의존
         .target(
-            name: "PuHaHang",
+            name: "RecipeIt",
             destinations: .iOS,
             product: .app,
             bundleId: "com.puhahang.recipe-it",

@@ -16,7 +16,7 @@ import PackageDescription
 #endif
 
 let package = Package(
-    name: "PuHaHang",
+    name: "RecipeIt",
     dependencies: [
         // Add your own dependencies here:
         // .package(url: "https://github.com/Alamofire/Alamofire", from: "5.0.0"),

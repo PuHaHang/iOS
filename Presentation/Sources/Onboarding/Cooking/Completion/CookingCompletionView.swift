@@ -6,6 +6,7 @@
 //
 
 import ComposableArchitecture
+import Lottie
 import SwiftUI
 
 struct CookingCompletionView: View {
@@ -19,6 +20,11 @@ struct CookingCompletionView: View {
                 .multilineTextAlignment(.center)
                 .foregroundStyle(AppColor.Text.main)
                 .padding(.top, 80)
+            
+            Spacer()
+            
+            LottieView(animation: .named("ingredients"))
+                .looping()
             
             Spacer()
             

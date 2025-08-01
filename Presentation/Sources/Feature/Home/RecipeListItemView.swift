@@ -95,7 +95,7 @@ private struct RecipeListItemSkeletonView: View {
         .background(
             RoundedRectangle(cornerRadius: 12)
                 .fill(.white)
-                .shadow(color: .black.opacity(0.05), radius: 4, x: 0, y: 0)
+                .shadow(color: .black.opacity(0.1), radius: 4, x: 0, y: 0)
         )
     }
 }

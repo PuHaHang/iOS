@@ -20,7 +20,8 @@ public struct SplashView: View {
             switch store.introState {
             case .idle:
                 IdleView(
-                    appTitle: store.appTitle,
+                    appTitleIconName: store.appTitle,
+                    appSubTitle: store.appSubTitle,
                     appIconName: store.appIconName
                 )
             case .onboarding:
@@ -42,18 +43,26 @@ public struct SplashView: View {
 
 extension SplashView {
     struct IdleView: View {
-        let appTitle: String
+        let appTitleIconName: String
+        let appSubTitle: String
         let appIconName: String
         
         var body: some View {
             VStack(spacing: 15) {
-                Text(appTitle)
-                    .foregroundColor(AppColor.main)
+                Text(appSubTitle)
+                    .foregroundStyle(AppColor.Text.subTitle)
                     .font(.system(size: 17))
                     .fontWeight(.bold)
                 
                 Image(appIconName)
-                    .frame(width: 140, height: 150)
+                    .frame(width: 150, height: 150)
+                    .padding(.bottom, 5)
+                
+                Image(appTitleIconName)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 100)
+                
             }
             .padding(.bottom, 100)
         }
