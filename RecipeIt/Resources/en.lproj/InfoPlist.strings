@@ -1,0 +1,11 @@
+/* 
+  InfoPlist.strings
+  RecipeIt
+  
+  Created by 디해 on 6/13/25.
+*/
+
+CFBundleDisplayName = "RecipeIt";
+NSHumanReadableCopyright = "Copyright © 2025 PuHaHang. All rights reserved.";
+NSSpeechRecognitionUsageDescription = "Speech recognition is required to use voice features.";
+NSMicrophoneUsageDescription = "Microphone access is required for voice input."; 

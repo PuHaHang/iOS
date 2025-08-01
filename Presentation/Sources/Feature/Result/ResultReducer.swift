@@ -7,15 +7,19 @@
 
 import ComposableArchitecture
 import Foundation
+import Logger
 
 @Reducer
 struct ResultReducer {
+    @Dependency(\.logger) var logger
+    
     @ObservableState
     struct State {
         let title: String
     }
     
     enum Action {
+        case onAppear
         case didTapHomeButton
         
         case delegate(Delegate)
@@ -24,7 +28,12 @@ struct ResultReducer {
     var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
+            case .onAppear:
+                logger.track(.resultScreen)
+                return .none
+                
             case .didTapHomeButton:
+                logger.track(.resultHomeButton)
                 return .send(.delegate(.didRequestDismiss))
                 
             case .delegate:

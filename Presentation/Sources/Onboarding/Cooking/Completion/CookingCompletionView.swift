@@ -7,6 +7,7 @@
 
 import ComposableArchitecture
 import Lottie
+import Shared
 import SwiftUI
 
 struct CookingCompletionView: View {
@@ -28,7 +29,7 @@ struct CookingCompletionView: View {
             
             Spacer()
             
-            RoundedButton(title: "확인") {
+            RoundedButton(title: LocalizationHelper.onboardingCookingCompletionOk) {
                 store.send(.didTapComfirmButton)
             }
             .padding(.bottom, 50)

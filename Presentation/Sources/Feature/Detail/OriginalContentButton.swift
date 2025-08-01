@@ -5,6 +5,7 @@
 //  Created by 디해 on 6/10/25.
 //
 
+import Shared
 import SwiftUI
 
 struct OriginalContentButton: View {
@@ -19,7 +20,7 @@ struct OriginalContentButton: View {
                     .frame(width: 12, height: 12)
                     .foregroundColor(.white)
                 
-                Text("원본 보기")
+                Text(LocalizationHelper.detailOriginalContent)
                     .font(.system(size: 14, weight: .semibold))
                     .foregroundColor(.white)
             }

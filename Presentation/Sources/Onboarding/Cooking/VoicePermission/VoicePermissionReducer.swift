@@ -7,24 +7,22 @@
 
 import ComposableArchitecture
 import Foundation
+import Shared
+import Logger
 
 @Reducer
 struct VoicePermissionReducer {
     @Dependency(\.audioService) var audioService
+    @Dependency(\.logger) var logger
     
     @ObservableState
     struct State {
-        let titleText: String = """
-            음성 인식을 사용하려면
-            권한이 필요해요
-            """
-        let subTitleText: String = """
-            아래 버튼을 눌러
-            음성 인식 권한을 켜주세요.
-            """
+        let titleText: String = LocalizationHelper.onboardingVoicePermissionTitle
+        let subTitleText: String = LocalizationHelper.onboardingVoicePermissionSubtitle
     }
     
     enum Action {
+        case onAppear
         case didTapVoiceButton
         case authorizationResult(Bool)
         case delegate(Delegate)
@@ -33,7 +31,12 @@ struct VoicePermissionReducer {
     var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
+            case .onAppear:
+                logger.track(.cookingOnboardingVoicePermissionScreen)
+                return .none
+                
             case .didTapVoiceButton:
+                logger.track(.cookingOnboardingVoicePermissionButton)
                 return .run { send in
                     let microPhonePermission = await audioService.requestMicrophonePermission()
                     let recognitionPermission = await audioService.requestSpeechRecognitionPermission()

@@ -7,6 +7,7 @@
 
 import ComposableArchitecture
 import Kingfisher
+import Shared
 import SwiftUI
 
 struct OnboardingResultView: View {
@@ -39,10 +40,15 @@ struct OnboardingResultView: View {
                 .multilineTextAlignment(.center)
                 .padding(.bottom, 30)
             
-            RoundedButton(title: "시작하기") {
+            RoundedButton(title: LocalizationHelper.onboardingResultStart) {
                 store.send(.didTapStartButton)
             }
         }
+        .padding(.horizontal, 25)
+        .navigationBarBackButtonHidden()
         .toolbar(.hidden)
+        .onAppear {
+            store.send(.onAppear)
+        }
     }
 }

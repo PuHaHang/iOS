@@ -7,10 +7,12 @@
 
 import ComposableArchitecture
 import Foundation
+import Logger
 
 @Reducer
 struct TimerReducer {
     @Dependency(\.dismiss) var dismiss
+    @Dependency(\.logger) var logger
     
     @ObservableState
     struct State {
@@ -48,9 +50,11 @@ struct TimerReducer {
                 return .run { _ in await dismiss() }
                 
             case .didTapCancelButton:
+                logger.track(.timerCancelButton)
                 return .send(.stopTimer)
                 
             case .didTapConfirmButton:
+                logger.track(.timerConfirmButton)
                 return .send(.stopTimer)
                 
             case .minutesChanged(let minutes):

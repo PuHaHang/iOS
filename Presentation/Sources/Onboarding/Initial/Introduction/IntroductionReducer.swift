@@ -7,19 +7,21 @@
 
 import ComposableArchitecture
 import Foundation
+import Shared
+import Logger
 
 @Reducer
 struct IntroductionReducer {
+    @Dependency(\.logger) var logger
+    
     @ObservableState
     struct State {
-        let titleText: String = """
-            요리하고 싶은 영상이나 글을 넣으면
-            레시피로 바꿔드릴게요.
-            """
-        let subTitleText: String = "(유튜브 영상, 쇼츠, 텍스트를 지원해요.)"
+        let titleText: String = LocalizationHelper.onboardingIntroductionTitle
+        let subTitleText: String = LocalizationHelper.onboardingIntroductionSubtitle
     }
     
     enum Action {
+        case onAppear
         case didTapNextButton
         case delegate(Delegate)
     }
@@ -27,7 +29,12 @@ struct IntroductionReducer {
     var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
+            case .onAppear:
+                logger.track(.onboardingIntroductionScreen)
+                return .none
+                
             case .didTapNextButton:
+                logger.track(.onboardingIntroductionNextButton)
                 return .send(.delegate(.navigateToConversionExample))
                 
             case .delegate:

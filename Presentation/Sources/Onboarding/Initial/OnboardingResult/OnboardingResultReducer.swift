@@ -7,22 +7,23 @@
 
 import ComposableArchitecture
 import Foundation
+import Shared
+import Logger
 
 @Reducer
 struct OnboardingResultReducer {
     @Dependency(\.launchOnboardingCompleteUseCase) var launchOnboardingCompleteUseCase
+    @Dependency(\.logger) var logger
     
     @ObservableState
     struct State {
-        let titleText: String = "레시피가 완성되었어요!"
-        let subTitleText: String = """
-            이제 레시핏과 함께
-            요리를 시작해볼까요?
-            """
+        let titleText: String = LocalizationHelper.onboardingResultTitle
+        let subTitleText: String = LocalizationHelper.onboardingResultSubtitle
         let imageURL: URL?
     }
     
     enum Action {
+        case onAppear
         case didTapStartButton
         case delegate(Delegate)
     }
@@ -30,7 +31,12 @@ struct OnboardingResultReducer {
     var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
+            case .onAppear:
+                logger.track(.onboardingResultScreen)
+                return .none
+                
             case .didTapStartButton:
+                logger.track(.onboardingResultStartButton)
                 launchOnboardingCompleteUseCase.execute()
                 return .send(.delegate(.didRequestDismiss))
                 

@@ -6,6 +6,7 @@
 //
 
 import ComposableArchitecture
+import Shared
 import SwiftUI
 
 struct ConversionResultView: View {
@@ -14,7 +15,7 @@ struct ConversionResultView: View {
     var body: some View {
         VStack {
             Spacer()
-            Text("레시피가 완성되었어요!")
+            Text(LocalizationHelper.conversionResultTitle)
                 .font(.system(size: 20))
                 .fontWeight(.bold)
                 .foregroundStyle(AppColor.Text.main)
@@ -24,10 +25,13 @@ struct ConversionResultView: View {
             
             Spacer()
             
-            RoundedButton(title: "확인", action: {
+            RoundedButton(title: LocalizationHelper.conversionResultOk, action: {
                 store.send(.didTapComfirmButton)
             })
-            .padding(.bottom, 30)
+        }
+        .padding(.horizontal, 25)
+        .onAppear {
+            store.send(.onAppear)
         }
         .toolbar(.hidden)
     }

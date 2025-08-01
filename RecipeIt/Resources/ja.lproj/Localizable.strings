@@ -1,0 +1,157 @@
+/* 
+  Localizable.strings
+  RecipeIt
+  
+  Created by 디해 on 6/13/25.
+*/
+
+// MARK: - Common
+"common.ok" = "OK";
+"common.cancel" = "キャンセル";
+"common.save" = "保存";
+"common.delete" = "削除";
+"common.edit" = "編集";
+"common.back" = "戻る";
+
+// MARK: - Tab Bar
+"tab.home" = "ホーム";
+"tab.convert" = "変換";
+"tab.cooking" = "料理";
+"tab.settings" = "設定";
+
+// MARK: - Home
+"home.title" = "レシピイット";
+"home.subtitle" = "音声でレシピを変換しましょう";
+
+// MARK: - Convert
+"convert.title" = "レシピ変換";
+"convert.placeholder" = "音声でレシピを教えてください";
+"convert.start_recording" = "録音開始";
+"convert.stop_recording" = "録音停止";
+"convert.processing" = "変換中...";
+
+// MARK: - Cooking
+"cooking.title" = "料理";
+"cooking.ingredients" = "材料";
+"cooking.steps" = "手順";
+"cooking.timer" = "タイマー";
+"cooking.start" = "開始";
+"cooking.pause" = "一時停止";
+"cooking.reset" = "リセット";
+
+// MARK: - Settings
+"settings.title" = "設定";
+"settings.language" = "言語";
+"settings.notifications" = "通知";
+"settings.about" = "情報";
+
+// MARK: - Onboarding
+"onboarding.welcome" = "レシピイットへようこそ";
+"onboarding.description" = "音声でレシピを変換して料理しましょう";
+"onboarding.start" = "始める";
+
+// MARK: - Error Messages
+"error.network" = "ネットワークエラーが発生しました";
+"error.voice_recognition" = "音声認識に失敗しました";
+"error.conversion" = "レシピ変換に失敗しました";
+"error.unknown" = "不明なエラーが発生しました";
+
+// MARK: - Success Messages
+"success.conversion" = "レシピ変換が完了しました";
+"success.saved" = "保存されました";
+
+// MARK: - Onboarding
+"onboarding.login.welcome" = "レシピイットへようこそ！";
+"onboarding.login.subtitle" = "YouTube、ショート、テキストを\n簡単にレシピに変換しましょう。";
+"onboarding.login.start" = "始める";
+"onboarding.introduction.title" = "料理したい動画や文章を入れると\nレシピに変換してくれます。";
+"onboarding.introduction.subtitle" = "(YouTube動画、ショート、テキストをサポートしています。)";
+"onboarding.introduction.next" = "次へ";
+"onboarding.conversion.example.convert" = "変換";
+"onboarding.result.start" = "始める";
+"onboarding.cooking.intro.start" = "始める";
+"onboarding.cooking.completion.ok" = "OK";
+"onboarding.cooking.voice.permission" = "音声を有効にする";
+"onboarding.conversion.notification" = "通知を有効にする";
+
+// MARK: - Convert
+"convert.highlighted_info" = "変換したいレシピ";
+"convert.info" = "を\n入力してください";
+"convert.warning" = "YouTube動画、ショートURL、レシピテキストのみ変換可能です。\n詳細な説明やキャプションがあると良いです。";
+"convert.placeholder" = "内容を入力してください。";
+"convert.button" = "変換";
+
+// MARK: - Conversion Process
+"conversion.process.title" = "レシピを作成中です";
+"conversion.process.subtitle" = "画面を離れても大丈夫です。\n変換が完了すると通知をお送りします。";
+
+// MARK: - Conversion Result
+"conversion.result.title" = "レシピが完成しました！";
+"conversion.result.ok" = "OK";
+
+// MARK: - Cooking
+"cooking.previous" = "前へ";
+"cooking.next" = "次へ";
+"cooking.completion.title" = "完成しました！";
+"cooking.completion.home" = "ホームへ";
+
+// MARK: - Timer
+"timer.setting.title" = "タイマー設定";
+"timer.minute" = "%d分";
+"timer.second" = "%d秒";
+"timer.remaining" = "残り時間";
+"timer.completion" = "タイマーが終了しました。";
+"timer.set" = "設定";
+"timer.cancel" = "キャンセル";
+"timer.ok" = "OK";
+
+// MARK: - Detail
+"detail.cooking" = "料理";
+"detail.original_content" = "元の内容を見る";
+
+// MARK: - Settings
+"settings.instagram.title" = "Instagramを訪問";
+"settings.instagram.subtitle" = "最新のニュースとレシピをチェック";
+
+// MARK: - Onboarding Additional
+"onboarding.conversion.example.title" = "直接試してみますか？";
+"onboarding.conversion.example.subtitle" = "レシピイットが例を準備しました。\n<変換>ボタンをクリックしてください。";
+"onboarding.conversion.example.url" = "https://www.youtube.com/watch?v=7F-cUfGQK1w";
+"onboarding.conversion.permission.guide" = "この機能を使用するには通知の許可が必要です。\n下のボタンをクリックしてください。";
+"onboarding.cooking.intro.title" = "レシピイットと一緒に\n最初の料理を始めましょうか？";
+"onboarding.cooking.intro.subtitle" = "このような機能を提供しています";
+"onboarding.cooking.intro.introduction" = "- 元の動画/ソースを見る\n- 音声操作\n- タイマー設定";
+"onboarding.cooking.completion.title" = "素晴らしい！\n今度は料理を始めましょうか？";
+"onboarding.voice.permission.title" = "音声を使用するには\n音声認識の許可が必要です";
+"onboarding.voice.permission.subtitle" = "下のボタンをクリックして\n音声認識の許可を有効にしてください。";
+"onboarding.result.title" = "レシピが完成しました！";
+"onboarding.result.subtitle" = "今度はレシピイットと一緒に\n料理を始めましょうか？";
+
+// MARK: - Home
+"home.empty.title" = "まだ変換したレシピがありません";
+"home.empty.subtitle" = "レシピを変換してみてください";
+
+// MARK: - Splash
+"splash.subtitle" = "手の中の料理アシスタント";
+
+// MARK: - Detail
+"detail.step.title" = "STEP%d";
+
+// MARK: - Cooking Introduction
+"cooking.introduction.skip" = "画面をタップして進んでください";
+"cooking.introduction.microphone.title" = "よくできました！\n\n音声認識は継続してオンにしておきます。";
+"cooking.introduction.microphone.introduction" = "マイクボタンをタップして\n音声認識機能をオフにできます。";
+"cooking.introduction.step.title" = "前 / 次のステップに\n自由に移動できます。";
+"cooking.introduction.step.subtitle" = "前へ / 戻る\n次へ / 進む";
+"cooking.introduction.play.title" = "再生ボタンをタップして\n元の動画を確認できます。";
+"cooking.introduction.play.subtitle" = "動画を再生 / ビデオを見せる / 再生\n動画を停止 / ビデオをオフ / 停止";
+"cooking.introduction.timer.title" = "料理中に必要な\nタイマーを設定できます。";
+"cooking.introduction.timer.subtitle" = "タイマー X分 X秒\nタイマーキャンセル / タイマーオフ";
+"cooking.introduction.speaker.title" = "読み上げ機能で\n説明を音声で聞くことができます。";
+"cooking.introduction.speaker.subtitle" = "読んで / レシピを読んで / ステップを読んで";
+
+// MARK: - Recipe
+"recipe.step" = "ステップ";
+"recipe.ingredient" = "材料";
+"recipe.serving" = "人前";
+"recipe.serving.unit" = "人前"; 

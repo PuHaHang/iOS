@@ -7,6 +7,7 @@
 
 import ComposableArchitecture
 import Lottie
+import Shared
 import SwiftUI
 
 struct ResultView: View {
@@ -20,12 +21,15 @@ struct ResultView: View {
             
             Spacer()
             
-            RoundedButton(title: "홈으로") {
+            RoundedButton(title: LocalizationHelper.cookingCompletionHome) {
                 store.send(.didTapHomeButton)
             }
             .padding(.bottom, 20)
         }
         .navigationBarBackButtonHidden()
+        .onAppear {
+            store.send(.onAppear)
+        }
     }
 }
 
@@ -41,7 +45,7 @@ extension ResultView {
                     .fontWeight(.bold)
                     .padding(.bottom, 5)
                 
-                Text("완성했어요!")
+                Text(LocalizationHelper.cookingCompletionTitle)
                     .font(.system(size: 22))
                     .foregroundStyle(AppColor.Text.main)
                     .fontWeight(.semibold)

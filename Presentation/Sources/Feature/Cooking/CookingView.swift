@@ -7,6 +7,7 @@
 
 import ComposableArchitecture
 import Lottie
+import Shared
 import SwiftUI
 
 struct CookingView: View {
@@ -53,6 +54,7 @@ struct CookingView: View {
             }
         }
         .onAppear {
+            store.send(.onAppear)
             store.send(.requestAuthorization)
         }
     }
@@ -186,7 +188,7 @@ struct StepControlBar: View {
     var body: some View {
         HStack(spacing: 10) {
             RoundedButton(
-                title: "이전",
+                title: LocalizationHelper.cookingPrevious,
                 isEnabled: true,
                 action: onPrevious
             )
@@ -196,7 +198,7 @@ struct StepControlBar: View {
                 action: onPlay
             )
             RoundedButton(
-                title: "다음",
+                title: LocalizationHelper.cookingNext,
                 isEnabled: true,
                 action: onNext
             )

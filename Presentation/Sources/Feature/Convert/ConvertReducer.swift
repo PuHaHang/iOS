@@ -7,22 +7,22 @@
 
 import ComposableArchitecture
 import Foundation
+import Shared
+import Logger
 
 @Reducer
 struct ConvertReducer {
     @Dependency(\.dismiss) var dismiss
+    @Dependency(\.logger) var logger
     
     @ObservableState
     struct State: Equatable {
-        let highlightedInfoText: String = "변환하고 싶은 레시피"
-        let infoText: String = "를\n입력해주세요"
-        let warningText: String = """
-                                  유튜브 영상, 숏츠 URL, 레시피 텍스트만 변환 가능해요.
-                                  설명이나 캡션이 자세할수록 좋아요.
-                                  """
+        let highlightedInfoText: String = LocalizationHelper.convertHighlightedInfo
+        let infoText: String = LocalizationHelper.convertInfo
+        let warningText: String = LocalizationHelper.convertWarning
         let warningIconName: String = "warning_icon"
-        let textPlaceholder: String = "내용을 입력하세요."
-        let buttonText: String = "변환하기"
+        let textPlaceholder: String = LocalizationHelper.convertPlaceholder
+        let buttonText: String = LocalizationHelper.convertButton
         
         var recipeSource: String = ""
         var isGenerateButtonEnabled: Bool {
@@ -33,6 +33,7 @@ struct ConvertReducer {
     }
     
     enum Action: Equatable, BindableAction {
+        case onAppear
         case binding(BindingAction<State>)
         case didTapConvertButton
         
@@ -44,7 +45,12 @@ struct ConvertReducer {
         
         Reduce { state, action in
             switch action {
+            case .onAppear:
+                logger.track(.convertScreen)
+                return .none
+                
             case .didTapConvertButton:
+                logger.track(.convertConvertButton)
                 let source = state.recipeSource
                 state.path.append(.process(.init(recipeSource: source)))
                 return .none

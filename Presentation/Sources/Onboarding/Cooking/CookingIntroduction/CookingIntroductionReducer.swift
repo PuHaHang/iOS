@@ -7,14 +7,18 @@
 
 import ComposableArchitecture
 import Foundation
+import Shared
+import Logger
 
 @Reducer
 struct CookingIntroductionReducer {
+    @Dependency(\.logger) var logger
+    
     @ObservableState
     struct State {
         var introductionState: IntroductionState = .idle
         
-        let skipIntroductionText: String = "화면을 눌러 넘어가주세요"
+        let skipIntroductionText: String = LocalizationHelper.cookingIntroductionSkip
         
         var titleText: String {
             introductionState.titleText
@@ -25,12 +29,7 @@ struct CookingIntroductionReducer {
         }
         
         var introductionText: String? {
-            let introduction = """
-            마이크 버튼을 눌러
-            음성 인식 기능을 끌 수 있어요.
-            """
-            
-            return introductionState == .microphone ? introduction : nil
+            return introductionState == .microphone ? LocalizationHelper.cookingIntroductionMicrophoneIntroduction : nil
         }
         
         var isMicrophoneButtonVisible: Bool {
@@ -41,7 +40,7 @@ struct CookingIntroductionReducer {
             introductionState >= .step
         }
         
-        var isPlayableButtonVisible: Bool {
+        var isPlayButtonVisible: Bool {
             introductionState >= .play
         }
         
@@ -64,6 +63,7 @@ struct CookingIntroductionReducer {
         Reduce { state, action in
             switch action {
             case .onAppear:
+                logger.track(.cookingOnboardingIntroductionScreen)
                 guard state.introductionState == .idle else { return .none }
                 state.introductionState = .microphone
                 return .none
@@ -100,60 +100,22 @@ extension CookingIntroductionReducer {
         var titleText: String {
             switch self {
             case .idle: ""
-            case .microphone:
-                """
-                잘했어요!
-                
-                음성 인식은 계속 켜둘게요.
-                """
-            case .step:
-                """
-                이전 / 다음 단계로
-                자유롭게 이동할 수 있어요.
-                """
-            case .play:
-                """
-                재생 버튼을 눌러
-                원본 영상을 확인할 수 있어요.
-                """
-            case .timer:
-                """
-                요리 도중 필요한
-                타이머를 설정할 수 있어요.
-                """
-            case .speaker:
-                """
-                읽어주기 기능으로
-                설명을 음성으로 들을 수 있어요.
-                """
+            case .microphone: LocalizationHelper.cookingIntroductionMicrophoneTitle
+            case .step: LocalizationHelper.cookingIntroductionStepTitle
+            case .play: LocalizationHelper.cookingIntroductionPlayTitle
+            case .timer: LocalizationHelper.cookingIntroductionTimerTitle
+            case .speaker: LocalizationHelper.cookingIntroductionSpeakerTitle
             }
         }
         
         var subTitleText: String? {
             switch self {
-            case .idle:
-                nil
-            case .microphone:
-                nil
-            case .step:
-                """
-                이전 / 뒤로
-                다음 / 앞으로
-                """
-            case .play:
-                """
-                영상 틀어줘 / 비디오 보여줘 / 재생해줘
-                영상 꺼줘 / 비디오 꺼줘 / 정지해줘
-                """
-            case .timer:
-                """
-                타이머 O분 O초
-                타이머 취소 / 타이머 꺼줘
-                """
-            case .speaker:
-                """
-                읽어줘 / 레시피 읽어줘 / 스탭 읽어줘
-                """
+            case .idle: nil
+            case .microphone: nil
+            case .step: LocalizationHelper.cookingIntroductionStepSubtitle
+            case .play: LocalizationHelper.cookingIntroductionPlaySubtitle
+            case .timer: LocalizationHelper.cookingIntroductionTimerSubtitle
+            case .speaker: LocalizationHelper.cookingIntroductionSpeakerSubtitle
             }
         }
         

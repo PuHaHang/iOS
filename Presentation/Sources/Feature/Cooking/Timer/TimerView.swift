@@ -6,6 +6,7 @@
 //
 
 import ComposableArchitecture
+import Shared
 import SwiftUI
 
 struct TimerView: View {
@@ -35,24 +36,24 @@ struct TimerView: View {
 
         var body: some View {
             VStack(spacing: 20) {
-                Text("타이머 설정")
+                Text(LocalizationHelper.timerSettingTitle)
                     .font(.system(size: 20))
                     .fontWeight(.bold)
 
                 HStack(spacing: 20) {
                     Picker("분", selection: $store.minutes.sending(\.minutesChanged)) {
-                        ForEach(0..<60) { Text("\($0)분") }
+                        ForEach(0..<60) { Text(LocalizationHelper.timerMinute.localized(with: $0)) }
                     }
                     .pickerStyle(WheelPickerStyle())
 
                     Picker("초", selection: $store.seconds.sending(\.secondsChanged)) {
-                        ForEach(0..<60) { Text("\($0)초") }
+                        ForEach(0..<60) { Text(LocalizationHelper.timerSecond.localized(with: $0)) }
                     }
                     .pickerStyle(WheelPickerStyle())
                 }
                 .frame(height: 150)
 
-                RoundedButton(title: "설정하기") {
+                RoundedButton(title: LocalizationHelper.timerSet) {
                     store.send(.startTimer)
                 }
             }
@@ -72,14 +73,14 @@ struct TimerView: View {
         
         var body: some View {
             VStack(spacing: 20) {
-                Text("남은 시간")
+                Text(LocalizationHelper.timerRemaining)
                     .font(.system(size: 20))
                     .fontWeight(.bold)
                 
                 Text(store.timeString)
                     .font(.system(size: 50, weight: .bold, design: .monospaced))
                 
-                RoundedButton(title: "취소") {
+                RoundedButton(title: LocalizationHelper.timerCancel) {
                     store.send(.didTapCancelButton)
                 }
             }
@@ -101,14 +102,14 @@ struct TimerView: View {
             VStack(spacing: 20) {
                 Image("timer_icon")
                 
-                Text("타이머가 종료되었어요.")
+                Text(LocalizationHelper.timerCompletion)
                     .font(.system(size: 18))
                     .fontWeight(.semibold)
                     .frame(maxWidth: .infinity)
                     .multilineTextAlignment(.center)
                     .padding(.bottom, 10)
                 
-                RoundedButton(title: "확인") {
+                RoundedButton(title: LocalizationHelper.timerOk) {
                     store.send(.didTapConfirmButton)
                 }
             }

@@ -7,6 +7,7 @@
 
 import AVFoundation
 import ComposableArchitecture
+import Shared
 import SwiftUI
 
 struct IntroductionView: View {
@@ -38,7 +39,7 @@ struct IntroductionView: View {
             
             Spacer()
             
-            RoundedButton(title: "다음") {
+            RoundedButton(title: LocalizationHelper.onboardingIntroductionNext) {
                 store.send(.didTapNextButton)
             }
             .padding(.bottom, 50)

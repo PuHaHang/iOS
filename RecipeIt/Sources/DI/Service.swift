@@ -10,6 +10,7 @@ import Dependencies
 import Foundation
 import LocaleProvider
 import Login
+import Logger
 import KeyChainHelper
 
 extension AudioServiceKey: @retroactive DependencyKey {
@@ -26,4 +27,8 @@ extension KeyChainHelperKey: @retroactive DependencyKey {
 
 extension LoginManagerKey: @retroactive DependencyKey {
     public static let liveValue: any LoginManager = LoginManagerImpl()
+}
+
+extension LoggerKey: @retroactive DependencyKey {
+    public static let liveValue: any Logger = AmplitudeLogger.shared
 }

@@ -7,6 +7,7 @@
 
 import ComposableArchitecture
 import Lottie
+import Shared
 import SwiftUI
 
 struct VoicePermissionView: View {
@@ -36,7 +37,7 @@ struct VoicePermissionView: View {
                 .foregroundStyle(AppColor.main)
                 .padding(.bottom, 35)
             
-            MiniRoundedButton(title: "음성 켜기") {
+            MiniRoundedButton(title: LocalizationHelper.onboardingCookingVoicePermission) {
                 store.send(.didTapVoiceButton)
             }.padding(.bottom, 70)
         }

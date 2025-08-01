@@ -8,6 +8,8 @@
 import ComposableArchitecture
 import Foundation
 import Entity
+import Logger
+import Shared
 import UIKit
 
 @Reducer
@@ -16,6 +18,7 @@ struct HomeReducer {
     @Dependency(\.fetchRecipePreviewsUseCase) var fetchRecipePreviewsUseCase
     @Dependency(\.fetchRecipePreviewUseCase) var fetchRecipePreviewUseCase
     @Dependency(\.fetchCompletedRecipeConversionIDsUseCase) var fetchCompletedRecipeConversionIDsUseCase
+    @Dependency(\.logger) var logger
     
     @ObservableState
     struct State {
@@ -48,6 +51,7 @@ struct HomeReducer {
         Reduce { state, action in
             switch action {
             case .onAppear:
+                logger.track(.homeScreen)
                 return reduceOnAppear(&state)
                 
             case .addRecipe(let item):
@@ -63,6 +67,7 @@ struct HomeReducer {
                 return reduceAddRecipes(&state, items: items)
                 
             case .recipes(.element(id: _, action: .didTapItem(let item))):
+                logger.track(.homeRecipeItemButton)
                 return .send(.delegate(.showRecipeDetail(item)))
                 
             case .refresh:
@@ -219,7 +224,7 @@ private extension RecipePreviewVO {
             recipeID: self.recipeID,
             thumbnail: self.thumbnailURL,
             title: self.title,
-            serving: "\(self.servings)인분",
+            serving: "\(self.servings)\(LocalizationHelper.recipeServingUnit)",
             ingredients: self.ingredients.map { $0.name }.joined(separator: ", "),
             state: self.state.toRecipeStateViewData()
         )

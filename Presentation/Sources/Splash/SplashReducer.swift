@@ -7,10 +7,12 @@
 
 import ComposableArchitecture
 import Foundation
+import Shared
 import Dependencies
 import Domain
 import Entity
 import Login
+import Logger
 
 @Reducer
 public struct SplashReducer {
@@ -20,6 +22,7 @@ public struct SplashReducer {
     @Dependency(\.loginManager) var loginManager
     @Dependency(\.introUseCase) var introUseCase
     @Dependency(\.launchOnboardingCheckUseCase) var launchOnboardingCheckUseCase
+    @Dependency(\.logger) var logger
     
     public init() { }
     
@@ -45,6 +48,7 @@ public struct SplashReducer {
         Reduce { state, action in
             switch action {
             case .onAppear:
+                logger.track(.splashScreen)
                 return reduceOnAppear()
                 
             case .loadIntro:
@@ -66,7 +70,7 @@ public struct SplashReducer {
                 return .send(.configureWithLanguage(deviceLanguage))
                 
             case .configureWithLanguage(let language):
-                state.appSubTitle = "내 손 안의 요리 도우미"
+                state.appSubTitle = LocalizationHelper.splashSubtitle
                 state.appTitle = "title_icon"
                 return .none
                 

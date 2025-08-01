@@ -9,25 +9,26 @@ import ComposableArchitecture
 import Foundation
 import Login
 import LocaleProvider
+import Shared
 import UIKit
+import Logger
 
 @Reducer
 struct LoginReducer {
     @Dependency(\.localeProvider) var localeProvider
     @Dependency(\.loginManager) var loginManager
+    @Dependency(\.logger) var logger
     
     @ObservableState
     struct State {
-        let titleText: String = "레시핏에 오신 것을 환영합니다!"
-        let subTitleText: String = """
-            유튜브, 쇼츠, 텍스트를
-            간편하게 레시피로 바꿔보세요.
-            """
+        let titleText: String = LocalizationHelper.onboardingLoginWelcome
+        let subTitleText: String = LocalizationHelper.onboardingLoginSubtitle
         
         var path = StackState<Path.State>()
     }
     
     enum Action {
+        case onAppear
         case didTapStartButton
         case createGuest
         case navigateToIntroduction
@@ -38,10 +39,14 @@ struct LoginReducer {
     }
     
     var body: some ReducerOf<Self> {
-        Reduce {
-            state, action in
+        Reduce { state, action in
             switch action {
+            case .onAppear:
+                logger.track(.onboardingLoginScreen)
+                return .none
+                
             case .didTapStartButton:
+                logger.track(.onboardingLoginStartButton)
                 let token = loginManager.loadLocalToken()
                 guard let token else { return .send(.createGuest) }
                 

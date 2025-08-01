@@ -5,11 +5,12 @@
 //  Created by 디해 on 6/12/25.
 //
 
+import Shared
 import SwiftUI
 
 struct RecipeListEmptyView: View {
     let imageName: String = "crying_recipe"
-    let text: String = "아직 변환한 레시피가 없어요"
+    let text: String = LocalizationHelper.homeEmptyTitle
     
     var body: some View {
         Spacer()

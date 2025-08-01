@@ -9,10 +9,12 @@ import ComposableArchitecture
 import Entity
 import Foundation
 import YouTubePlayerKit
+import Logger
 
 @Reducer
 struct CookingReducer {
     @Dependency(\.audioService) var audioService
+    @Dependency(\.logger) var logger
     
     @ObservableState
     struct State {
@@ -46,6 +48,7 @@ struct CookingReducer {
     }
     
     enum Action {
+        case onAppear
         case destination(PresentationAction<Destination.Action>)
         
         case didTapPrevButton
@@ -73,22 +76,32 @@ struct CookingReducer {
             state,
             action in
             switch action {
+            case .onAppear:
+                logger.track(.cookingScreen)
+                return .none
+                
             case .didTapPrevButton:
+                logger.track(.cookingPrevButton)
                 return reduceDidTapPrevButton(&state)
                 
             case .didTapNextButton:
+                logger.track(.cookingNextButton)
                 return reduceDidTapNextButton(&state)
                 
             case .didTapTimerButton:
+                logger.track(.cookingTimerButton)
                 return reduceDidTapTimerButton(&state)
                 
             case .didTapVoiceButton:
+                logger.track(.cookingVoiceButton)
                 return reduceDidTapVoiceButton(&state)
                 
             case .didTapSourceButton:
+                logger.track(.cookingSourceButton)
                 return reduceDidTapSourceButton(&state)
                 
             case .didTapSpeakingButton:
+                logger.track(.cookingSpeakingButton)
                 if state.isPlaying {
                     state.destination = nil
                 }
