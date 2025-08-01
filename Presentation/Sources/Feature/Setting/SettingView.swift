@@ -24,6 +24,9 @@ struct SettingView: View {
                 }
             }
         }
+        .onAppear {
+            store.send(.onAppear)
+        }
     }
 }
 

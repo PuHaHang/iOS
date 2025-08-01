@@ -7,9 +7,12 @@
 
 import ComposableArchitecture
 import Foundation
+import Logger
 
 @Reducer
 struct TitleTabReducer {
+    @Dependency(\.logger) var logger
+    
     @ObservableState
     struct State {
         let tabBarItems: [TitleTabBarItem] = [.steps, .ingredients]
@@ -43,6 +46,12 @@ struct TitleTabReducer {
             switch action {
             case .didTabItem(let item):
                 state.selectedItem = item
+                switch item {
+                case .steps:
+                    logger.track(.detailStepsTabButton)
+                case .ingredients:
+                    logger.track(.detailIngredientsTabButton)
+                }
                 return .none
                 
             case .recipeStep, .recipeIngredient:

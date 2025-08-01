@@ -54,6 +54,7 @@ struct CookingView: View {
             }
         }
         .onAppear {
+            store.send(.onAppear)
             store.send(.requestAuthorization)
         }
     }

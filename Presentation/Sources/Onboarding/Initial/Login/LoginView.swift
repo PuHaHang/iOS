@@ -28,6 +28,9 @@ struct LoginView: View {
                 OnboardingResultView(store: store)
             }
         }
+        .onAppear {
+            store.send(.onAppear)
+        }
     }
     
     private struct ContentView: View {

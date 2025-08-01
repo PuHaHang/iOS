@@ -27,6 +27,9 @@ struct ResultView: View {
             .padding(.bottom, 20)
         }
         .navigationBarBackButtonHidden()
+        .onAppear {
+            store.send(.onAppear)
+        }
     }
 }
 

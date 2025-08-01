@@ -10,10 +10,12 @@ import Foundation
 import Shared
 import UIKit
 import UserNotifications
+import Logger
 
 @Reducer
 struct OnboardingConversionReducer {
     @Dependency(\.fetchOnboardingImageUseCase) var fetchOnboardingImageUseCase
+    @Dependency(\.logger) var logger
     
     @ObservableState
     struct State {
@@ -21,6 +23,7 @@ struct OnboardingConversionReducer {
     }
     
     enum Action {
+        case onAppear
         case didTapNotiPermissionButton
         case requestSampleImage
         case delegate(Delegate)
@@ -29,7 +32,12 @@ struct OnboardingConversionReducer {
     var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
+            case .onAppear:
+                logger.track(.onboardingConversionScreen)
+                return .none
+                
             case .didTapNotiPermissionButton:
+                logger.track(.onboardingConversionNotificationButton)
                 return .run { send in
                     await requestPushPermission()
                     await send(.requestSampleImage)

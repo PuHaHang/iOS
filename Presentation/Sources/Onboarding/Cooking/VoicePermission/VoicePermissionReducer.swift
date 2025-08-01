@@ -8,10 +8,12 @@
 import ComposableArchitecture
 import Foundation
 import Shared
+import Logger
 
 @Reducer
 struct VoicePermissionReducer {
     @Dependency(\.audioService) var audioService
+    @Dependency(\.logger) var logger
     
     @ObservableState
     struct State {
@@ -20,6 +22,7 @@ struct VoicePermissionReducer {
     }
     
     enum Action {
+        case onAppear
         case didTapVoiceButton
         case authorizationResult(Bool)
         case delegate(Delegate)
@@ -28,7 +31,12 @@ struct VoicePermissionReducer {
     var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
+            case .onAppear:
+                logger.track(.cookingOnboardingVoicePermissionScreen)
+                return .none
+                
             case .didTapVoiceButton:
+                logger.track(.cookingOnboardingVoicePermissionButton)
                 return .run { send in
                     let microPhonePermission = await audioService.requestMicrophonePermission()
                     let recognitionPermission = await audioService.requestSpeechRecognitionPermission()

@@ -44,6 +44,11 @@ struct OnboardingResultView: View {
                 store.send(.didTapStartButton)
             }
         }
+        .padding(.horizontal, 25)
+        .navigationBarBackButtonHidden()
         .toolbar(.hidden)
+        .onAppear {
+            store.send(.onAppear)
+        }
     }
 }

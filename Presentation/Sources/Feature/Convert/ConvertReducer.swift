@@ -8,10 +8,12 @@
 import ComposableArchitecture
 import Foundation
 import Shared
+import Logger
 
 @Reducer
 struct ConvertReducer {
     @Dependency(\.dismiss) var dismiss
+    @Dependency(\.logger) var logger
     
     @ObservableState
     struct State: Equatable {
@@ -31,6 +33,7 @@ struct ConvertReducer {
     }
     
     enum Action: Equatable, BindableAction {
+        case onAppear
         case binding(BindingAction<State>)
         case didTapConvertButton
         
@@ -42,7 +45,12 @@ struct ConvertReducer {
         
         Reduce { state, action in
             switch action {
+            case .onAppear:
+                logger.track(.convertScreen)
+                return .none
+                
             case .didTapConvertButton:
+                logger.track(.convertConvertButton)
                 let source = state.recipeSource
                 state.path.append(.process(.init(recipeSource: source)))
                 return .none

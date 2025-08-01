@@ -14,6 +14,7 @@ import UIKit
 @Reducer
 struct RecipeReducer {
     @Dependency(\.dismiss) var dismiss
+    @Dependency(\.logger) var logger
     @Dependency(\.cookingOnboardingCheckUseCase) var cookingOnboardingCheckUseCase
     
     @ObservableState
@@ -35,6 +36,7 @@ struct RecipeReducer {
     }
     
     enum Action {
+        case onAppear
         case didTapContentButton
         case didTapCookingButton
         case navigateToCooking
@@ -51,6 +53,10 @@ struct RecipeReducer {
         
         Reduce { state, action in
             switch action {
+            case .onAppear:
+                logger.track(.detailScreen)
+                return .none
+                
             case .path(.element(_, .cooking(.delegate(.navigateToResult)))):
                 return reduceNavigateToResult(&state)
                 
