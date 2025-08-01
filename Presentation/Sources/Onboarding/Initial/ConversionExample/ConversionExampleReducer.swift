@@ -8,9 +8,12 @@
 import ComposableArchitecture
 import Foundation
 import Shared
+import Logger
 
 @Reducer
 struct ConversionExampleReducer {
+    @Dependency(\.logger) var logger
+    
     @ObservableState
     struct State {
         let titleText: String = LocalizationHelper.onboardingConversionExampleTitle
@@ -19,6 +22,7 @@ struct ConversionExampleReducer {
     }
     
     enum Action {
+        case onAppear
         case didTapConvertButton
         case delegate(Delegate)
     }
@@ -26,7 +30,12 @@ struct ConversionExampleReducer {
     var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
+            case .onAppear:
+                logger.track(.onboardingConversionExampleScreen)
+                return .none
+                
             case .didTapConvertButton:
+                logger.track(.onboardingConversionExampleConvertButton)
                 return .send(.delegate(.navigateToConversionProcess))
                 
             case .delegate:

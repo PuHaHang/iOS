@@ -7,9 +7,12 @@
 
 import ComposableArchitecture
 import Foundation
+import Logger
 
 @Reducer
 struct TabReducer {
+    @Dependency(\.logger) var logger
+    
     @ObservableState
     struct State: Equatable {
         var tab: Tab = .home
@@ -26,9 +29,16 @@ struct TabReducer {
             switch action {
             case .didTabItem(let tab):
                 state.tab = tab
+                switch tab {
+                case .home:
+                    logger.track(.homeTabButton)
+                case .setting:
+                    logger.track(.settingTabButton)
+                }
                 return .none
                 
             case .didTabPlusButton:
+                logger.track(.plusTabButton)
                 return .none
                 
             case .tabChanged:

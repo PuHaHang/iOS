@@ -8,9 +8,12 @@
 import ComposableArchitecture
 import Foundation
 import Shared
+import Logger
 
 @Reducer
 struct CookingOnboardingIntroReducer {
+    @Dependency(\.logger) var logger
+    
     @ObservableState
     struct State {
         let titleText: String = LocalizationHelper.onboardingCookingIntroTitle
@@ -19,6 +22,7 @@ struct CookingOnboardingIntroReducer {
     }
     
     enum Action {
+        case onAppear
         case didTapStartButton
         case delegate(Delegate)
     }
@@ -26,7 +30,12 @@ struct CookingOnboardingIntroReducer {
     var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
+            case .onAppear:
+                logger.track(.cookingOnboardingIntroScreen)
+                return .none
+                
             case .didTapStartButton:
+                logger.track(.cookingOnboardingIntroStartButton)
                 return .send(.delegate(.navigateToVoicePermission))
                 
             case .delegate:

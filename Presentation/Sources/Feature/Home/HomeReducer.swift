@@ -8,6 +8,7 @@
 import ComposableArchitecture
 import Foundation
 import Entity
+import Logger
 import Shared
 import UIKit
 
@@ -17,6 +18,7 @@ struct HomeReducer {
     @Dependency(\.fetchRecipePreviewsUseCase) var fetchRecipePreviewsUseCase
     @Dependency(\.fetchRecipePreviewUseCase) var fetchRecipePreviewUseCase
     @Dependency(\.fetchCompletedRecipeConversionIDsUseCase) var fetchCompletedRecipeConversionIDsUseCase
+    @Dependency(\.logger) var logger
     
     @ObservableState
     struct State {
@@ -49,6 +51,7 @@ struct HomeReducer {
         Reduce { state, action in
             switch action {
             case .onAppear:
+                logger.track(.homeScreen)
                 return reduceOnAppear(&state)
                 
             case .addRecipe(let item):
@@ -64,6 +67,7 @@ struct HomeReducer {
                 return reduceAddRecipes(&state, items: items)
                 
             case .recipes(.element(id: _, action: .didTapItem(let item))):
+                logger.track(.homeRecipeItemButton)
                 return .send(.delegate(.showRecipeDetail(item)))
                 
             case .refresh:

@@ -26,6 +26,7 @@ let package = Package(
         .package(url: "https://github.com/LURKS02/MiniFire", .upToNextMajor(from: "1.0.7")),
         .package(url: "https://github.com/airbnb/lottie-spm.git", from: "4.5.2"),
         .package(url: "https://github.com/firebase/firebase-ios-sdk.git", .upToNextMajor(from: "11.15.0")),
-        .package(url: "https://github.com/onevcat/Kingfisher.git", .upToNextMajor(from: "8.0.0"))
+        .package(url: "https://github.com/onevcat/Kingfisher.git", .upToNextMajor(from: "8.0.0")),
+        .package(url: "https://github.com/amplitude/Amplitude-Swift.git", .upToNextMajor(from: "1.13.9"))
     ]
 )

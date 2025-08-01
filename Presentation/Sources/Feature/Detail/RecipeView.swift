@@ -42,6 +42,9 @@ struct RecipeView: View {
                 ResultView(store: store)
             }
         }
+        .onAppear {
+            store.send(.onAppear)
+        }
     }
 }
 

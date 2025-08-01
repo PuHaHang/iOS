@@ -8,9 +8,12 @@
 import ComposableArchitecture
 import Foundation
 import Shared
+import Logger
 
 @Reducer
 struct CookingIntroductionReducer {
+    @Dependency(\.logger) var logger
+    
     @ObservableState
     struct State {
         var introductionState: IntroductionState = .idle
@@ -37,7 +40,7 @@ struct CookingIntroductionReducer {
             introductionState >= .step
         }
         
-        var isPlayableButtonVisible: Bool {
+        var isPlayButtonVisible: Bool {
             introductionState >= .play
         }
         
@@ -60,6 +63,7 @@ struct CookingIntroductionReducer {
         Reduce { state, action in
             switch action {
             case .onAppear:
+                logger.track(.cookingOnboardingIntroductionScreen)
                 guard state.introductionState == .idle else { return .none }
                 state.introductionState = .microphone
                 return .none

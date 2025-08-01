@@ -8,10 +8,12 @@
 import ComposableArchitecture
 import Foundation
 import Shared
+import Logger
 
 @Reducer
 struct OnboardingResultReducer {
     @Dependency(\.launchOnboardingCompleteUseCase) var launchOnboardingCompleteUseCase
+    @Dependency(\.logger) var logger
     
     @ObservableState
     struct State {
@@ -21,6 +23,7 @@ struct OnboardingResultReducer {
     }
     
     enum Action {
+        case onAppear
         case didTapStartButton
         case delegate(Delegate)
     }
@@ -28,7 +31,12 @@ struct OnboardingResultReducer {
     var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
+            case .onAppear:
+                logger.track(.onboardingResultScreen)
+                return .none
+                
             case .didTapStartButton:
+                logger.track(.onboardingResultStartButton)
                 launchOnboardingCompleteUseCase.execute()
                 return .send(.delegate(.didRequestDismiss))
                 

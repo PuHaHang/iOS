@@ -28,7 +28,10 @@ struct ConversionResultView: View {
             RoundedButton(title: LocalizationHelper.conversionResultOk, action: {
                 store.send(.didTapComfirmButton)
             })
-            .padding(.bottom, 30)
+        }
+        .padding(.horizontal, 25)
+        .onAppear {
+            store.send(.onAppear)
         }
         .toolbar(.hidden)
     }

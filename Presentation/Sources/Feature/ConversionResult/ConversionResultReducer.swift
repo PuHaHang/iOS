@@ -7,15 +7,19 @@
 
 import ComposableArchitecture
 import Foundation
+import Logger
 
 @Reducer
 struct ConversionResultReducer {
+    @Dependency(\.logger) var logger
+    
     @ObservableState
     struct State: Equatable {
         let recipePreviewViewData: RecipePreviewViewData
     }
     
     enum Action: Equatable {
+        case onAppear
         case didTapComfirmButton
         case delegate(Delegate)
     }
@@ -23,7 +27,12 @@ struct ConversionResultReducer {
     var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
+            case .onAppear:
+                logger.track(.conversionResultScreen)
+                return .none
+                
             case .didTapComfirmButton:
+                logger.track(.conversionResultConfirmButton)
                 return .send(.delegate(.didRequestDismiss))
             case .delegate:
                 return .none

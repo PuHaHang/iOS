@@ -30,6 +30,9 @@ struct OnboardingConversionView: View {
         }
         .toolbar(.hidden)
         .offset(y: -45)
+        .onAppear {
+            store.send(.onAppear)
+        }
     }
 }
 

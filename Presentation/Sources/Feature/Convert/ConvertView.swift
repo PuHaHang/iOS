@@ -22,6 +22,9 @@ struct ConvertView: View {
                 ConversionResultView(store: store)
             }
         }
+        .onAppear {
+            store.send(.onAppear)
+        }
     }
     
     struct RecipeConvertView: View {

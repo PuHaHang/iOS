@@ -12,6 +12,7 @@ import Dependencies
 import Domain
 import Entity
 import Login
+import Logger
 
 @Reducer
 public struct SplashReducer {
@@ -21,6 +22,7 @@ public struct SplashReducer {
     @Dependency(\.loginManager) var loginManager
     @Dependency(\.introUseCase) var introUseCase
     @Dependency(\.launchOnboardingCheckUseCase) var launchOnboardingCheckUseCase
+    @Dependency(\.logger) var logger
     
     public init() { }
     
@@ -46,6 +48,7 @@ public struct SplashReducer {
         Reduce { state, action in
             switch action {
             case .onAppear:
+                logger.track(.splashScreen)
                 return reduceOnAppear()
                 
             case .loadIntro:

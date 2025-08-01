@@ -11,6 +11,7 @@ let workspace = Workspace(
         "Shared/Modules/KeyChainHelper",
         "Shared/Modules/LocaleProvider",
         "Shared/Modules/Audio",
+        "Shared/Modules/Logger",
         "Shared/Shared",
         "RecipeIt"
     ],
@@ -26,6 +27,7 @@ let workspace = Workspace(
                     .testableTarget(target: .project(path: "Entity", target: "EntityTests")),
                     .testableTarget(target: .project(path: "Login", target: "LoginTests")),
                     .testableTarget(target: .project(path: "Audio", target: "AudioTests")),
+                    .testableTarget(target: .project(path: "Logger", target: "LoggerTests")),
                     .testableTarget(target: .project(path: "LocaleProvider", target: "LocaleProviderTests")),
                     .testableTarget(target: .project(path: "KeyChainHelper", target: "KeyChainHelperTests")),
                     .testableTarget(target: .project(path: "Shared", target: "SharedTests")),
