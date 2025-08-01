@@ -101,7 +101,7 @@ public struct MockRecipePreviewRepositoryImpl: RecipePreviewRepository {
                         amount: "1개"
                     )
                 ],
-                state: "PENDING"),
+                state: "FAILED"),
             RecipePreviewVO(
                 recipeID: 3,
                 thumbnailURL: URL(string: "https://images.unsplash.com/photo-1600891964599-f61ba0e24092")!,
@@ -129,7 +129,7 @@ public struct MockRecipePreviewRepositoryImpl: RecipePreviewRepository {
                         amount: "1개"
                     )
                 ],
-                state: "PENDING"),
+                state: "FAILED"),
             ]
     }
 }

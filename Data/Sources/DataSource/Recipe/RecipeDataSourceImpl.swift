@@ -16,10 +16,16 @@ public struct RecipeDataSourceImpl: RecipeDataSource {
     public init() { }
     
     public func fetchRecipe(recipeID: Int64) async throws -> RecipeDTO {
-        let request = MFRequest(url: "https://domain.com/v1/recipe")
+        guard let localToken = loginManager.loadLocalToken() else { throw DataSourceError.unauthorized }
+        
+        let request = MFRequest(url: "http://121.157.24.40/api/v1/recipe/detail/\(recipeID)")
+            .get()
             .validate()
-            .addQueries(["recipe_id": UUID(uuidString: "123e4567-e89b-12d3-a456-426614174000")!])
-        let response = try await MF.requestDecodable(of: RecipeDTO.self, request)
+            .addHeaders([.authorization(bearerToken: localToken)])
+        
+        let response = try await MF
+            .setErrorDecoder(ServerDecoder.shared)
+            .requestDecodable(of: RecipeDTO.self, request)
         
         return response.value
     }
@@ -40,12 +46,16 @@ public struct RecipeDataSourceImpl: RecipeDataSource {
         return response.value
     }
     
+    
     public func filterCompletedRecipeIDs(from ids: [Int64]) async throws -> CompletedRecipeDTO {
         guard let localToken = loginManager.loadLocalToken() else { throw DataSourceError.unauthorized }
         
+        let idString = ids.map { String($0) }.joined(separator: ",")
+        print(">>> here \(idString)")
+        
         let request = MFRequest(url: "http://121.157.24.40/api/v1/recipe/completed")
             .validate()
-            .addQueries(["recipes": ids])
+            .addQueries(["recipes": idString])
             .addHeaders([.authorization(bearerToken: localToken)])
         
         let response = try await MF

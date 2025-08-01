@@ -10,22 +10,30 @@ import Foundation
 public enum ReferenceVO {
     case youtube(URL)
     case shorts(URL)
-    case text(String)
+    case text
     case unknown
-
-    public static func from(type rawType: String, value: String) -> ReferenceVO {
-        if let type = ReferenceTypeVO(rawValue: rawType) {
-            switch type {
-            case .youtube:
-                guard let url = URL(string: value) else { return .unknown }
+    
+    public static func from(type rawType: String, urlString: String?, metadataString: String?) -> ReferenceVO {
+        switch rawType {
+        case "YOUTUBE":
+            guard let urlString,
+                  let url = URL(string: urlString) else { return .unknown }
+            
+            if let metadataString = metadataString,
+               !metadataString.isEmpty,
+               metadataString != "{}",
+               let data = metadataString.data(using: .utf8),
+               let metadata = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],
+               let isShort = metadata["is_shorts"] as? Bool {
+                return isShort ? .shorts(url) : .youtube(url)
+            } else {
                 return .youtube(url)
-            case .shorts:
-                guard let url = URL(string: value) else { return .unknown }
-                return .shorts(url)
-            case .text:
-                return .text(value)
             }
-        } else {
+            
+        case "TEXT":
+            return .text
+            
+        default:
             return .unknown
         }
     }

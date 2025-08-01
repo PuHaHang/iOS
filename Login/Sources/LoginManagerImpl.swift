@@ -39,6 +39,7 @@ extension LoginManagerImpl {
 extension LoginManagerImpl {
     public func loadLocalToken() -> String? {
         let token = localTokenService.loadToken()
+        
         return token
     }
     

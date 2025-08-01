@@ -185,8 +185,8 @@ private extension ReferenceVO {
         case .shorts(let url):
             return .shorts(url)
             
-        case .text(let content):
-            return .text(content)
+        case .text:
+            return .text
             
         case .unknown:
             return .unknown
@@ -211,18 +211,23 @@ private extension ReferenceVO {
 
 extension StageVO {
     func toStepViewData() -> RecipeStepViewData {
-        let startTimeMeasurement = Measurement(
-            value: self.timeline.startTime,
-            unit: UnitDuration.seconds
-        )
-        let endTimeMeasurement = Measurement(
-            value: self.timeline.endTime,
-            unit: UnitDuration.seconds
-        )
-        let timeline = TimeLineViewData(
-            startTime: startTimeMeasurement,
-            endTime: endTimeMeasurement
-        )
+        var timeline: TimeLineViewData?
+        
+        if let startTime = self.timeline.startTime,
+           let endTime = self.timeline.endTime {
+            let startTimeMeasurement = Measurement(
+                value: startTime,
+                unit: UnitDuration.seconds
+            )
+            let endTimeMeasurement = Measurement(
+                value: endTime,
+                unit: UnitDuration.seconds
+            )
+            timeline = TimeLineViewData(
+                startTime: startTimeMeasurement,
+                endTime: endTimeMeasurement
+            )
+        }
         
         return RecipeStepViewData(
             id: UUID(),

@@ -31,14 +31,15 @@ public struct OnboardingDataSourceImpl: OnboardingDataSource {
     }
     
     public func fetchOnboardingImage() async throws -> String {
-        let request = MFRequest(url: "/api/v1/onboarding")
+        let request = MFRequest(url: "http://121.157.24.40/api/v1/onboarding")
             .get()
             .validate()
         
         let response = try await MF
             .setErrorDecoder(ServerDecoder.shared)
-            .requestDecodable(of: OnboardingImageDTO.self, request)
+            .requestString(request)
         
         return response.value.image
+        return response.value
     }
 }

@@ -34,12 +34,12 @@ struct CookingReducer {
         var recognizedText: String = ""
         var isCommand: Bool = false
         
-        var startTime: Measurement<UnitDuration> {
-            steps[currentStep].timeline.startTime
+        var startTime: Measurement<UnitDuration>? {
+            steps[currentStep].timeline?.startTime
         }
         
-        var endTime: Measurement<UnitDuration> {
-            steps[currentStep].timeline.endTime
+        var endTime: Measurement<UnitDuration>? {
+            steps[currentStep].timeline?.endTime
         }
         
         var isPresentingModal: Bool {
@@ -192,13 +192,16 @@ private extension CookingReducer {
     }
     
     func reduceDidTapSourceButton(_ state: inout CookingReducer.State) -> Effect<Action> {
+        guard let startTime = state.startTime,
+              let endTime = state.endTime else { return .none }
+        
         try? audioService.updateAudioSettings(for: .earpiece)
         audioService.stopReading()
         state.destination = .player(
             .init(
                 reference: state.reference,
-                startTime: state.startTime,
-                endTime: state.endTime
+                startTime: startTime,
+                endTime: endTime
             )
         )
         state.isPlaying = true

@@ -112,9 +112,13 @@ struct HomeReducer {
                     let ids = await incompletedRecipeIDStore.get()
                     guard !ids.isEmpty else { return await send(.cancelTick) }
                     
-                    guard let result = try? await fetchCompletedRecipeConversionIDsUseCase.execute(ids: ids) else { return }
                     
-                    await send(.completedRecipeIDsRepsponse(result))
+                    do {
+                        let result = try await fetchCompletedRecipeConversionIDsUseCase.execute(ids: ids)
+                        await send(.completedRecipeIDsRepsponse(result))
+                    } catch {
+                        print(">>> error \(error)")
+                    }
                 }
                 
             case .completedRecipeIDsRepsponse(let ids):
