@@ -66,7 +66,7 @@ struct RootReducer {
                 
             case .destination(.presented(.onboarding(.delegate(.didRequestDismiss)))):
                 state.destination = nil
-                return .none
+                return .send(.home(.refresh))
                 
             case .destination(.dismiss):
                 audioService.stopCapture()

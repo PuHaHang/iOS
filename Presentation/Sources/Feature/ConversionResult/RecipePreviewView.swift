@@ -48,7 +48,11 @@ private extension RecipePreviewView {
             KFImage.url(imageURL)
                 .resizable()
                 .scaledToFill()
-                .frame(height: 180)
+                .frame(
+                    maxWidth: .infinity,
+                    minHeight: 180,
+                    maxHeight: 180
+                )
                 .clipped()
         }
     }

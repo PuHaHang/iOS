@@ -233,3 +233,18 @@ public extension DependencyValues {
         set { self[FetchCompletedRecipeConversionIDsUseCaseKey.self] = newValue }
     }
 }
+
+// MARK: - FetchRecipeStateUseCase DI
+
+public enum FetchRecipeStateUseCaseKey: TestDependencyKey {
+    #if DEBUG
+    public static var testValue: FetchRecipeStateUseCase = EmptyFetchRecipeStateUseCase()
+    #endif
+}
+
+public extension DependencyValues {
+    var fetchRecipeStateUseCase: FetchRecipeStateUseCase {
+        get { self[FetchRecipeStateUseCaseKey.self] }
+        set { self[FetchRecipeStateUseCaseKey.self] = newValue }
+    }
+}

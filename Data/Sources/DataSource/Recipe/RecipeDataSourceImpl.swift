@@ -46,6 +46,20 @@ public struct RecipeDataSourceImpl: RecipeDataSource {
         return response.value
     }
     
+    public func fetchRecipeState(recipeID: Int64) async throws -> RecipeStateDTO {
+        guard let localToken = loginManager.loadLocalToken() else { throw DataSourceError.unauthorized }
+        
+        let request = MFRequest(url: "http://121.157.24.40/api/v1/recipe/state/\(recipeID)")
+            .get()
+            .validate()
+            .addHeaders([.authorization(bearerToken: localToken)])
+        
+        let response = try await MF
+            .setErrorDecoder(ServerDecoder.shared)
+            .requestDecodable(of: RecipeStateDTO.self, request)
+        
+        return response.value
+    }
     
     public func filterCompletedRecipeIDs(from ids: [Int64]) async throws -> CompletedRecipeDTO {
         guard let localToken = loginManager.loadLocalToken() else { throw DataSourceError.unauthorized }

@@ -85,7 +85,11 @@ private extension RecipeView {
                 KFImage.url(store.recipeViewData.thumbnail)
                     .resizable()
                     .scaledToFill()
-                    .frame(height: 250)
+                    .frame(
+                        maxWidth: .infinity,
+                        minHeight: 250,
+                        maxHeight: 250
+                    )
                     .clipped()
                 
                 OriginalContentButton(action: action)

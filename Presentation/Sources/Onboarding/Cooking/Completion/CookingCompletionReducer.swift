@@ -44,7 +44,7 @@ struct CookingCompletionReducer {
 }
 
 extension CookingCompletionReducer {
-    enum Delegate {
+    enum Delegate: Equatable {
         case navigateToCooking
     }
 }

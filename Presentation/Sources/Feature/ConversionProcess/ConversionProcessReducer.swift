@@ -14,8 +14,9 @@ import UIKit
 @Reducer
 struct ConversionProcessReducer {
     @Dependency(\.fetchConvertedRecipeIDUseCase) var fetchConvertedRecipeIDUseCase
-    @Dependency(\.fetchRecipePreviewUseCase) var fetchRecipePreviewUseCase
+    @Dependency(\.fetchRecipeStateUseCase) var fetchRecipeStateUseCase
     @Dependency(\.fetchRecipeDetailUseCase) var fetchRecipeDetailUseCase
+    @Dependency(\.logger) var logger
     
     struct State: Equatable {
         let recipeSource: String
@@ -116,10 +117,10 @@ private extension ConversionProcessReducer {
         guard let id = state.recipeConversionID else { return .none }
         
         return .run { send in
-            let result = await fetchRecipePreviewUseCase.execute(recipeID: id)
+            let result = await fetchRecipeStateUseCase.execute(recipeID: id)
             switch result {
-            case .success(let preview):
-                let recipeState = preview.state.toRecipeStateViewData()
+            case .success(let state):
+                let recipeState = state.toRecipeStateViewData()
                 
                 await send(.pollResponse(recipeState))
                 

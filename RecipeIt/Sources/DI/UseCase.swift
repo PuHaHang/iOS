@@ -113,3 +113,10 @@ extension FetchCompletedRecipeConversionIDsUseCaseKey: @retroactive DependencyKe
         return FetchCompletedRecipeConversionIDsUseCaseImpl(recipeConversionRepository: recipeConversionRepository)
     }()
 }
+
+extension FetchRecipeStateUseCaseKey: @retroactive DependencyKey {
+    public static var liveValue: any FetchRecipeStateUseCase = {
+        @Dependency(\.recipeConversionRepository) var recipeConversionRepository
+        return FetchRecipeStateUseCaseImpl(recipeConversionRepository: recipeConversionRepository)
+    }()
+}

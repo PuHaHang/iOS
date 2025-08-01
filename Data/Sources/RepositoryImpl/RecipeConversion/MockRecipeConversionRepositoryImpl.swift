@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Entity
 import Domain
 
 public struct MockRecipeConversionRepositoryImpl: RecipeConversionRepository {
@@ -13,6 +14,10 @@ public struct MockRecipeConversionRepositoryImpl: RecipeConversionRepository {
     
     public func convert(from input: String) async throws -> Int64 {
         return 0
+    }
+    
+    public func fetchState(of recipeID: Int64) async throws -> RecipeStateVO {
+        return .unknown
     }
     
     public func filterCompletedConversionRecipeIDs(from ids: [Int64]) async throws -> [Int64] {
