@@ -10,8 +10,8 @@ import Entity
 
 public struct RecipeDTO: Decodable {
     let id: Int64
-    let thumbnail: String
     let title: String
+    let thumbnail: String
     let servings: Int
     let reference: ReferenceDTO
     let ingredients: [IngredientDTO]
@@ -36,8 +36,8 @@ extension RecipeDTO {
         
         return RecipeDetailVO(
             recipeID: id,
-            thumbnailURL: url,
             title: title,
+            thumbnailURL: url,
             serving: servings,
             reference: reference.toDomain(),
             ingredients: ingredients,

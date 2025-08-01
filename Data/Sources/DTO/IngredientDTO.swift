@@ -14,7 +14,7 @@ public struct IngredientDTO: Decodable {
     let amount: String
     
     enum CodingKeys: String, CodingKey {
-        case id = "ingredientId"
+        case id = "ingredient_id"
         case name
         case amount
     }
