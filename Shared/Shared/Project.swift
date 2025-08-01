@@ -13,6 +13,7 @@ let project = Project(
                 .project(target: "Audio", path: "../Modules/Audio"),
                 .project(target: "KeyChainHelper", path: "../Modules/KeyChainHelper"),
                 .project(target: "LocaleProvider", path: "../Modules/LocaleProvider"),
+                .project(target: "Logger", path: "../Modules/Logger"),
                 .external(name: "FirebaseCore"),
                 .external(name: "FirebaseInstallations"),
                 .external(name: "FirebaseMessaging")

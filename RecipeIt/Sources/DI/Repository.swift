@@ -25,19 +25,17 @@ extension RecipeConversionRepositoryKey: @retroactive DependencyKey {
 }
 
 extension RecipeDetailRepositoryKey: @retroactive DependencyKey {
-//    public static let liveValue: any RecipeDetailRepository =  {
-//        @Dependency(\.recipeDataSource) var recipeDataSource
-//        return RecipeDetailRepositoryImpl(dataSource: recipeDataSource)
-//    }()
-    public static var liveValue: any RecipeDetailRepository = MockRecipeDetailRepositoryImpl()
+    public static let liveValue: any RecipeDetailRepository =  {
+        @Dependency(\.recipeDataSource) var recipeDataSource
+        return RecipeDetailRepositoryImpl(dataSource: recipeDataSource)
+    }()
 }
 
 extension RecipePreviewRepositoryKey: @retroactive DependencyKey {
-//    public static let liveValue: any RecipePreviewRepository = {
-//        @Dependency(\.recipePreviewDataSource) var recipePreviewDataSource
-//        return RecipePreviewRepositoryImpl(dataSource: recipePreviewDataSource)
-//    }()
-    public static var liveValue: any RecipePreviewRepository = MockRecipePreviewRepositoryImpl()
+    public static let liveValue: any RecipePreviewRepository = {
+        @Dependency(\.recipePreviewDataSource) var recipePreviewDataSource
+        return RecipePreviewRepositoryImpl(dataSource: recipePreviewDataSource)
+    }()
 }
 
 extension OnboardingRepositoryKey: @retroactive DependencyKey {
