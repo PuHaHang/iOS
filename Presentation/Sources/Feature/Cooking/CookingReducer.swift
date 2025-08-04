@@ -20,6 +20,7 @@ struct CookingReducer {
     struct State {
         @Presents var destination: Destination.State?
         
+        let recipeId: Int64
         let title: String
         let steps: [RecipeStepViewData]
         let reference: ReferenceViewData
@@ -33,6 +34,8 @@ struct CookingReducer {
         var isPlaying: Bool = false
         var recognizedText: String = ""
         var isCommand: Bool = false
+        
+        var stepStartTime: Date? = nil
         
         var startTime: Measurement<UnitDuration>? {
             steps[currentStep].timeline?.startTime
@@ -77,15 +80,30 @@ struct CookingReducer {
             action in
             switch action {
             case .onAppear:
+                state.stepStartTime = Date()
                 logger.track(.cookingScreen)
                 return .none
                 
             case .didTapPrevButton:
-                logger.track(.cookingPrevButton)
+                if let start = state.stepStartTime {
+                    let elapsed = Date().timeIntervalSince(start)
+                    logger.track(.cookingPrevButton(
+                        step: state.currentStep,
+                        elapsed: elapsed))
+                    }
+                state.stepStartTime = Date()
+                
                 return reduceDidTapPrevButton(&state)
                 
             case .didTapNextButton:
-                logger.track(.cookingNextButton)
+                if let start = state.stepStartTime {
+                    let elapsed = Date().timeIntervalSince(start)
+                    logger.track(.cookingPrevButton(
+                        step: state.currentStep,
+                        elapsed: elapsed))
+                    }
+                state.stepStartTime = Date()
+                
                 return reduceDidTapNextButton(&state)
                 
             case .didTapTimerButton:
@@ -145,6 +163,7 @@ struct CookingReducer {
                 return reduceReceivedCommand(&state, voice: voice)
                 
             case .destination(.dismiss):
+                logger.track(.cookingDestinationDismiss)
                 try? audioService.updateAudioSettings(for: .speaker)
                 state.isPlaying = false
                 return .none
@@ -261,7 +280,6 @@ private extension CookingReducer {
                 let voice = VoiceVO(text: text, command: command)
                 await send(.receivedCommand(voice))
             case .failure(let error):
-                print(">>> error \(error)")
                 await send(.startRecognizing)
             }
         }
@@ -286,6 +304,14 @@ private extension CookingReducer {
         state.isRecognizing = false
         state.recognizedText = voice.text
         state.isCommand = (voice.command != .unknown)
+        
+        logger.track(
+            .cookingVoiceRecognized(
+                recipeId: state.recipeId,
+                step: state.currentStep,
+                text: voice.text
+            )
+        )
 
         var effects: [Effect<Action>] = []
 

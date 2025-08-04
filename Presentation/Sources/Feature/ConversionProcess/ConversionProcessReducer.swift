@@ -10,6 +10,7 @@ import Shared
 import Entity
 import Foundation
 import UIKit
+import Logger
 
 @Reducer
 struct ConversionProcessReducer {
@@ -40,6 +41,7 @@ struct ConversionProcessReducer {
         Reduce { state, action in
             switch action {
             case .onAppear:
+                logger.track(.conversionProcessScreen)
                 return reduceOnAppear(&state)
                 
             case .recipeConversionResponse(let uuid):

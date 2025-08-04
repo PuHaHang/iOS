@@ -6,10 +6,13 @@
 //
 
 import ComposableArchitecture
-import UIKit
+import Foundation
+import Logger
 
 @Reducer
 struct RecipeListItemReducer {
+    @Dependency(\.logger) var logger
+    
     @ObservableState
     struct State: Equatable, Identifiable {
         let id: UUID
@@ -29,6 +32,7 @@ struct RecipeListItemReducer {
             switch action {
             case .didTapItem:
                 return .none
+                logger.track(.homeRecipeItemDeleteButton)
             }
         }
     }

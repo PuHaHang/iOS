@@ -10,6 +10,7 @@ import Foundation
 import Shared
 import Entity
 import UIKit
+import Logger
 
 @Reducer
 struct RecipeReducer {
@@ -84,9 +85,11 @@ struct RecipeReducer {
                 return reduceNavigateToCookingOnboarding(&state)
                 
             case .didTapContentButton:
+                logger.track(.detailContentButton)
                 return reduceDidTapContentButton(state)
                 
             case .didTapCookingButton:
+                logger.track(.detailCookingButton)
                 return reduceDidTapCookingButton(&state)
                 
             case .path, .titleTab:
@@ -141,6 +144,7 @@ private extension RecipeReducer {
         let title = state.recipeViewData.title
         let steps = state.recipeViewData.steps
         let cookingState = CookingReducer.State(
+            recipeId: state.recipeViewData.recipeID,
             title: title,
             steps: steps,
             reference: state.recipeViewData.reference
