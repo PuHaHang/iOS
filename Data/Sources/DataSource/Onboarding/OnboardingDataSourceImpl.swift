@@ -39,7 +39,6 @@ public struct OnboardingDataSourceImpl: OnboardingDataSource {
             .setErrorDecoder(ServerDecoder.shared)
             .requestString(request)
         
-        return response.value.image
         return response.value
     }
 }

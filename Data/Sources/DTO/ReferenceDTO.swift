@@ -39,10 +39,12 @@ public struct ReferenceDTO: Decodable {
 
 private enum JSONValue: Decodable {
     case string(String)
+    case bool(Bool)
+    case number(Double)
     case object([String: JSONValue])
     case array([JSONValue])
     case null
-    
+
     init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
         
@@ -50,6 +52,10 @@ private enum JSONValue: Decodable {
             self = .null
         } else if let string = try? container.decode(String.self) {
             self = .string(string)
+        } else if let bool = try? container.decode(Bool.self) {
+            self = .bool(bool)
+        } else if let number = try? container.decode(Double.self) {
+            self = .number(number)
         } else if let object = try? container.decode([String: JSONValue].self) {
             self = .object(object)
         } else if let array = try? container.decode([JSONValue].self) {
@@ -58,11 +64,15 @@ private enum JSONValue: Decodable {
             self = .null
         }
     }
-    
+
     var stringValue: String? {
         switch self {
         case .string(let string):
             return string
+        case .bool(let value):
+            return String(value)
+        case .number(let value):
+            return String(value)
         case .object(let dict):
             if dict.isEmpty {
                 return "{}"
@@ -70,22 +80,27 @@ private enum JSONValue: Decodable {
             do {
                 let data = try JSONSerialization.data(
                     withJSONObject: dict.mapValues { $0.anyValue },
-                    options: [])
+                    options: []
+                )
                 return String(data: data, encoding: .utf8)
             } catch {
                 return "{}"
             }
-        case .null:
-            return nil
         case .array:
             return "[]"
+        case .null:
+            return nil
         }
     }
-    
+
     var anyValue: Any {
         switch self {
         case .string(let string):
             return string
+        case .bool(let value):
+            return value
+        case .number(let value):
+            return value
         case .object(let dict):
             return dict.mapValues { $0.anyValue }
         case .array(let array):

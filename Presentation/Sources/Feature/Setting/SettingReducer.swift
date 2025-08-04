@@ -16,7 +16,7 @@ struct SettingReducer {
     
     @ObservableState
     struct State: Equatable {
-        let instagramURL: String = "https://www.naver.com"
+        let instagramURL: String = "https://www.instagram.com/recipe_it.ph/"
         var isLoading = false
     }
     

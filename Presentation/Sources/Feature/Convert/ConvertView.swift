@@ -20,6 +20,8 @@ struct ConvertView: View {
                 ConversionProcessView(store: store)
             case .result(let store):
                 ConversionResultView(store: store)
+            case .failed(let store):
+                ConversionFailedView(store: store)
             }
         }
         .onAppear {

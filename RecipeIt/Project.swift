@@ -21,7 +21,8 @@ let project = Project(
                     "FirebaseAppDelegateProxyEnabled": false,
                     "NSAppTransportSecurity": [
                         "NSAllowsArbitraryLoads": true
-                    ]
+                    ],
+                    "UIUserInterfaceStyle": "Light"
                 ]
             ),
             sources: ["Sources/**"],

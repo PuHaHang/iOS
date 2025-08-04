@@ -17,10 +17,10 @@ public struct MockRecipeConversionRepositoryImpl: RecipeConversionRepository {
     }
     
     public func fetchState(of recipeID: Int64) async throws -> RecipeStateVO {
-        return .unknown
+        return .completed
     }
     
     public func filterCompletedConversionRecipeIDs(from ids: [Int64]) async throws -> [Int64] {
-        return [1, 2]
+        return [1]
     }
 }
