@@ -16,6 +16,7 @@ extension AppColor {
         static let plusButton = AppColor.main
         static let disabledButton = Color("button_disabled")
         static let textFieldBackground = Color("textfield_background")
+        static let warningBackground = Color("warning_background")
     }
     
     enum TabBar {

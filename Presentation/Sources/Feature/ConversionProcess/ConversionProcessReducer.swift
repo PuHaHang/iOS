@@ -18,10 +18,14 @@ struct ConversionProcessReducer {
     @Dependency(\.fetchRecipeStateUseCase) var fetchRecipeStateUseCase
     @Dependency(\.fetchRecipeDetailUseCase) var fetchRecipeDetailUseCase
     @Dependency(\.logger) var logger
+    @Dependency(\.dismiss) var dismiss
     
+    @ObservableState
     struct State: Equatable {
         let recipeSource: String
         var recipeConversionID: Int64?
+        
+        var errorState = ErrorHandlingState()
     }
     
     enum Action: Equatable {
@@ -33,6 +37,9 @@ struct ConversionProcessReducer {
         case pollTick
         case pollResponse(RecipeStateViewData)
         case loadCompletedRecipe
+        
+        case showError(ErrorDisplayType)
+        case clearError
         
         case delegate(Delegate)
     }
@@ -67,12 +74,27 @@ struct ConversionProcessReducer {
                     switch result {
                     case .success(let detail):
                         let preview = detail.toRecipePreviewViewData()
-                        await send(.delegate(.startedConvertingRecipe(id)))
                         await send(.delegate(.navigateToResult(preview)))
                         
                     case .failure(let error):
-                        print(">>> \(error)")
+                        let errorType = ErrorDisplayType.dialog(
+                            title: "로드 실패",
+                            message: "완성된 레시피 정보를 불러오는데 실패했습니다.",
+                            showBackButton: true
+                        )
+                        
+                        await send(.showError(errorType))
                     }
+                }
+                
+            case .showError(let errorType):
+                state.errorState.showError(errorType)
+                return .none
+                
+            case .clearError:
+                state.errorState.clearError()
+                return .run { _ in
+                    await dismiss()
                 }
                 
             case .delegate:
@@ -93,7 +115,13 @@ private extension ConversionProcessReducer {
                 await send(.delegate(.refresh))
                 await send(.recipeConversionResponse(id))
             case .failure(let error):
-                print(">>> \(error)")
+                let errorType = ErrorDisplayType.dialog(
+                    title: "오류가 발생하였습니다",
+                    message: "인터넷 연결 상태를 확인하고 다시 시도해주세요.",
+                    showBackButton: true
+                )
+                
+                await send(.showError(errorType))
             }
         }
     }
@@ -138,9 +166,14 @@ private extension ConversionProcessReducer {
                 .send(.stopPolling),
                 .send(.loadCompletedRecipe)
             )
+        } else if state == .failed {
+            return .concatenate(
+                .send(.stopPolling),
+                .send(.delegate(.navigateToFailed))
+            )
         }
         
-        return .none
+        return .send(.delegate(.refresh))
     }
 }
 
@@ -182,7 +215,7 @@ extension RecipeStateVO {
         case .cancelled:
             return .failed
         case .unknown:
-            return .unknown
+            return .failed
         }
     }
 }
@@ -196,5 +229,6 @@ extension ConversionProcessReducer {
         case refresh
         case startedConvertingRecipe(Int64)
         case navigateToResult(RecipePreviewViewData)
+        case navigateToFailed
     }
 }

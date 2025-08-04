@@ -22,6 +22,8 @@ struct RecipeListItemReducer {
         
         var item: RecipeListItem
         
+        var errorState = ErrorHandlingState()
+        
         static func == (lhs: RecipeListItemReducer.State, rhs: RecipeListItemReducer.State) -> Bool {
             lhs.id == rhs.id
         }

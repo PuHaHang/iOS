@@ -16,26 +16,32 @@ public struct SplashView: View {
     }
     
     public var body: some View {
-        Group {
-            switch store.introState {
-            case .idle:
-                IdleView(
-                    appTitleIconName: store.appTitle,
-                    appSubTitle: store.appSubTitle,
-                    appIconName: store.appIconName
-                )
-            case .onboarding:
-                RootView(store: Store(initialState: RootReducer.State(destination: .onboarding(.init())), reducer: {
-                    RootReducer()
-                }))
-            case .success:
-                RootView(store: Store(initialState: RootReducer.State(), reducer: {
-                    RootReducer()
-                }))
-            case .failure(let error):
-                FailureView(error: error)
+        ZStack {
+            Color.white
+                .ignoresSafeArea()
+            
+            Group {
+                switch store.introState {
+                case .idle:
+                    IdleView(
+                        appTitleIconName: store.appTitle,
+                        appSubTitle: store.appSubTitle,
+                        appIconName: store.appIconName
+                    )
+                case .onboarding:
+                    RootView(store: Store(initialState: RootReducer.State(destination: .onboarding(.init())), reducer: {
+                        RootReducer()
+                    }))
+                case .success:
+                    RootView(store: Store(initialState: RootReducer.State(), reducer: {
+                        RootReducer()
+                    }))
+                case .failure(let error):
+                    FailureView(error: error)
+                }
             }
-        }.onAppear {
+        }
+        .onAppear {
             store.send(.onAppear)
         }
     }
@@ -72,7 +78,17 @@ extension SplashView {
         let error: Error
         
         var body: some View {
-            Text(error.localizedDescription)
+            VStack {
+                Text("버전 정보를 불러오는 과정에서\n문제가 발생했습니다.")
+                    .font(.system(size: 18))
+                    .fontWeight(.semibold)
+                    .padding(.bottom, 20)
+                    .multilineTextAlignment(.center)
+                
+                Text("네트워크 연결을 확인한 뒤\n앱을 재시작해주세요.")
+                    .font(.system(size: 16))
+                    .foregroundStyle(AppColor.Text.information)
+            }
         }
     }
 }

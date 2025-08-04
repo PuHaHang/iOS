@@ -57,7 +57,7 @@ struct RecipeIngredientReducer {
                 
                 let ingredientIDs = state.ingredients.map { $0.id }
                 return .run { [recipeID = state.recipeID] _ in
-                    await ingredientTodoService.initializeRecipe(
+                    try await ingredientTodoService.initializeRecipe(
                         recipeID: recipeID,
                         ingredients: ingredientIDs
                     )

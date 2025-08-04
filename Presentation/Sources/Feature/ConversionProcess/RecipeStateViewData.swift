@@ -11,5 +11,4 @@ enum RecipeStateViewData {
     case inProgress
     case completed
     case failed
-    case unknown
 }

@@ -25,6 +25,7 @@ struct LoginReducer {
         let subTitleText: String = LocalizationHelper.onboardingLoginSubtitle
         
         var path = StackState<Path.State>()
+        var errorState = ErrorHandlingState()
     }
     
     enum Action {
@@ -36,10 +37,15 @@ struct LoginReducer {
         
         case path(StackActionOf<Path>)
         case delegate(Delegate)
+        
+        case showError(ErrorDisplayType)
+        case clearError
     }
     
     var body: some ReducerOf<Self> {
-        Reduce { state, action in
+        Reduce {
+            state,
+            action in
             switch action {
             case .onAppear:
                 logger.track(.onboardingLoginScreen)
@@ -60,7 +66,11 @@ struct LoginReducer {
                         loginManager.saveLocalToken(token)
                         await send(.didAuthenticate(token))
                     } catch {
-                        print(">>> \(error)")
+                        let errorType = ErrorDisplayType.toast(
+                            message: "계정 생성에 실패하였습니다.\n잠시 후 다시 시도해주세요.",
+                            duration: 3.0
+                        )
+                        await send(.showError(errorType))
                     }
                 }
                 
@@ -93,6 +103,14 @@ struct LoginReducer {
                 
             case .path,
                     .delegate:
+                return .none
+                
+            case .showError(let errorType):
+                state.errorState.showError(errorType)
+                return .none
+                
+            case .clearError:
+                state.errorState.clearError()
                 return .none
             }
         }

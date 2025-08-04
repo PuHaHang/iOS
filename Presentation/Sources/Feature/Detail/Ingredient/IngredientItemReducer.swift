@@ -18,11 +18,16 @@ struct IngredientItemReducer {
         let name: String
         let recipeID: Int64
         var isChecked: Bool
+        
+        var errorState = ErrorHandlingState()
     }
     
     enum Action {
         case didTapItem(Int64)
         case toggleCheck
+        
+        case showError(ErrorDisplayType)
+        case clearError
     }
     
     var body: some ReducerOf<Self> {
@@ -33,12 +38,33 @@ struct IngredientItemReducer {
                 
             case .toggleCheck:
                 state.isChecked.toggle()
-                return .run { [id = state.id, isChecked = state.isChecked, recipeID = state.recipeID] _ in
-                    await ingredientTodoService.setTodo(
-                        ingredientID: id,
-                        isCompleted: isChecked,
-                        for: recipeID)
+                
+                return .run { [
+                    id = state.id,
+                    isChecked = state.isChecked,
+                    recipeID = state.recipeID
+                ] send in
+                    do {
+                        try await ingredientTodoService.setTodo(
+                            ingredientID: id,
+                            isCompleted: isChecked,
+                            for: recipeID)
+                    } catch {
+                        let errorType = ErrorDisplayType.toast(
+                            message: "목록을 저장하는 데 실패했습니다.",
+                            duration: 3.0
+                        )
+                        await send(.showError(errorType))
+                    }
                 }
+                
+            case .showError(let errorType):
+                state.errorState.clearError()
+                return .none
+                
+            case .clearError:
+                state.errorState.clearError()
+                return .none
             }
         }
     }

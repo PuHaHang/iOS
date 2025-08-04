@@ -31,6 +31,18 @@ struct LoginView: View {
         .onAppear {
             store.send(.onAppear)
         }
+        .errorToast(
+            message: store.errorState.toastMessage,
+            isVisible: .init(
+                get: { store.errorState.showToast },
+                set: { newValue in
+                    if !newValue {
+                        store.send(.clearError)
+                    }
+                }
+            ),
+            duration: store.errorState.toastDuration
+        )
     }
     
     private struct ContentView: View {

@@ -26,6 +26,18 @@ struct ConversionProcessView: View {
         .onAppear {
             store.send(.onAppear)
         }
+        .errorDialog(
+            title: store.errorState.dialogTitle,
+            message: store.errorState.dialogMessage,
+            isPresented: .init(
+                get: { store.errorState.showDialog },
+                set: { _ in store.send(.clearError) }
+            ),
+            onBackAction: store.errorState.showBackButton ? {
+                store.send(.clearError)
+            } : nil,
+            showBackButton: store.errorState.showBackButton
+        )
     }
 }
 

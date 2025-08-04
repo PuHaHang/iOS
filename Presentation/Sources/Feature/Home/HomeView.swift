@@ -27,6 +27,33 @@ struct HomeView: View {
         .onAppear {
             store.send(.onAppear)
         }
+        .onDisappear {
+            store.send(.clearError)
+        }
+        .errorToast(
+            message: store.errorState.toastMessage,
+            isVisible: .init(
+                get: { store.errorState.showToast },
+                set: { newValue in
+                    if !newValue {
+                        store.send(.clearError)
+                    }
+                }
+            ),
+            duration: store.errorState.toastDuration
+        )
+        .errorDialog(
+            title: store.errorState.dialogTitle,
+            message: store.errorState.dialogMessage,
+            isPresented: .init(
+                get: { store.errorState.showDialog },
+                set: { _ in store.send(.clearError) }
+            ),
+            onBackAction: store.errorState.showBackButton ? {
+                store.send(.clearError)
+            } : nil,
+            showBackButton: store.errorState.showBackButton
+        )
     }
 }
 

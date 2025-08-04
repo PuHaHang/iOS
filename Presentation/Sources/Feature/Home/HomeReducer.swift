@@ -30,6 +30,8 @@ struct HomeReducer {
         
         var recipes: IdentifiedArrayOf<RecipeListItemReducer.State> = []
         var listState: RecipeListState = .idle
+        
+        var errorState = ErrorHandlingState()
     }
     
     enum Action {
@@ -47,6 +49,9 @@ struct HomeReducer {
         case pollTick
         case cancelTick
         case completedRecipeIDsRepsponse([Int64])
+        
+        case showError(ErrorDisplayType)
+        case clearError
         
         case delegate(Delegate)
     }
@@ -137,7 +142,7 @@ struct HomeReducer {
                     
                     for recipeState in recipes {
                         let item = recipeState.item
-                        if item.state != .completed {
+                        if item.state != .completed && item.state != .failed {
                             await incompletedRecipeIDStore.add(item.recipeID)
                             needsPolling = true
                         }
@@ -169,7 +174,7 @@ struct HomeReducer {
                         let result = try await fetchCompletedRecipeConversionIDsUseCase.execute(ids: ids)
                         await send(.completedRecipeIDsRepsponse(result))
                     } catch {
-                        print(">>> error \(error)")
+                        print(">>> \(error)")
                     }
                 }
                 
@@ -192,6 +197,14 @@ struct HomeReducer {
 
             case .cancelTick:
                 return .cancel(id: CancelID.polling)
+                
+            case .showError(let errorType):
+                state.errorState.showError(errorType)
+                return .none
+                
+            case .clearError:
+                state.errorState.clearError()
+                return .none
                 
             case .delegate:
                 return .none
@@ -226,7 +239,13 @@ private extension HomeReducer {
                 await send(.checkIfNeedsPolling)
                 
             case .failure(let error):
-                print(">>> Error: \(error)")
+                let errorType = ErrorDisplayType.dialog(
+                    title: "오류가 발생하였습니다",
+                    message: "인터넷 연결 상태를 확인하고 다시 시도해주세요.",
+                    showBackButton: false
+                )
+                
+                await send(.showError(errorType))
             }
         }
     }
