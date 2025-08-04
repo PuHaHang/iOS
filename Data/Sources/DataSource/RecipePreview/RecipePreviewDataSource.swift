@@ -9,5 +9,5 @@ import Foundation
 
 public protocol RecipePreviewDataSource {
     func fetchPreview(recipeID: Int64) async throws -> RecipePreviewDTO
-    func fetchPreviews(page: Int, pageSize: Int) async throws -> [RecipePreviewDTO]
+    func fetchPreviews(cursorId: Int?, size: Int) async throws -> RecipeListDTO
 }

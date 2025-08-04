@@ -42,13 +42,24 @@ extension HomeView {
                         .listRowInsets(EdgeInsets(top: 8, leading: 20, bottom: 8, trailing: 20))
                 }
                 
-                Color.clear
-                    .frame(height: 120)
-                    .listRowInsets(EdgeInsets())
-                    .listRowSeparator(.hidden)
+                FooterSentinelView(
+                    onAppear: { store.send(.scroll) }
+                )
             }
             .listStyle(PlainListStyle())
             .scrollIndicators(.hidden)
+        }
+    }
+    
+    
+    private struct FooterSentinelView: View {
+        let onAppear: () -> Void
+        var body: some View {
+            Color.clear
+                .frame(height: 120)
+                .listRowInsets(EdgeInsets())
+                .listRowSeparator(.hidden)
+                .onAppear(perform: onAppear)
         }
     }
     

@@ -14,7 +14,7 @@ struct EmptyRecipePreviewRepository: RecipePreviewRepository {
         throwUnimplemented()
     }
     
-    func fetchPreviews(page: Int, pageSize: Int) async throws -> [RecipePreviewVO] {
+    func fetchPreviews(cursorId: Int?, size: Int) async throws -> RecipeListVO {
         throwUnimplemented()
     }
 }
