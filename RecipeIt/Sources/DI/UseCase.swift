@@ -120,3 +120,10 @@ extension FetchRecipeStateUseCaseKey: @retroactive DependencyKey {
         return FetchRecipeStateUseCaseImpl(recipeConversionRepository: recipeConversionRepository)
     }()
 }
+
+extension DeleteRecipeUseCaseKey: @retroactive DependencyKey {
+    public static var liveValue: any DeleteRecipeUseCase = {
+        @Dependency(\.recipeDetailRepository) var recipeDetailRepository
+        return DeleteRecipeUseCaseImpl(recipeDetailRepository: recipeDetailRepository)
+    }()
+}

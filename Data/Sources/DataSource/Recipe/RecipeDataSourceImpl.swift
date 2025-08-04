@@ -61,11 +61,23 @@ public struct RecipeDataSourceImpl: RecipeDataSource {
         return response.value
     }
     
+    public func deleteRecipe(recipeID: Int64) async throws {
+        guard let localToken = loginManager.loadLocalToken() else { throw DataSourceError.unauthorized }
+        
+        let request = MFRequest(url: "http://121.157.24.40/api/v1/recipe/\(recipeID)")
+            .delete()
+            .validate()
+            .addHeaders([.authorization(bearerToken: localToken)])
+        
+        let _ = try await MF
+            .setErrorDecoder(ServerDecoder.shared)
+            .request(request)
+    }
+    
     public func filterCompletedRecipeIDs(from ids: [Int64]) async throws -> CompletedRecipeDTO {
         guard let localToken = loginManager.loadLocalToken() else { throw DataSourceError.unauthorized }
         
         let idString = ids.map { String($0) }.joined(separator: ",")
-        print(">>> here \(idString)")
         
         let request = MFRequest(url: "http://121.157.24.40/api/v1/recipe/completed")
             .validate()

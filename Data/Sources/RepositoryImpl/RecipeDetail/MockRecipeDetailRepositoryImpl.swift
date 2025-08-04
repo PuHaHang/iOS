@@ -70,4 +70,7 @@ public struct MockRecipeDetailRepositoryImpl: RecipeDetailRepository {
             ]
         )
     }
+    
+    public func delete(for recipeID: Int64) async throws {
+    }
 }

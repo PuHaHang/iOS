@@ -12,4 +12,5 @@ public protocol RecipeDataSource {
     func fetchRecipeState(recipeID: Int64) async throws -> RecipeStateDTO
     func generateRecipe(from source: String) async throws -> RecipeConversionDTO
     func filterCompletedRecipeIDs(from ids: [Int64]) async throws -> CompletedRecipeDTO
+    func deleteRecipe(recipeID: Int64) async throws
 }

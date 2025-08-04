@@ -23,5 +23,9 @@ public struct EmptyRecipeDataSource: RecipeDataSource {
     public func filterCompletedRecipeIDs(from ids: [Int64]) async throws -> CompletedRecipeDTO {
         throwUnimplemented()
     }
+    
+    public func deleteRecipe(recipeID: Int64) async throws {
+        throwUnimplemented()
+    }
 }
 
