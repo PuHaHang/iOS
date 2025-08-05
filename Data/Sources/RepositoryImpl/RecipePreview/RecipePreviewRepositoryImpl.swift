@@ -18,13 +18,11 @@ public struct RecipePreviewRepositoryImpl: RecipePreviewRepository {
     
     public func fetchPreview(for recipeID: Int64) async throws -> RecipePreviewVO {
         let recipePreview = try await dataSource.fetchPreview(recipeID: recipeID)
-        
         return recipePreview.toDomain()
     }
     
-    public func fetchPreviews(cursorId: Int?, size: Int) async throws -> RecipeListVO {
-        let recipeList = try await dataSource.fetchPreviews(cursorId: cursorId, size: size)
-        
+    public func fetchPreviews(cursorId: Int?, size: Int, fromCache: Bool = false) async throws -> RecipeListVO {
+        let recipeList = try await dataSource.fetchPreviews(cursorId: cursorId, size: size, fromCache: fromCache)
         return recipeList.toDomain()
     }
 }

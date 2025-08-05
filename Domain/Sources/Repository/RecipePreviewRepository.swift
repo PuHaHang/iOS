@@ -10,5 +10,5 @@ import Entity
 
 public protocol RecipePreviewRepository {
     func fetchPreview(for recipeID: Int64) async throws -> RecipePreviewVO
-    func fetchPreviews(cursorId: Int?, size: Int) async throws -> RecipeListVO
+    func fetchPreviews(cursorId: Int?, size: Int, fromCache: Bool) async throws -> RecipeListVO
 }

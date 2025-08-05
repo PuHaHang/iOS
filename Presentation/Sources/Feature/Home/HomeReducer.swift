@@ -116,7 +116,7 @@ struct HomeReducer {
                 let pageSize = state.pageSize
                 
                 return .run { send in
-                    let result = await fetchRecipePreviewsUseCase.execute(cursorId: cursorId, size: pageSize)
+                    let result = await fetchRecipePreviewsUseCase.execute(cursorId: cursorId, size: pageSize, fromCache: false)
                     
                     switch result {
                     case .success(let list):
@@ -216,15 +216,10 @@ struct HomeReducer {
 
 private extension HomeReducer {
     func reduceOnAppear(_ state: inout HomeReducer.State) -> Effect<Action> {
-        state.cursorId = nil
-        state.recipes = []
-        state.listState = .idle
-        state.errorState.clearError()
-        
         let pageSize = state.pageSize
         
         return .run { send in
-            let result = await fetchRecipePreviewsUseCase.execute(cursorId: nil, size: pageSize)
+            let result = await fetchRecipePreviewsUseCase.execute(cursorId: nil, size: pageSize, fromCache: true)
             
             switch result {
             case .success(let list):
