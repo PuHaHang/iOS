@@ -25,4 +25,8 @@ public struct RecipePreviewRepositoryImpl: RecipePreviewRepository {
         let recipeList = try await dataSource.fetchPreviews(cursorId: cursorId, size: size, fromCache: fromCache)
         return recipeList.toDomain()
     }
+    
+    public func clearCache() async throws {
+        try dataSource.clearCache()
+    }
 }

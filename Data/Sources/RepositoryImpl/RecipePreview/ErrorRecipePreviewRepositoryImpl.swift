@@ -23,4 +23,8 @@ public struct ErrorRecipePreviewRepositoryImpl: RecipePreviewRepository {
     public func fetchPreviews(cursorId: Int?, size: Int, fromCache: Bool) async throws -> Entity.RecipeListVO {
         throw RecipePreviewError.forcedFailure
     }
+    
+    public func clearCache() async throws {
+        throw RecipePreviewError.forcedFailure
+    }
 }

@@ -138,4 +138,7 @@ public struct MockRecipePreviewRepositoryImpl: RecipePreviewRepository {
             cursorId: 10
         )
     }
+    
+    public func clearCache() async throws {
+    }
 }

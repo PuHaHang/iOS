@@ -15,4 +15,8 @@ public struct EmptyRecipePreviewDataSource: RecipePreviewDataSource {
     public func fetchPreviews(cursorId: Int?, size: Int, fromCache: Bool) async throws -> RecipeListDTO {
         throwUnimplemented()
     }
+    
+    public func clearCache() throws {
+        throwUnimplemented()
+    }
 }
