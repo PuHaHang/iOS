@@ -78,4 +78,11 @@ public struct RecipePreviewDataSourceImpl: RecipePreviewDataSource {
         let data = try Data(contentsOf: fileURL)
         return try JSONDecoder().decode(RecipeListDTO.self, from: data)
     }
+    
+    public func clearCache() throws {
+        let contents = try fileManager.contentsOfDirectory(at: cacheDirectory, includingPropertiesForKeys: nil)
+        for fileURL in contents {
+            try fileManager.removeItem(at: fileURL)
+        }
+    }
 }

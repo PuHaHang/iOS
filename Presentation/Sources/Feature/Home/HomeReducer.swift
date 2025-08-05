@@ -18,6 +18,7 @@ struct HomeReducer {
     @Dependency(\.fetchRecipePreviewsUseCase) var fetchRecipePreviewsUseCase
     @Dependency(\.fetchRecipePreviewUseCase) var fetchRecipePreviewUseCase
     @Dependency(\.fetchCompletedRecipeConversionIDsUseCase) var fetchCompletedRecipeConversionIDsUseCase
+    @Dependency(\.clearRecipePreviewCacheUseCase) var clearRecipePreviewCacheUseCase
     @Dependency(\.logger) var logger
     @Dependency(\.continuousClock) var clock
     
@@ -88,7 +89,13 @@ struct HomeReducer {
             case .recipes(.element(id: let recipeId, action: .delegate(.deleteRequested))):
                 state.recipes.remove(id: recipeId)
                 state.listState = state.recipes.isEmpty ? .empty : .loaded
-                return .none
+                
+                let pageSize = state.pageSize
+                return .run { send in
+                    await clearRecipePreviewCacheUseCase.execute()
+                    
+                    let _ = await fetchRecipePreviewsUseCase.execute(cursorId: nil, size: pageSize, fromCache: false)
+                }
                 
             case .recipes:
                 return .none

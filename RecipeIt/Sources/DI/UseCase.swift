@@ -127,3 +127,10 @@ extension DeleteRecipeUseCaseKey: @retroactive DependencyKey {
         return DeleteRecipeUseCaseImpl(recipeDetailRepository: recipeDetailRepository)
     }()
 }
+
+extension ClearRecipePreviewCacheUseCaseKey: @retroactive DependencyKey {
+    public static var liveValue: any ClearRecipePreviewCacheUseCase = {
+        @Dependency(\.recipePreviewRepository) var recipePreviewRepository
+        return ClearRecipePreviewCacheUseCaseImpl(recipePreviewRepository: recipePreviewRepository)
+    }()
+}

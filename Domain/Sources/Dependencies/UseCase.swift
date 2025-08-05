@@ -263,3 +263,18 @@ public extension DependencyValues {
         set { self[DeleteRecipeUseCaseKey.self] = newValue }
     }
 }
+
+// MARK: - ClearRecipePreviewCacheUseCase DI
+
+public enum ClearRecipePreviewCacheUseCaseKey: TestDependencyKey {
+    #if DEBUG
+    public static var testValue: ClearRecipePreviewCacheUseCase = EmptyClearRecipePreviewCacheUseCase()
+    #endif
+}
+
+public extension DependencyValues {
+    var clearRecipePreviewCacheUseCase: ClearRecipePreviewCacheUseCase {
+        get { self[ClearRecipePreviewCacheUseCaseKey.self] }
+        set { self[ClearRecipePreviewCacheUseCaseKey.self] = newValue }
+    }
+}
