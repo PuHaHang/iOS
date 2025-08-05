@@ -233,13 +233,7 @@ private extension HomeReducer {
                 await send(.checkIfNeedsPolling)
                 
             case .failure(let error):
-                let errorType = ErrorDisplayType.dialog(
-                    title: "오류가 발생하였습니다",
-                    message: "인터넷 연결 상태를 확인하고 다시 시도해주세요.",
-                    showBackButton: false
-                )
-                
-                await send(.showError(errorType))
+                await send(.refresh)
             }
         }
     }
@@ -269,7 +263,34 @@ private extension HomeReducer {
     func reduceRefresh(_ state: inout HomeReducer.State) -> Effect<Action> {
         state.cursorId = nil
         state.recipes = []
-        return .send(.onAppear)
+        state.listState = .idle
+        state.errorState.clearError()
+        
+        let pageSize = state.pageSize
+        
+        return .run { send in
+            let result = await fetchRecipePreviewsUseCase.execute(cursorId: nil, size: pageSize, fromCache: false)
+            
+            switch result {
+            case .success(let list):
+                let hasNext = list.hasNext
+                let cursorId = list.cursorId
+                let items = list.previews.map { $0.toRecipeListItem() }
+                
+                await send(.updatePageState(hasNext, cursorId))
+                await send(.addRecipes(items))
+                await send(.checkIfNeedsPolling)
+                
+            case .failure(let error):
+                let errorType = ErrorDisplayType.dialog(
+                    title: "오류가 발생하였습니다",
+                    message: "인터넷 연결 상태를 확인하고 다시 시도해주세요.",
+                    showBackButton: false
+                )
+                
+                await send(.showError(errorType))
+            }
+        }
     }
 }
 
