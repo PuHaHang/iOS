@@ -18,7 +18,7 @@ public struct RecipeDataSourceImpl: RecipeDataSource {
     public func fetchRecipe(recipeID: Int64) async throws -> RecipeDTO {
         guard let localToken = loginManager.loadLocalToken() else { throw DataSourceError.unauthorized }
         
-        let request = MFRequest(url: "http://121.157.24.40/api/v1/recipe/detail/\(recipeID)")
+        let request = MFRequest(url: "https://recipe-it.net/api/v1/recipe/detail/\(recipeID)")
             .get()
             .validate()
             .addHeaders([.authorization(bearerToken: localToken)])
@@ -33,7 +33,7 @@ public struct RecipeDataSourceImpl: RecipeDataSource {
     public func generateRecipe(from source: String) async throws -> RecipeConversionDTO {
         guard let localToken = loginManager.loadLocalToken() else { throw DataSourceError.unauthorized }
         
-        let request = MFRequest(url: "http://121.157.24.40/api/v1/recipe")
+        let request = MFRequest(url: "https://recipe-it.net/api/v1/recipe")
             .post()
             .validate()
             .addParameters(["source": source])
@@ -49,7 +49,7 @@ public struct RecipeDataSourceImpl: RecipeDataSource {
     public func fetchRecipeState(recipeID: Int64) async throws -> RecipeStateDTO {
         guard let localToken = loginManager.loadLocalToken() else { throw DataSourceError.unauthorized }
         
-        let request = MFRequest(url: "http://121.157.24.40/api/v1/recipe/state/\(recipeID)")
+        let request = MFRequest(url: "https://recipe-it.net/api/v1/recipe/state/\(recipeID)")
             .get()
             .validate()
             .addHeaders([.authorization(bearerToken: localToken)])
@@ -64,7 +64,7 @@ public struct RecipeDataSourceImpl: RecipeDataSource {
     public func deleteRecipe(recipeID: Int64) async throws {
         guard let localToken = loginManager.loadLocalToken() else { throw DataSourceError.unauthorized }
         
-        let request = MFRequest(url: "http://121.157.24.40/api/v1/recipe/\(recipeID)")
+        let request = MFRequest(url: "https://recipe-it.net/api/v1/recipe/\(recipeID)")
             .delete()
             .validate()
             .addHeaders([.authorization(bearerToken: localToken)])
@@ -79,7 +79,7 @@ public struct RecipeDataSourceImpl: RecipeDataSource {
         
         let idString = ids.map { String($0) }.joined(separator: ",")
         
-        let request = MFRequest(url: "http://121.157.24.40/api/v1/recipe/completed")
+        let request = MFRequest(url: "https://recipe-it.net/api/v1/recipe/completed")
             .validate()
             .addQueries(["recipes": idString])
             .addHeaders([.authorization(bearerToken: localToken)])

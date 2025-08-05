@@ -8,7 +8,7 @@ struct FCMTokenService {
     }
     
     func update(token: String, for userToken: String) async throws {
-        let request = MFRequest(url: "http://121.157.24.40/api/v1/user/fcm-token")
+        let request = MFRequest(url: "https://recipe-it.net/api/v1/user/fcm-token")
             .patch()
             .validate()
             .addHeaders([.authorization(bearerToken: userToken)])

@@ -19,9 +19,6 @@ let project = Project(
                     "NSMicrophoneUsageDescription": "음성 입력을 위해 마이크 접근 권한이 필요합니다.",
                     "UIBackgroundModes": ["remote-notification"],
                     "FirebaseAppDelegateProxyEnabled": false,
-                    "NSAppTransportSecurity": [
-                        "NSAllowsArbitraryLoads": true
-                    ],
                     "UIUserInterfaceStyle": "Light"
                 ]
             ),

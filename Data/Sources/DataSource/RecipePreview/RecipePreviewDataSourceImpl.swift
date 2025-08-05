@@ -18,7 +18,7 @@ public struct RecipePreviewDataSourceImpl: RecipePreviewDataSource {
     public func fetchPreview(recipeID: Int64) async throws -> RecipePreviewDTO {
         guard let localToken = loginManager.loadLocalToken() else { throw DataSourceError.unauthorized }
         
-        let request = MFRequest(url: "http://121.157.24.40/api/v1/recipe/list/\(recipeID)")
+        let request = MFRequest(url: "https://recipe-it.net/api/v1/recipe/list/\(recipeID)")
             .validate()
             .addHeaders([.authorization(bearerToken: localToken)])
         let response = try await MF
@@ -31,7 +31,7 @@ public struct RecipePreviewDataSourceImpl: RecipePreviewDataSource {
     public func fetchPreviews(cursorId: Int?, size: Int) async throws -> RecipeListDTO {
         guard let localToken = loginManager.loadLocalToken() else { throw DataSourceError.unauthorized }
         
-        let request = MFRequest(url: "http://121.157.24.40/api/v1/recipe/list")
+        let request = MFRequest(url: "https://recipe-it.net/api/v1/recipe/list")
             .validate()
             .addQueries(["size": size])
             .addHeaders([.authorization(bearerToken: localToken)])

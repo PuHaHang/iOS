@@ -19,7 +19,7 @@ public struct LoginManagerImpl: LoginManager {
 
 extension LoginManagerImpl {
     public func createGuestToken(region: String) async throws -> String {
-        let request = MFRequest(url: "http://121.157.24.40/api/v1/user/guest")
+        let request = MFRequest(url: "https://recipe-it.net/api/v1/user/guest")
             .post()
             .validate()
             .addParameters(["region": region])

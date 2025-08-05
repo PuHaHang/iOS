@@ -31,7 +31,7 @@ public struct OnboardingDataSourceImpl: OnboardingDataSource {
     }
     
     public func fetchOnboardingImage() async throws -> String {
-        let request = MFRequest(url: "http://121.157.24.40/api/v1/onboarding")
+        let request = MFRequest(url: "https://recipe-it.net/api/v1/onboarding")
             .get()
             .validate()
         
