@@ -6,11 +6,21 @@ let project = Project(
         // 메인 앱 - Domain 모듈에 의존
         .target(
             name: "RecipeIt",
-            destinations: .iOS,
+            destinations: [.iPhone],
             product: .app,
             bundleId: "com.puhahang.recipe-it",
             infoPlist: .extendingDefault(
                 with: [
+                    "CFBundleShortVersionString": "1.1",
+                    "FacebookAppID": "769014272186685",
+                    "FacebookDisplayName": "Recipe-it",
+                    "CFBundleURLTypes": .array([
+                        .dictionary([
+                            "CFBundleURLSchemes": .array([
+                                .string("fb769014272186685")
+                            ])
+                        ])
+                    ]),
                     "UILaunchScreen": [
                         "UIColorName": "",
                         "UIImageName": "",
@@ -28,7 +38,7 @@ let project = Project(
                 .glob(pattern: "Resources/*.lproj/**")
             ],
             entitlements: .dictionary([
-                "aps-environment": "development"
+                "aps-environment": "production"
             ]),
             scripts: [
                 .pre(script: """
@@ -58,7 +68,7 @@ let project = Project(
         ),
         .target(
             name: "RecipeIt-Mock",
-            destinations: .iOS,
+            destinations: [.iPhone],
             product: .app,
             bundleId: "com.puhahang.recipe-it.mock",
             infoPlist: .extendingDefault(
@@ -80,7 +90,7 @@ let project = Project(
                 .glob(pattern: "Resources/*.lproj/**")
             ],
             entitlements: .dictionary([
-                "aps-environment": "development"
+                "aps-environment": "production"
             ]),
             dependencies: [
                 .project(target: "Domain", path: "../Domain"),

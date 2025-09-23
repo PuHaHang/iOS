@@ -9,9 +9,7 @@ import Dependencies
 import Foundation
 
 public enum LocaleProviderKey: TestDependencyKey {
-    #if DEBUG
     public static let testValue: LocaleProvider = EmptyLocaleProvider()
-    #endif
 }
 
 public extension DependencyValues {

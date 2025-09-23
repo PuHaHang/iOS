@@ -9,9 +9,7 @@ import Dependencies
 import Foundation
 
 public enum KeyChainHelperKey: TestDependencyKey {
-    #if DEBUG
     public static let testValue: KeyChainHelper = EmptyKeyChainHelper()
-    #endif
 }
 
 public extension DependencyValues {

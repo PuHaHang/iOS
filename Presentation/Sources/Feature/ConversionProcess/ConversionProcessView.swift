@@ -12,6 +12,7 @@ import SwiftUI
 
 struct ConversionProcessView: View {
     @Bindable var store: StoreOf<ConversionProcessReducer>
+    @Environment(\.scenePhase) private var scenePhase
     
     var body: some View {
         VStack(spacing: 0) {
@@ -25,6 +26,20 @@ struct ConversionProcessView: View {
         .toolbar(.hidden)
         .onAppear {
             store.send(.onAppear)
+        }
+        .onChange(of: scenePhase) { oldPhase, newPhase in
+            switch newPhase {
+            case .background:
+                print(">>> background")
+                store.send(.appDidEnterBackground)
+            case .active:
+                print(">>> foreground")
+                store.send(.appWillEnterForeground)
+            case .inactive:
+                break
+            @unknown default:
+                break
+            }
         }
         .errorDialog(
             title: store.errorState.dialogTitle,

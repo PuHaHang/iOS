@@ -9,9 +9,7 @@ import Dependencies
 import Foundation
 
 public enum AudioServiceKey: TestDependencyKey {
-    #if DEBUG
     public static let testValue: AudioService = EmptyAudioService()
-    #endif
 }
 
 public extension DependencyValues {
