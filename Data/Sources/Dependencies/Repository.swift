@@ -12,9 +12,7 @@ import Dependencies
 // MARK: - IntroRepository DI
 
 public enum IntroRepositoryKey: TestDependencyKey {
-    #if DEBUG
     public static let testValue: IntroRepository = EmptyIntroRepository()
-    #endif
 }
 
 public extension DependencyValues {
@@ -27,9 +25,7 @@ public extension DependencyValues {
 // MARK: - RecipeConversionRepository DI
 
 public enum RecipeConversionRepositoryKey: TestDependencyKey {
-    #if DEBUG
     public static let testValue: RecipeConversionRepository = EmptyRecipeConversionRepository()
-    #endif
 }
 
 public extension DependencyValues {
@@ -42,9 +38,7 @@ public extension DependencyValues {
 // MARK: - RecipeDetailRepository DI
 
 public enum RecipeDetailRepositoryKey: TestDependencyKey {
-    #if DEBUG
     public static let testValue: RecipeDetailRepository = EmptyRecipeDetailRepository()
-    #endif
 }
 
 public extension DependencyValues {
@@ -57,9 +51,7 @@ public extension DependencyValues {
 // MARK: - RecipePreviewRepository DI
 
 public enum RecipePreviewRepositoryKey: TestDependencyKey {
-    #if DEBUG
     public static let testValue: RecipePreviewRepository = EmptyRecipePreviewRepository()
-    #endif
 }
 
 public extension DependencyValues {
@@ -72,9 +64,7 @@ public extension DependencyValues {
 // MARK: - OnboardingRepository DI
 
 public enum OnboardingRepositoryKey: TestDependencyKey {
-    #if DEBUG
     public static let testValue: OnboardingRepository = EmptyOnboardingRepository()
-    #endif
 }
 
 public extension DependencyValues {
@@ -87,9 +77,7 @@ public extension DependencyValues {
 // MARK: - LanguageRepository DI
 
 public enum LanguageRepositoryKey: TestDependencyKey {
-    #if DEBUG
     public static let testValue: LanguageRepository = EmptyLanguageRepository()
-    #endif
 }
 
 public extension DependencyValues {

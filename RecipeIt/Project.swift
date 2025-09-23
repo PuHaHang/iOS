@@ -6,11 +6,21 @@ let project = Project(
         // 메인 앱 - Domain 모듈에 의존
         .target(
             name: "RecipeIt",
-            destinations: .iOS,
+            destinations: [.iPhone],
             product: .app,
             bundleId: "com.puhahang.recipe-it",
             infoPlist: .extendingDefault(
                 with: [
+                    "CFBundleShortVersionString": "1.1",
+                    "FacebookAppID": "769014272186685",
+                    "FacebookDisplayName": "Recipe-it",
+                    "CFBundleURLTypes": .array([
+                        .dictionary([
+                            "CFBundleURLSchemes": .array([
+                                .string("fb769014272186685")
+                            ])
+                        ])
+                    ]),
                     "UILaunchScreen": [
                         "UIColorName": "",
                         "UIImageName": "",
@@ -28,7 +38,7 @@ let project = Project(
                 .glob(pattern: "Resources/*.lproj/**")
             ],
             entitlements: .dictionary([
-                "aps-environment": "development"
+                "aps-environment": "production"
             ]),
             scripts: [
                 .pre(script: """
@@ -56,5 +66,64 @@ let project = Project(
                 .project(target: "Presentation", path: "../Presentation")
             ]
         ),
+        .target(
+            name: "RecipeIt-Mock",
+            destinations: [.iPhone],
+            product: .app,
+            bundleId: "com.puhahang.recipe-it.mock",
+            infoPlist: .extendingDefault(
+                with: [
+                    "UILaunchScreen": [
+                        "UIColorName": "",
+                        "UIImageName": "",
+                    ],
+                    "NSSpeechRecognitionUsageDescription": "음성 인식을 사용하기 위해 필요합니다.",
+                    "NSMicrophoneUsageDescription": "음성 입력을 위해 마이크 접근 권한이 필요합니다.",
+                    "UIBackgroundModes": ["remote-notification"],
+                    "FirebaseAppDelegateProxyEnabled": false,
+                    "UIUserInterfaceStyle": "Light"
+                ]
+            ),
+            sources: ["Sources/**"],
+            resources: [
+                "Resources/**",
+                .glob(pattern: "Resources/*.lproj/**")
+            ],
+            entitlements: .dictionary([
+                "aps-environment": "production"
+            ]),
+            dependencies: [
+                .project(target: "Domain", path: "../Domain"),
+                .project(target: "Data", path: "../Data"),
+                .project(target: "Shared", path: "../Shared/Shared"),
+                .project(target: "Login", path: "../Login"),
+                .project(target: "Presentation", path: "../Presentation")
+            ],
+            settings: .settings(
+                base: [
+                    "SWIFT_ACTIVE_COMPILATION_CONDITIONS": "USE_MOCK_REPOSITORY"
+                ]
+            )
+        ),
+    ],
+    schemes: [
+        .scheme(
+            name: "RecipeIt",
+            shared: true,
+            buildAction: .buildAction(targets: [.target("RecipeIt")]),
+            runAction: .runAction(
+                configuration: .debug,
+                executable: .target("RecipeIt")
+            )
+        ),
+        .scheme(
+            name: "RecipeIt-Mock",
+            shared: true,
+            buildAction: .buildAction(targets: [.target("RecipeIt-Mock")]),
+            runAction: .runAction(
+                configuration: .debug,
+                executable: .target("RecipeIt-Mock")
+            )
+        )
     ]
 ) 

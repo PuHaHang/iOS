@@ -10,9 +10,7 @@ import Dependencies
 // MARK: - IntroUseCase DI
 
 public enum IntroUseCaseKey: TestDependencyKey {
-    #if DEBUG
     public static let testValue: any IntroUseCase = EmptyIntroUseCase()
-    #endif
 }
 
 public extension DependencyValues {
@@ -25,9 +23,7 @@ public extension DependencyValues {
 // MARK: - FetchConvertedPreviewUseCase DI
 
 public enum FetchConvertedRecipeIDUseCaseKey: TestDependencyKey {
-    #if DEBUG
     public static let testValue: FetchConvertedRecipeIDUseCase = EmptyFetchConvertedPreviewUseCase()
-    #endif
 }
 
 public extension DependencyValues {
@@ -40,9 +36,7 @@ public extension DependencyValues {
 // MARK: - FetchRecipeDetailUseCase DI
 
 public enum FetchRecipeDetailUseCaseKey: TestDependencyKey {
-    #if DEBUG
     public static let testValue: FetchRecipeDetailUseCase = EmptyFetchRecipeDetailUseCase()
-    #endif
 }
 
 public extension DependencyValues {
@@ -55,9 +49,7 @@ public extension DependencyValues {
 // MARK: - FetchRecipePreviewUseCase DI
 
 public enum FetchRecipePreviewUseCaseKey: TestDependencyKey {
-    #if DEBUG
     public static let testValue: FetchRecipePreviewUseCase = EmptyFetchRecipePreviewUseCase()
-    #endif
 }
 
 public extension DependencyValues {
@@ -70,9 +62,7 @@ public extension DependencyValues {
 // MARK: - FetchRecipePreviewUseCase DI
 
 public enum FetchRecipePreviewsUseCaseKey: TestDependencyKey {
-    #if DEBUG
     public static let testValue: FetchRecipePreviewsUseCase = EmptyFetchRecipePreviewsUseCase()
-    #endif
 }
 
 public extension DependencyValues {
@@ -85,9 +75,7 @@ public extension DependencyValues {
 // MARK: - LaunchOnboardingCheckUseCase DI
 
 public enum LaunchOnboardingCheckUseCaseKey: TestDependencyKey {
-    #if DEBUG
     public static let testValue: LaunchOnboardingCheckUseCase = EmptyLaunchOnboardingCheckUseCase()
-    #endif
 }
 
 public extension DependencyValues {
@@ -100,9 +88,7 @@ public extension DependencyValues {
 // MARK: - LaunchOnboardingCompleteUseCase DI
 
 public enum LaunchOnboardingCompleteUseCaseKey: TestDependencyKey {
-    #if DEBUG
     public static let testValue: LaunchOnboardingCompleteUseCase = EmptyLaunchOnboardingCompleteUseCase()
-    #endif
 }
 
 public extension DependencyValues {
@@ -115,9 +101,7 @@ public extension DependencyValues {
 // MARK: - CookingOnboardingCheckUseCase DI
 
 public enum CookingOnboardingCheckUseCaseKey: TestDependencyKey {
-    #if DEBUG
     public static let testValue: CookingOnboardingCheckUseCase = EmptyCookingOnboardingCheckUseCase()
-    #endif
 }
 
 public extension DependencyValues {
@@ -130,9 +114,7 @@ public extension DependencyValues {
 // MARK: - CookingOnboardingCompleteUseCase DI
 
 public enum CookingOnboardingCompleteUseCaseKey: TestDependencyKey {
-    #if DEBUG
     public static let testValue: CookingOnboardingCompleteUseCase = EmptyCookingOnboardingCompleteUseCase()
-    #endif
 }
 
 public extension DependencyValues {
@@ -145,9 +127,7 @@ public extension DependencyValues {
 // MARK: - FetchUILanguageUseCase DI
 
 public enum FetchUILanguageUseCaseKey: TestDependencyKey {
-    #if DEBUG
     public static let testValue: FetchUILanguageUseCase = EmptyFetchUILanguageUseCase()
-    #endif
 }
 
 public extension DependencyValues {
@@ -160,9 +140,7 @@ public extension DependencyValues {
 // MARK: - SetUILanguageUseCase DI
 
 public enum SetUILanguageUseCaseKey: TestDependencyKey {
-    #if DEBUG
     public static var testValue: SetUILanguageUseCase = EmptySetUILanguageUseCase()
-    #endif
 }
 
 public extension DependencyValues {
@@ -175,9 +153,7 @@ public extension DependencyValues {
 // MARK: - FetchConversionLanguageUseCase DI
 
 public enum FetchConversionLanguageUseCaseKey: TestDependencyKey {
-    #if DEBUG
     public static var testValue: FetchConversionLanguageUseCase = EmptyFetchConversionLanguageUseCase()
-    #endif
 }
 
 public extension DependencyValues {
@@ -192,9 +168,7 @@ public extension DependencyValues {
 // MARK: - SetConversionLanguageUseCase DI
 
 public enum SetConversionLanguageUseCaseKey: TestDependencyKey {
-    #if DEBUG
     public static var testValue: SetConversionLanguageUseCase = EmptySetConversionLanguageUseCase()
-    #endif
 }
 
 public extension DependencyValues {
@@ -207,9 +181,7 @@ public extension DependencyValues {
 // MARK: - FetchOnboardingImageUseCase DI
 
 public enum FetchOnboardingImageUseCaseKey: TestDependencyKey {
-    #if DEBUG
     public static var testValue: FetchOnboardingImageUseCase = EmptyFetchOnboardingImageUseCase()
-    #endif
 }
 
 public extension DependencyValues {
@@ -222,9 +194,7 @@ public extension DependencyValues {
 // MARK: - FetchCompletedRecipeConversionIDsUseCase DI
 
 public enum FetchCompletedRecipeConversionIDsUseCaseKey: TestDependencyKey {
-    #if DEBUG
     public static var testValue: FetchCompletedRecipeConversionIDsUseCase = EmptyFetchCompletedRecipeConversionIDsUseCase()
-    #endif
 }
 
 public extension DependencyValues {
@@ -237,9 +207,7 @@ public extension DependencyValues {
 // MARK: - FetchRecipeStateUseCase DI
 
 public enum FetchRecipeStateUseCaseKey: TestDependencyKey {
-    #if DEBUG
     public static var testValue: FetchRecipeStateUseCase = EmptyFetchRecipeStateUseCase()
-    #endif
 }
 
 public extension DependencyValues {
@@ -252,9 +220,7 @@ public extension DependencyValues {
 // MARK: - DeleteRecipeUseCase DI
 
 public enum DeleteRecipeUseCaseKey: TestDependencyKey {
-    #if DEBUG
     public static var testValue: DeleteRecipeUseCase = EmptyDeleteRecipeUseCase()
-    #endif
 }
 
 public extension DependencyValues {
@@ -267,9 +233,7 @@ public extension DependencyValues {
 // MARK: - ClearRecipePreviewCacheUseCase DI
 
 public enum ClearRecipePreviewCacheUseCaseKey: TestDependencyKey {
-    #if DEBUG
     public static var testValue: ClearRecipePreviewCacheUseCase = EmptyClearRecipePreviewCacheUseCase()
-    #endif
 }
 
 public extension DependencyValues {

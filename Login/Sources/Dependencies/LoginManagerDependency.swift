@@ -9,9 +9,7 @@ import Dependencies
 import Foundation
 
 public enum LoginManagerKey: TestDependencyKey {
-    #if DEBUG
     public static let testValue: LoginManager = EmptyLoginManager()
-    #endif
 }
 
 public extension DependencyValues {

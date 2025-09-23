@@ -11,9 +11,7 @@ import Dependencies
 // MARK: - VersionDataSource DI
 
 public enum VersionDataSourceKey: TestDependencyKey {
-    #if DEBUG
     public static let testValue: VersionDataSource = EmptyVersionDataSource()
-    #endif
 }
 
 public extension DependencyValues {
@@ -26,9 +24,7 @@ public extension DependencyValues {
 // MARK: - RecipeDataSource DI
 
 public enum RecipeDataSourceKey: TestDependencyKey {
-    #if DEBUG
     public static let testValue: RecipeDataSource = EmptyRecipeDataSource()
-    #endif
 }
 
 public extension DependencyValues {
@@ -41,9 +37,7 @@ public extension DependencyValues {
 // MARK: - RecipePreviewDataSource DI
 
 public enum RecipePreviewDataSourceKey: TestDependencyKey {
-    #if DEBUG
     public static let testValue: RecipePreviewDataSource = EmptyRecipePreviewDataSource()
-    #endif
 }
 
 public extension DependencyValues {
@@ -56,9 +50,7 @@ public extension DependencyValues {
 // MARK: - OnboardingDataSource DI
 
 public enum OnboardingDataSourceKey: TestDependencyKey {
-    #if DEBUG
     public static let testValue: OnboardingDataSource = EmptyOnboardingDataSource()
-    #endif
 }
 
 public extension DependencyValues {
@@ -71,9 +63,7 @@ public extension DependencyValues {
 // MARK: - LanguageDataSource
 
 public enum LanguageDataSourceKey: TestDependencyKey {
-    #if DEBUG
     public static let testValue: LanguageDataSource = EmptyLanguageDataSource()
-    #endif
 }
 
 public extension DependencyValues {

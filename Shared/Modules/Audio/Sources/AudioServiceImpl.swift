@@ -95,32 +95,27 @@ public final class AudioServiceImpl: NSObject, AudioService {
         self.mode = mode
         let session = AVAudioSession.sharedInstance()
         
-        switch mode {
-        case .speaker:
-            try session.setCategory(
-                .playAndRecord,
-                mode: .default,
-                options: [
-                    .duckOthers,
-                    .defaultToSpeaker,
-                    .allowBluetooth,
-                    .mixWithOthers
-                ]
-            )
-            
-        case .earpiece:
+        // 처음 한 번만 세션 설정
+        if !session.categoryOptions.contains(.allowBluetooth) {
             try session.setCategory(
                 .playAndRecord,
                 mode: .voiceChat,
                 options: [
-                    .duckOthers,
+//                    .duckOthers,
                     .allowBluetooth,
                     .mixWithOthers
                 ]
             )
+            try session.setActive(true)
         }
         
-        try session.setActive(true)
+        // 출력 포트만 변경
+        switch mode {
+        case .speaker:
+            try session.overrideOutputAudioPort(.speaker)
+        case .earpiece:
+            try session.overrideOutputAudioPort(.none)
+        }
     }
     
     public func read(text: String) async {
@@ -161,6 +156,7 @@ private extension AudioServiceImpl {
     }
     
     func makeRecognitionRequest() -> SFSpeechAudioBufferRecognitionRequest {
+        print(">>> request")
         let request = SFSpeechAudioBufferRecognitionRequest()
         request.shouldReportPartialResults = true
         return request

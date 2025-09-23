@@ -9,9 +9,7 @@ import Dependencies
 import Foundation
 
 public enum LoggerKey: TestDependencyKey {
-    #if DEBUG
     public static let testValue: Logger = EmptyLogger()
-    #endif
 }
 
 public extension DependencyValues {

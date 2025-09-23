@@ -16,7 +16,8 @@ let project = Project(
                 .project(target: "Logger", path: "../Modules/Logger"),
                 .external(name: "FirebaseCore"),
                 .external(name: "FirebaseInstallations"),
-                .external(name: "FirebaseMessaging")
+                .external(name: "FirebaseMessaging"),
+                .external(name: "FacebookCore")
             ],
             settings: .settings(
                 base: [

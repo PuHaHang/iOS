@@ -9,7 +9,11 @@ import Dependencies
 import Foundation
 
 actor IncompleteRecipeStore<T: Hashable> {
-    private var ids: Set<T> = []
+    private var ids: Set<T>
+    
+    init(ids: Set<T> = []) {
+        self.ids = ids
+    }
 
     func set(_ ids: Set<T>) {
         self.ids = ids

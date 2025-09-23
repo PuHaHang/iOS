@@ -11,6 +11,7 @@ import Entity
 import Foundation
 import UIKit
 import Logger
+import Minifire
 
 @Reducer
 struct ConversionProcessReducer {
@@ -37,6 +38,9 @@ struct ConversionProcessReducer {
         case pollTick
         case pollResponse(RecipeStateViewData)
         case loadCompletedRecipe
+        
+        case appDidEnterBackground
+        case appWillEnterForeground
         
         case showError(ErrorDisplayType)
         case clearError
@@ -87,6 +91,13 @@ struct ConversionProcessReducer {
                     }
                 }
                 
+            case .appDidEnterBackground:
+                return .send(.stopPolling)
+                
+            case .appWillEnterForeground:
+                guard state.recipeConversionID != nil else { return .none }
+                return .send(.startPolling)
+                
             case .showError(let errorType):
                 state.errorState.showError(errorType)
                 return .none
@@ -134,7 +145,7 @@ private extension ConversionProcessReducer {
     func reduceStartPolling() -> Effect<Action> {
         return .run { send in
             for await _ in Timer
-                .publish(every: 5, on: .main, in: .common)
+                .publish(every: 5, on: .main, in: .default)
                 .autoconnect()
                 .values {
                 await send(.pollTick)
@@ -230,5 +241,11 @@ extension ConversionProcessReducer {
         case startedConvertingRecipe(Int64)
         case navigateToResult(RecipePreviewViewData)
         case navigateToFailed
+    }
+}
+
+extension MFError: @retroactive LocalizedError {
+    public var errorDescription: String? {
+        self.description
     }
 }

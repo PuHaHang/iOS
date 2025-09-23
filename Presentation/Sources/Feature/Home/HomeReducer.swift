@@ -20,9 +20,10 @@ struct HomeReducer {
     @Dependency(\.fetchCompletedRecipeConversionIDsUseCase) var fetchCompletedRecipeConversionIDsUseCase
     @Dependency(\.clearRecipePreviewCacheUseCase) var clearRecipePreviewCacheUseCase
     @Dependency(\.logger) var logger
+    @Dependency(\.continuousClock) var clock
     
     @ObservableState
-    struct State {
+    struct State: Equatable {
         let titleIconName: String = "title_icon"
         let pageSize: Int = 3
         var cursorId: Int?
@@ -35,7 +36,7 @@ struct HomeReducer {
         var errorState = ErrorHandlingState()
     }
     
-    enum Action {
+    enum Action: Equatable {
         case onAppear
         case addRecipe(RecipeListItem)
         case updateRecipe(RecipeListItem)
@@ -161,11 +162,9 @@ struct HomeReducer {
                 }
                 
             case .startPolling:
-                return .run { send in
-                    for await _ in Timer
-                        .publish(every: 5, on: .main, in: .common)
-                        .autoconnect()
-                        .values {
+                return .run { [clock] send in
+                    while true {
+                        try await clock.sleep(for: .seconds(5))
                         await send(.pollTick)
                     }
                 }
@@ -317,7 +316,7 @@ extension HomeReducer {
     }
 }
 
-private extension RecipePreviewVO {
+extension RecipePreviewVO {
     func toRecipeListItem() -> RecipeListItem {
         return RecipeListItem(
             recipeID: self.recipeID,
