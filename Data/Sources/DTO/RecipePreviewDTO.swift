@@ -8,7 +8,7 @@
 import Foundation
 import Entity
 
-public struct RecipePreviewDTO: Decodable {
+public struct RecipePreviewDTO: Codable {
     let recipeID: Int64
     let title: String?
     let thumbnail: String?

@@ -8,7 +8,7 @@
 import Entity
 import Foundation
 
-public struct RecipeListDTO: Decodable {
+public struct RecipeListDTO: Codable {
     let recipes: [RecipePreviewDTO]
     let hasNext: Bool
     let cursorId: Int?

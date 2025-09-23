@@ -18,6 +18,7 @@ struct HomeReducer {
     @Dependency(\.fetchRecipePreviewsUseCase) var fetchRecipePreviewsUseCase
     @Dependency(\.fetchRecipePreviewUseCase) var fetchRecipePreviewUseCase
     @Dependency(\.fetchCompletedRecipeConversionIDsUseCase) var fetchCompletedRecipeConversionIDsUseCase
+    @Dependency(\.clearRecipePreviewCacheUseCase) var clearRecipePreviewCacheUseCase
     @Dependency(\.logger) var logger
     
     @ObservableState
@@ -87,7 +88,13 @@ struct HomeReducer {
             case .recipes(.element(id: let recipeId, action: .delegate(.deleteRequested))):
                 state.recipes.remove(id: recipeId)
                 state.listState = state.recipes.isEmpty ? .empty : .loaded
-                return .none
+                
+                let pageSize = state.pageSize
+                return .run { send in
+                    await clearRecipePreviewCacheUseCase.execute()
+                    
+                    let _ = await fetchRecipePreviewsUseCase.execute(cursorId: nil, size: pageSize, fromCache: false)
+                }
                 
             case .recipes:
                 return .none
@@ -115,7 +122,7 @@ struct HomeReducer {
                 let pageSize = state.pageSize
                 
                 return .run { send in
-                    let result = await fetchRecipePreviewsUseCase.execute(cursorId: cursorId, size: pageSize)
+                    let result = await fetchRecipePreviewsUseCase.execute(cursorId: cursorId, size: pageSize, fromCache: false)
                     
                     switch result {
                     case .success(let list):
@@ -217,15 +224,10 @@ struct HomeReducer {
 
 private extension HomeReducer {
     func reduceOnAppear(_ state: inout HomeReducer.State) -> Effect<Action> {
-        state.cursorId = nil
-        state.recipes = []
-        state.listState = .idle
-        state.errorState.clearError()
-        
         let pageSize = state.pageSize
         
         return .run { send in
-            let result = await fetchRecipePreviewsUseCase.execute(cursorId: nil, size: pageSize)
+            let result = await fetchRecipePreviewsUseCase.execute(cursorId: nil, size: pageSize, fromCache: true)
             
             switch result {
             case .success(let list):
@@ -238,13 +240,7 @@ private extension HomeReducer {
                 await send(.checkIfNeedsPolling)
                 
             case .failure(let error):
-                let errorType = ErrorDisplayType.dialog(
-                    title: "오류가 발생하였습니다",
-                    message: "인터넷 연결 상태를 확인하고 다시 시도해주세요.",
-                    showBackButton: false
-                )
-                
-                await send(.showError(errorType))
+                await send(.refresh)
             }
         }
     }
@@ -274,7 +270,34 @@ private extension HomeReducer {
     func reduceRefresh(_ state: inout HomeReducer.State) -> Effect<Action> {
         state.cursorId = nil
         state.recipes = []
-        return .send(.onAppear)
+        state.listState = .idle
+        state.errorState.clearError()
+        
+        let pageSize = state.pageSize
+        
+        return .run { send in
+            let result = await fetchRecipePreviewsUseCase.execute(cursorId: nil, size: pageSize, fromCache: false)
+            
+            switch result {
+            case .success(let list):
+                let hasNext = list.hasNext
+                let cursorId = list.cursorId
+                let items = list.previews.map { $0.toRecipeListItem() }
+                
+                await send(.updatePageState(hasNext, cursorId))
+                await send(.addRecipes(items))
+                await send(.checkIfNeedsPolling)
+                
+            case .failure(let error):
+                let errorType = ErrorDisplayType.dialog(
+                    title: "오류가 발생하였습니다",
+                    message: "인터넷 연결 상태를 확인하고 다시 시도해주세요.",
+                    showBackButton: false
+                )
+                
+                await send(.showError(errorType))
+            }
+        }
     }
 }
 

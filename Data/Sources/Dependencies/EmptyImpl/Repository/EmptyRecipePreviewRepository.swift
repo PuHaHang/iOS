@@ -14,7 +14,11 @@ struct EmptyRecipePreviewRepository: RecipePreviewRepository {
         throwUnimplemented()
     }
     
-    func fetchPreviews(cursorId: Int?, size: Int) async throws -> RecipeListVO {
+    func fetchPreviews(cursorId: Int?, size: Int, fromCache: Bool) async throws -> Entity.RecipeListVO {
+        throwUnimplemented()
+    }
+    
+    func clearCache() async throws {
         throwUnimplemented()
     }
 }

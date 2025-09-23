@@ -14,14 +14,17 @@ public enum RecipePreviewError: Error {
 }
 
 public struct ErrorRecipePreviewRepositoryImpl: RecipePreviewRepository {
-    
     public init() { }
     
     public func fetchPreview(for recipeID: Int64) async throws -> RecipePreviewVO {
         throw RecipePreviewError.forcedFailure
     }
     
-    public func fetchPreviews(cursorId: Int?, size: Int) async throws -> RecipeListVO {
+    public func fetchPreviews(cursorId: Int?, size: Int, fromCache: Bool) async throws -> Entity.RecipeListVO {
+        throw RecipePreviewError.forcedFailure
+    }
+    
+    public func clearCache() async throws {
         throw RecipePreviewError.forcedFailure
     }
 }

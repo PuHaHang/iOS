@@ -15,9 +15,9 @@ public struct FetchRecipePreviewsUseCaseImpl: FetchRecipePreviewsUseCase {
         self.recipePreviewRepository = recipePreviewRepository
     }
     
-    public func execute(cursorId: Int?, size: Int) async -> Result<RecipeListVO, Error> {
+    public func execute(cursorId: Int?, size: Int, fromCache: Bool = false) async -> Result<RecipeListVO, Error> {
         do {
-            let list = try await recipePreviewRepository.fetchPreviews(cursorId: cursorId, size: size)
+            let list = try await recipePreviewRepository.fetchPreviews(cursorId: cursorId, size: size, fromCache: fromCache)
             return .success(list)
         } catch {
             return .failure(error)

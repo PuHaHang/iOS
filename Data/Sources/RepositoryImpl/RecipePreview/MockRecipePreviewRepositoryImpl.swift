@@ -44,7 +44,7 @@ public struct MockRecipePreviewRepositoryImpl: RecipePreviewRepository {
         )
     }
     
-    public func fetchPreviews(cursorId: Int?, size: Int) async throws -> RecipeListVO {
+    public func fetchPreviews(cursorId: Int?, size: Int, fromCache: Bool = false) async throws -> RecipeListVO {
         let previews = [
             RecipePreviewVO(
                 recipeID: 1,
@@ -137,5 +137,8 @@ public struct MockRecipePreviewRepositoryImpl: RecipePreviewRepository {
             hasNext: true,
             cursorId: 10
         )
+    }
+    
+    public func clearCache() async throws {
     }
 }
