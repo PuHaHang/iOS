@@ -30,15 +30,11 @@ actor IngredientTodoService {
         isLoaded = true
     }
     
-    private func saveToFile() async {
+    private func saveToFile() async throws {
         guard let fileURL else { return }
         
-        do {
-            let data = try JSONEncoder().encode(todos)
-            try data.write(to: fileURL)
-        } catch {
-            print("투두 데이터 저장 실패: \(error)")
-        }
+        let data = try JSONEncoder().encode(todos)
+        try data.write(to: fileURL)
     }
     
     func getTodos(for recipeID: Int64) async -> [String: Bool] {
@@ -46,13 +42,13 @@ actor IngredientTodoService {
         return todos[String(recipeID)] ?? [:]
     }
     
-    func setTodos(_ ingredientTodos: [String: Bool], for recipeID: Int64) async {
+    func setTodos(_ ingredientTodos: [String: Bool], for recipeID: Int64) async throws {
         await loadFromFile()
         todos[String(recipeID)] = ingredientTodos
-        await saveToFile()
+        try await saveToFile()
     }
     
-    func toggleTodo(ingredientID: Int64, for recipeID: Int64) async {
+    func toggleTodo(ingredientID: Int64, for recipeID: Int64) async throws {
         await loadFromFile()
         
         let recipeKey = String(recipeID)
@@ -60,10 +56,10 @@ actor IngredientTodoService {
         recipeTodos[String(ingredientID)] = recipeTodos[String(ingredientID)] ?? false
         todos[recipeKey] = recipeTodos
         
-        await saveToFile()
+        try await saveToFile()
     }
     
-    func setTodo(ingredientID: Int64, isCompleted: Bool, for recipeID: Int64) async {
+    func setTodo(ingredientID: Int64, isCompleted: Bool, for recipeID: Int64) async throws {
         await loadFromFile()
         
         let recipeKey = String(recipeID)
@@ -71,10 +67,10 @@ actor IngredientTodoService {
         recipeTodos[String(ingredientID)] = isCompleted
         todos[recipeKey] = recipeTodos
         
-        await saveToFile()
+        try await saveToFile()
     }
     
-    func initializeRecipe(recipeID: Int64, ingredients: [Int64]) async {
+    func initializeRecipe(recipeID: Int64, ingredients: [Int64]) async throws {
         await loadFromFile()
         
         let recipeKey = String(recipeID)
@@ -87,17 +83,17 @@ actor IngredientTodoService {
         }
         
         todos[recipeKey] = recipeTodos
-        await saveToFile()
+        try await saveToFile()
     }
     
-    func resetTodos(for recipeID: Int64) async {
+    func resetTodos(for recipeID: Int64) async throws {
         await loadFromFile()
         todos[String(recipeID)] = [:]
-        await saveToFile()
+        try await saveToFile()
     }
     
-    func clearAllTodos() async {
+    func clearAllTodos() async throws {
         todos = [:]
-        await saveToFile()
+        try await saveToFile()
     }
 } 

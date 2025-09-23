@@ -15,8 +15,8 @@ public struct MockRecipeDetailRepositoryImpl: RecipeDetailRepository {
     public func fetchDetail(for recipeID: Int64) async throws -> RecipeDetailVO {
         return RecipeDetailVO(
             recipeID: 0,
-            thumbnailURL: URL(string: "https://images.unsplash.com/photo-1482049016688-2d3e1b311543?q=80&w=2810&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D")!,
             title: "간단한 계란 샐러드",
+            thumbnailURL: URL(string: "https://images.unsplash.com/photo-1482049016688-2d3e1b311543?q=80&w=2810&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D")!,
             serving: 2,
             reference: ReferenceVO.youtube(URL(string: "https://youtu.be/engr8PvZ98Q?si=UywXhbCmQkG4GvDR")!),
             ingredients: [
@@ -69,5 +69,8 @@ public struct MockRecipeDetailRepositoryImpl: RecipeDetailRepository {
                 )
             ]
         )
+    }
+    
+    public func delete(for recipeID: Int64) async throws {
     }
 }

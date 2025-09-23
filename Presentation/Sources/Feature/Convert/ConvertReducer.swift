@@ -59,7 +59,14 @@ struct ConvertReducer {
                 state.path.append(.result(.init(recipePreviewViewData: preview)))
                 return .none
                 
+            case .path(.element(_, action: .process(.delegate(.navigateToFailed)))):
+                state.path.append(.failed(.init()))
+                return .none
+                
             case .path(.element(_, action: .result(.delegate(.didRequestDismiss)))):
+                return .run { _ in await dismiss() }
+                
+            case .path(.element(_, action: .failed(.delegate(.didRequestDismiss)))):
                 return .run { _ in await dismiss() }
                 
             case .binding:
@@ -80,5 +87,6 @@ extension ConvertReducer {
     enum Path {
         case process(ConversionProcessReducer)
         case result(ConversionResultReducer)
+        case failed(ConversionFailedReducer)
     }
 }

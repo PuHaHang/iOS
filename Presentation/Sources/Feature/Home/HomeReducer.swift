@@ -23,11 +23,15 @@ struct HomeReducer {
     @ObservableState
     struct State {
         let titleIconName: String = "title_icon"
-        let pageSize: Int = 10
-        var page: Int = 1
+        let pageSize: Int = 3
+        var cursorId: Int?
+        var hasNext: Bool = false
+        var isLoadingNext: Bool = false
         
         var recipes: IdentifiedArrayOf<RecipeListItemReducer.State> = []
         var listState: RecipeListState = .idle
+        
+        var errorState = ErrorHandlingState()
     }
     
     enum Action {
@@ -38,17 +42,24 @@ struct HomeReducer {
         case checkIfNeedsPolling
         case recipes(IdentifiedActionOf<RecipeListItemReducer>)
         case refresh
+        case scroll
+        case updatePageState(Bool, Int?)
         case addConvertingId(Int64)
         case startPolling
         case pollTick
         case cancelTick
         case completedRecipeIDsRepsponse([Int64])
         
+        case showError(ErrorDisplayType)
+        case clearError
+        
         case delegate(Delegate)
     }
     
     var body: some ReducerOf<Self> {
-        Reduce { state, action in
+        Reduce {
+            state,
+            action in
             switch action {
             case .onAppear:
                 logger.track(.homeScreen)
@@ -67,8 +78,19 @@ struct HomeReducer {
                 return reduceAddRecipes(&state, items: items)
                 
             case .recipes(.element(id: _, action: .didTapItem(let item))):
-                logger.track(.homeRecipeItemButton)
+                logger.track(.homeRecipeItemButton(servings: item.servings))
                 return .send(.delegate(.showRecipeDetail(item)))
+                
+            case .recipes(.element(id: _, action: .delegate(.showError(let errorType)))):
+                return .send(.showError(errorType))
+                
+            case .recipes(.element(id: let recipeId, action: .delegate(.deleteRequested))):
+                state.recipes.remove(id: recipeId)
+                state.listState = state.recipes.isEmpty ? .empty : .loaded
+                return .none
+                
+            case .recipes:
+                return .none
                 
             case .refresh:
                 return reduceRefresh(&state)
@@ -79,13 +101,48 @@ struct HomeReducer {
                     await send(.startPolling)
                 }
                 
+            case .updatePageState(let hasNext, let cursorId):
+                state.cursorId = cursorId
+                state.hasNext = hasNext
+                state.isLoadingNext = false
+                return .none
+                
+            case .scroll:
+                guard state.hasNext,
+                      !state.isLoadingNext,
+                      let cursorId = state.cursorId else { return .none }
+                state.isLoadingNext = true
+                let pageSize = state.pageSize
+                
+                return .run { send in
+                    let result = await fetchRecipePreviewsUseCase.execute(cursorId: cursorId, size: pageSize)
+                    
+                    switch result {
+                    case .success(let list):
+                        let hasNext = list.hasNext
+                        let cursorId = list.cursorId
+                        let items = list.previews.map { $0.toRecipeListItem() }
+                        
+                        await send(.updatePageState(hasNext, cursorId))
+                        await send(.addRecipes(items))
+                        await send(.checkIfNeedsPolling)
+                        
+                    case .failure(let error):
+                        let errorType = ErrorDisplayType.toast(
+                            message: "데이터 로드에 실패했습니다.",
+                            duration: 3.0
+                        )
+                        await send(.showError(errorType))
+                    }
+                }
+                
             case .checkIfNeedsPolling:
                 return .run { [recipes = state.recipes] send in
                     var needsPolling = false
                     
                     for recipeState in recipes {
                         let item = recipeState.item
-                        if item.state != .completed {
+                        if item.state != .completed && item.state != .failed {
                             await incompletedRecipeIDStore.add(item.recipeID)
                             needsPolling = true
                         }
@@ -112,9 +169,12 @@ struct HomeReducer {
                     let ids = await incompletedRecipeIDStore.get()
                     guard !ids.isEmpty else { return await send(.cancelTick) }
                     
-                    guard let result = try? await fetchCompletedRecipeConversionIDsUseCase.execute(ids: ids) else { return }
-                    
-                    await send(.completedRecipeIDsRepsponse(result))
+                    do {
+                        let result = try await fetchCompletedRecipeConversionIDsUseCase.execute(ids: ids)
+                        await send(.completedRecipeIDsRepsponse(result))
+                    } catch {
+                        print(">>> \(error)")
+                    }
                 }
                 
             case .completedRecipeIDsRepsponse(let ids):
@@ -137,6 +197,14 @@ struct HomeReducer {
             case .cancelTick:
                 return .cancel(id: CancelID.polling)
                 
+            case .showError(let errorType):
+                state.errorState.showError(errorType)
+                return .none
+                
+            case .clearError:
+                state.errorState.clearError()
+                return .none
+                
             case .delegate:
                 return .none
             }
@@ -149,24 +217,34 @@ struct HomeReducer {
 
 private extension HomeReducer {
     func reduceOnAppear(_ state: inout HomeReducer.State) -> Effect<Action> {
-        state.page = 1
+        state.cursorId = nil
         state.recipes = []
+        state.listState = .idle
+        state.errorState.clearError()
         
-        let page = state.page
         let pageSize = state.pageSize
+        
         return .run { send in
-            let result = await fetchRecipePreviewsUseCase.execute(
-                page: page,
-                pageSize: pageSize
-            )
+            let result = await fetchRecipePreviewsUseCase.execute(cursorId: nil, size: pageSize)
             
             switch result {
-            case .success(let previews):
-                let items = previews.map { $0.toRecipeListItem() }
+            case .success(let list):
+                let hasNext = list.hasNext
+                let cursorId = list.cursorId
+                let items = list.previews.map { $0.toRecipeListItem() }
+                
+                await send(.updatePageState(hasNext, cursorId))
                 await send(.addRecipes(items))
                 await send(.checkIfNeedsPolling)
+                
             case .failure(let error):
-                print(">>> Error: \(error)")
+                let errorType = ErrorDisplayType.dialog(
+                    title: "오류가 발생하였습니다",
+                    message: "인터넷 연결 상태를 확인하고 다시 시도해주세요.",
+                    showBackButton: false
+                )
+                
+                await send(.showError(errorType))
             }
         }
     }
@@ -175,8 +253,7 @@ private extension HomeReducer {
         _ state: inout HomeReducer.State,
         item: RecipeListItem
     ) -> Effect<Action> {
-        let itemID = UUID()
-        let itemState = RecipeListItemReducer.State(id: itemID, item: item)
+        let itemState = RecipeListItemReducer.State(item: item)
         state.recipes.insert(itemState, at: 0)
         
         return .none
@@ -186,17 +263,16 @@ private extension HomeReducer {
         _ state: inout HomeReducer.State,
         items: [RecipeListItem]
     ) -> Effect<Action> {
-        for item in items.reversed() {
-            let itemID = UUID()
-            let itemState = RecipeListItemReducer.State(id: itemID, item: item)
-            state.recipes.insert(itemState, at: 0)
+        for item in items {
+            let itemState = RecipeListItemReducer.State(item: item)
+            state.recipes.append(itemState)
         }
         state.listState = state.recipes.isEmpty ? .empty : .loaded
         return .none
     }
     
     func reduceRefresh(_ state: inout HomeReducer.State) -> Effect<Action> {
-        state.page = 1
+        state.cursorId = nil
         state.recipes = []
         return .send(.onAppear)
     }
@@ -224,7 +300,7 @@ private extension RecipePreviewVO {
             recipeID: self.recipeID,
             thumbnail: self.thumbnailURL,
             title: self.title,
-            serving: "\(self.servings)\(LocalizationHelper.recipeServingUnit)",
+            servings: self.servings,
             ingredients: self.ingredients.map { $0.name }.joined(separator: ", "),
             state: self.state.toRecipeStateViewData()
         )

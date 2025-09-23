@@ -10,4 +10,6 @@ import Entity
 
 public protocol RecipeDetailRepository {
     func fetchDetail(for recipeID: Int64) async throws -> RecipeDetailVO
+    
+    func delete(for recipeID: Int64) async throws
 }

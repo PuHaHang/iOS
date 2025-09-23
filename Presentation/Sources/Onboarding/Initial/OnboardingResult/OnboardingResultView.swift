@@ -21,17 +21,22 @@ struct OnboardingResultView: View {
                 .foregroundStyle(AppColor.Text.main)
                 .padding(.bottom, 30)
             
-            KFImage.url(store.imageURL)
-                .resizable()
-                .scaledToFill()
-                .frame(width: 300, height: 480)
-                .clipShape(RoundedRectangle(cornerRadius: 20))
-                .background(
-                    RoundedRectangle(cornerRadius: 20)
-                        .fill(Color.white)
-                        .shadow(color: .black.opacity(0.1), radius: 10, x: 0, y: 0)
-                )
-                .padding(.bottom, 50)
+            ScrollView([.vertical]) {
+                KFImage.url(store.imageURL)
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: 300, height: 829)
+                    .clipped()
+            }
+            .scrollIndicators(.hidden)
+            .frame(width: 300, height: 480)
+            .clipShape(RoundedRectangle(cornerRadius: 20))
+            .background(
+                RoundedRectangle(cornerRadius: 20)
+                    .fill(Color.white)
+                    .shadow(color: .black.opacity(0.1), radius: 10, x: 0, y: 0)
+            )
+            .padding(.bottom, 50)
             
             Text(store.subTitleText)
                 .font(.system(size: 16))

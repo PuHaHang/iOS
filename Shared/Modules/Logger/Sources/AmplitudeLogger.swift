@@ -33,6 +33,8 @@ public final class AmplitudeLogger: Logger {
             type = "Tap - \(screenName)_\(buttonName)"
         case .voiceRecognition(let recognizedString):
             type = "Voice - \(recognizedString)"
+        case .dismiss(let screenName):
+            type = "Screen Dismiss - \(screenName)"
         }
         
         self.track(

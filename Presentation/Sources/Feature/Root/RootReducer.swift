@@ -61,12 +61,15 @@ struct RootReducer {
             case .destination(.presented(.convert(.path(.element(_, action: .process(.delegate(.refresh))))))):
                 return .send(.home(.refresh))
                 
-            case .destination(.presented(.convert(.path(.element(_, action: .process(.delegate(.startedConvertingRecipe(let recipeID)))))))):
-                return .send(.home(.addConvertingId(recipeID)))
+            case .destination(.presented(.convert(.path(.element(_, action: .process(.delegate(.navigateToResult(_)))))))):
+                return .send(.home(.refresh))
+                
+            case .destination(.presented(.convert(.path(.element(_, action: .process(.delegate(.navigateToFailed))))))):
+                return .send(.home(.refresh))
                 
             case .destination(.presented(.onboarding(.delegate(.didRequestDismiss)))):
                 state.destination = nil
-                return .none
+                return .send(.home(.refresh))
                 
             case .destination(.dismiss):
                 audioService.stopCapture()
@@ -95,7 +98,11 @@ private extension RootReducer {
                 return await send(.navigateToRecipe(detail))
                 
             case .failure(let error):
-                print(">>> \(error)")
+                let errorType = ErrorDisplayType.toast(
+                    message: "레시피를 불러오지 못했습니다.\n잠시 후 다시 시도해주세요.",
+                    duration: 3.0
+                )
+                return await send(.home(.showError(errorType)))
             }
         }
     }

@@ -27,6 +27,33 @@ struct HomeView: View {
         .onAppear {
             store.send(.onAppear)
         }
+        .onDisappear {
+            store.send(.clearError)
+        }
+        .errorToast(
+            message: store.errorState.toastMessage,
+            isVisible: .init(
+                get: { store.errorState.showToast },
+                set: { newValue in
+                    if !newValue {
+                        store.send(.clearError)
+                    }
+                }
+            ),
+            duration: store.errorState.toastDuration
+        )
+        .errorDialog(
+            title: store.errorState.dialogTitle,
+            message: store.errorState.dialogMessage,
+            isPresented: .init(
+                get: { store.errorState.showDialog },
+                set: { _ in store.send(.clearError) }
+            ),
+            onBackAction: store.errorState.showBackButton ? {
+                store.send(.clearError)
+            } : nil,
+            showBackButton: store.errorState.showBackButton
+        )
     }
 }
 
@@ -42,13 +69,24 @@ extension HomeView {
                         .listRowInsets(EdgeInsets(top: 8, leading: 20, bottom: 8, trailing: 20))
                 }
                 
-                Color.clear
-                    .frame(height: 120)
-                    .listRowInsets(EdgeInsets())
-                    .listRowSeparator(.hidden)
+                FooterSentinelView(
+                    onAppear: { store.send(.scroll) }
+                )
             }
             .listStyle(PlainListStyle())
             .scrollIndicators(.hidden)
+        }
+    }
+    
+    
+    private struct FooterSentinelView: View {
+        let onAppear: () -> Void
+        var body: some View {
+            Color.clear
+                .frame(height: 120)
+                .listRowInsets(EdgeInsets())
+                .listRowSeparator(.hidden)
+                .onAppear(perform: onAppear)
         }
     }
     

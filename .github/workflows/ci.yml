@@ -34,7 +34,7 @@ jobs:
       - name: Build and test
         run: |
           xcodebuild test \
-            -workspace PuHaHang.xcworkspace \
+            -workspace RecipeIt.xcworkspace \
             -scheme AllTests \
             -destination 'platform=iOS Simulator,name=iPhone 16 Pro,OS=18.2' \
             | xcpretty && exit ${PIPESTATUS[0]}

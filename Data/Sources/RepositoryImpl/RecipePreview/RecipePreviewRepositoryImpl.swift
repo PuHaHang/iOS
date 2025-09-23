@@ -22,9 +22,9 @@ public struct RecipePreviewRepositoryImpl: RecipePreviewRepository {
         return recipePreview.toDomain()
     }
     
-    public func fetchPreviews(page: Int, pageSize: Int) async throws -> [RecipePreviewVO] {
-        let recipePreviews = try await dataSource.fetchPreviews(page: page, pageSize: pageSize)
+    public func fetchPreviews(cursorId: Int?, size: Int) async throws -> RecipeListVO {
+        let recipeList = try await dataSource.fetchPreviews(cursorId: cursorId, size: size)
         
-        return recipePreviews.map { $0.toDomain() }
+        return recipeList.toDomain()
     }
 }

@@ -12,7 +12,7 @@ public struct EmptyRecipePreviewDataSource: RecipePreviewDataSource {
         throwUnimplemented()
     }
     
-    public func fetchPreviews(page: Int, pageSize: Int) async throws -> [RecipePreviewDTO] {
+    public func fetchPreviews(cursorId: Int?, size: Int) async throws -> RecipeListDTO {
         throwUnimplemented()
     }
 }

@@ -10,6 +10,7 @@ import Foundation
 import Shared
 import Entity
 import UIKit
+import Logger
 
 @Reducer
 struct RecipeReducer {
@@ -84,9 +85,11 @@ struct RecipeReducer {
                 return reduceNavigateToCookingOnboarding(&state)
                 
             case .didTapContentButton:
+                logger.track(.detailContentButton)
                 return reduceDidTapContentButton(state)
                 
             case .didTapCookingButton:
+                logger.track(.detailCookingButton)
                 return reduceDidTapCookingButton(&state)
                 
             case .path, .titleTab:
@@ -141,6 +144,7 @@ private extension RecipeReducer {
         let title = state.recipeViewData.title
         let steps = state.recipeViewData.steps
         let cookingState = CookingReducer.State(
+            recipeId: state.recipeViewData.recipeID,
             title: title,
             steps: steps,
             reference: state.recipeViewData.reference
@@ -185,8 +189,8 @@ private extension ReferenceVO {
         case .shorts(let url):
             return .shorts(url)
             
-        case .text(let content):
-            return .text(content)
+        case .text:
+            return .text
             
         case .unknown:
             return .unknown
@@ -211,18 +215,23 @@ private extension ReferenceVO {
 
 extension StageVO {
     func toStepViewData() -> RecipeStepViewData {
-        let startTimeMeasurement = Measurement(
-            value: self.timeline.startTime,
-            unit: UnitDuration.seconds
-        )
-        let endTimeMeasurement = Measurement(
-            value: self.timeline.endTime,
-            unit: UnitDuration.seconds
-        )
-        let timeline = TimeLineViewData(
-            startTime: startTimeMeasurement,
-            endTime: endTimeMeasurement
-        )
+        var timeline: TimeLineViewData?
+        
+        if let startTime = self.timeline.startTime,
+           let endTime = self.timeline.endTime {
+            let startTimeMeasurement = Measurement(
+                value: startTime,
+                unit: UnitDuration.seconds
+            )
+            let endTimeMeasurement = Measurement(
+                value: endTime,
+                unit: UnitDuration.seconds
+            )
+            timeline = TimeLineViewData(
+                startTime: startTimeMeasurement,
+                endTime: endTimeMeasurement
+            )
+        }
         
         return RecipeStepViewData(
             id: UUID(),

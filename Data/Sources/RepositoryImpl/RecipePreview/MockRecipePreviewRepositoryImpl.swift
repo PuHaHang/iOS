@@ -44,8 +44,8 @@ public struct MockRecipePreviewRepositoryImpl: RecipePreviewRepository {
         )
     }
     
-    public func fetchPreviews(page: Int, pageSize: Int) async throws -> [RecipePreviewVO] {
-        return [
+    public func fetchPreviews(cursorId: Int?, size: Int) async throws -> RecipeListVO {
+        let previews = [
             RecipePreviewVO(
                 recipeID: 1,
                 thumbnailURL: URL(string: "https://images.unsplash.com/photo-1600891964599-f61ba0e24092")!,
@@ -101,7 +101,7 @@ public struct MockRecipePreviewRepositoryImpl: RecipePreviewRepository {
                         amount: "1개"
                     )
                 ],
-                state: "PENDING"),
+                state: "FAILED"),
             RecipePreviewVO(
                 recipeID: 3,
                 thumbnailURL: URL(string: "https://images.unsplash.com/photo-1600891964599-f61ba0e24092")!,
@@ -129,7 +129,13 @@ public struct MockRecipePreviewRepositoryImpl: RecipePreviewRepository {
                         amount: "1개"
                     )
                 ],
-                state: "PENDING"),
+                state: "FAILED"),
             ]
+        
+        return RecipeListVO(
+            previews: previews,
+            hasNext: true,
+            cursorId: 10
+        )
     }
 }

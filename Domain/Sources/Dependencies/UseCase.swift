@@ -233,3 +233,33 @@ public extension DependencyValues {
         set { self[FetchCompletedRecipeConversionIDsUseCaseKey.self] = newValue }
     }
 }
+
+// MARK: - FetchRecipeStateUseCase DI
+
+public enum FetchRecipeStateUseCaseKey: TestDependencyKey {
+    #if DEBUG
+    public static var testValue: FetchRecipeStateUseCase = EmptyFetchRecipeStateUseCase()
+    #endif
+}
+
+public extension DependencyValues {
+    var fetchRecipeStateUseCase: FetchRecipeStateUseCase {
+        get { self[FetchRecipeStateUseCaseKey.self] }
+        set { self[FetchRecipeStateUseCaseKey.self] = newValue }
+    }
+}
+
+// MARK: - DeleteRecipeUseCase DI
+
+public enum DeleteRecipeUseCaseKey: TestDependencyKey {
+    #if DEBUG
+    public static var testValue: DeleteRecipeUseCase = EmptyDeleteRecipeUseCase()
+    #endif
+}
+
+public extension DependencyValues {
+    var deleteRecipeUseCase: DeleteRecipeUseCase {
+        get { self[DeleteRecipeUseCaseKey.self] }
+        set { self[DeleteRecipeUseCaseKey.self] = newValue }
+    }
+}

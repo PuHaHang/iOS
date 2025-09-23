@@ -13,4 +13,8 @@ struct EmptyRecipeDetailRepository: RecipeDetailRepository {
     func fetchDetail(for recipeID: Int64) async throws -> Entity.RecipeDetailVO {
         throwUnimplemented()
     }
+    
+    func delete(for recipeID: Int64) async throws {
+        throwUnimplemented()
+    }
 }

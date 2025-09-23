@@ -10,7 +10,7 @@ import Foundation
 enum ReferenceViewData {
     case youtube(URL)
     case shorts(URL)
-    case text(String)
+    case text
     case unknown
     
     var externalLink: URL? {

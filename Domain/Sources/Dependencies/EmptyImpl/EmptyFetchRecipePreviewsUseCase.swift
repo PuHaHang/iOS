@@ -11,7 +11,7 @@ import Foundation
 struct EmptyFetchRecipePreviewsUseCase: FetchRecipePreviewsUseCase {
     init() {}
 
-    func execute(page: Int, pageSize: Int) async -> Result<[RecipePreviewVO], any Error> {
+    func execute(cursorId: Int?, size: Int) async -> Result<RecipeListVO, Error> {
         unimplementedFailure()
     }
 }

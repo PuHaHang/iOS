@@ -16,6 +16,7 @@ public enum LogEvent {
     case conversionProcessScreen
     case conversionResultScreen
     case resultScreen
+    case failedScreen
     case settingScreen
     case splashScreen
     
@@ -31,6 +32,8 @@ public enum LogEvent {
     case cookingOnboardingVoicePermissionScreen
     case cookingOnboardingIntroductionScreen
     case cookingOnboardingCompletionScreen
+    case cookingDestinationDismiss
+    case cookingVoiceRecognized(recipeId: Int64, step: Int, text: String)
     
     // Button Events
     // Tab Buttons
@@ -39,7 +42,8 @@ public enum LogEvent {
     case plusTabButton
     
     // Home Screen Buttons
-    case homeRecipeItemButton
+    case homeRecipeItemButton(servings: Int)
+    case homeRecipeItemDeleteButton
     
     // Detail Screen Buttons
     case detailCookingButton
@@ -48,8 +52,8 @@ public enum LogEvent {
     case detailIngredientsTabButton
     
     // Cooking Screen Buttons
-    case cookingPrevButton
-    case cookingNextButton
+    case cookingPrevButton(step: Int, elapsed: TimeInterval)
+    case cookingNextButton(step: Int, elapsed: TimeInterval)
     case cookingTimerButton
     case cookingVoiceButton
     case cookingSpeakingButton
@@ -60,6 +64,7 @@ public enum LogEvent {
     
     // ConversionResult Screen Buttons
     case conversionResultConfirmButton
+    case conversionFailedConfirmButton
     
     // Result Screen Buttons
     case resultHomeButton
@@ -125,6 +130,12 @@ extension LogEvent {
         case .resultScreen:
             LogEventItem(
                 type: .screen("Result"),
+                message: nil,
+                properties: nil
+            )
+        case .failedScreen:
+            LogEventItem(
+                type: .screen("Failed"),
                 message: nil,
                 properties: nil
             )
@@ -194,6 +205,22 @@ extension LogEvent {
                 message: nil,
                 properties: nil
             )
+        case .cookingDestinationDismiss:
+            LogEventItem(
+                type: .dismiss("CookingDestination"),
+                message: nil,
+                properties: nil
+            )
+            
+        case .cookingVoiceRecognized(let recipeId, let step, let text):
+            LogEventItem(
+                type: .voiceRecognition(text),
+                message: nil,
+                properties: [
+                    "recipeId": recipeId,
+                    "step": step
+                ]
+            )
             
         // Button Events
         // Tab Buttons
@@ -217,9 +244,18 @@ extension LogEvent {
             )
             
         // Home Screen Buttons
-        case .homeRecipeItemButton:
+        case .homeRecipeItemButton(let servings):
             LogEventItem(
                 type: .buttonClick("Home", "RecipeItem"),
+                message: nil,
+                properties: [
+                    "servings": servings
+                ]
+            )
+            
+        case .homeRecipeItemDeleteButton:
+            LogEventItem(
+                type: .buttonClick("Home", "RecipeItemDelete"),
                 message: nil,
                 properties: nil
             )
@@ -251,17 +287,21 @@ extension LogEvent {
             )
             
         // Cooking Screen Buttons
-        case .cookingPrevButton:
+        case .cookingPrevButton(let step):
             LogEventItem(
                 type: .buttonClick("Cooking", "Prev"),
                 message: nil,
-                properties: nil
+                properties: [
+                    "step": step
+                ]
             )
-        case .cookingNextButton:
+        case .cookingNextButton(let step):
             LogEventItem(
                 type: .buttonClick("Cooking", "Next"),
                 message: nil,
-                properties: nil
+                properties: [
+                    "step": step
+                ]
             )
         case .cookingTimerButton:
             LogEventItem(
@@ -300,6 +340,13 @@ extension LogEvent {
         case .conversionResultConfirmButton:
             LogEventItem(
                 type: .buttonClick("ConversionResult", "Confirm"),
+                message: nil,
+                properties: nil
+            )
+            
+        case .conversionFailedConfirmButton:
+            LogEventItem(
+                type: .buttonClick("ConversionFailed", "Confirm"),
                 message: nil,
                 properties: nil
             )

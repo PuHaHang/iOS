@@ -41,6 +41,11 @@ struct VoicePermissionView: View {
                 store.send(.didTapVoiceButton)
             }.padding(.bottom, 70)
         }
+        .padding(.horizontal, 25)
+        .navigationBarBackButtonHidden()
         .toolbar(.hidden)
+        .onAppear {
+            store.send(.onAppear)
+        }
     }
 }

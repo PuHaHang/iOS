@@ -11,4 +11,5 @@ public enum LogEventType {
     case screen(String)
     case buttonClick(String, String)
     case voiceRecognition(String)
+    case dismiss(String)
 }

@@ -21,6 +21,7 @@ public final class AudioServiceImpl: NSObject, AudioService {
     private var continuation: CheckedContinuation<String, Error>?
     private var silenceTimer: Timer?
     private var cancellables = Set<AnyCancellable>()
+    private var isCapturing: Bool = false
     
     private var lastRecognizedText: String = ""
     
@@ -59,9 +60,13 @@ public final class AudioServiceImpl: NSObject, AudioService {
         }
         
         try audioEngine.start()
+        self.isCapturing = true
     }
     
     public func stopCapture() {
+        guard isCapturing else { return }
+        isCapturing = false
+        
         clearRecognition()
         
         audioEngine.stop()

@@ -21,4 +21,8 @@ public struct RecipeDetailRepositoryImpl: RecipeDetailRepository {
         
         return recipe.toDomain()
     }
+    
+    public func delete(for recipeID: Int64) async throws {
+        try await dataSource.deleteRecipe(recipeID: recipeID)
+    }
 }

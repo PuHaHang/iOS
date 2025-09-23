@@ -9,8 +9,8 @@ import Foundation
 
 public struct RecipeDetailVO {
     public let recipeID: Int64
-    public let thumbnailURL: URL?
     public let title: String
+    public let thumbnailURL: URL?
     public let serving: Int
     public let reference: ReferenceVO
     public let ingredients: [IngredientVO]
@@ -18,8 +18,8 @@ public struct RecipeDetailVO {
     
     public init(
         recipeID: Int64,
-        thumbnailURL: URL?,
         title: String,
+        thumbnailURL: URL?,
         serving: Int,
         reference: ReferenceVO,
         ingredients: [IngredientVO],

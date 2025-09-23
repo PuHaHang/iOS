@@ -22,16 +22,6 @@ let project = Project(
             settings: .settings(base: [
                 "AMPLITUDE_API_KEY": .string(amplitudeKey)
             ])
-        ),
-        .target(
-            name: "LoggerTests",
-            destinations: .iOS,
-            product: .unitTests,
-            bundleId: "io.tuist.PuHaHang.LoggerTests",
-            sources: ["Tests/**"],
-            dependencies: [
-                .target(name: "Logger")
-            ]
         )
     ]
 )

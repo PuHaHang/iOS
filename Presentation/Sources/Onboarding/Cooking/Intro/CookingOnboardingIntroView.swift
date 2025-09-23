@@ -48,7 +48,12 @@ struct CookingOnboardingIntroView: View {
             }
             .padding(.bottom, 50)
         }
+        .padding(.horizontal, 25)
+        .navigationBarBackButtonHidden()
         .toolbar(.hidden)
+        .onAppear {
+            store.send(.onAppear)
+        }
     }
 }
 

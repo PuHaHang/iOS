@@ -11,5 +11,5 @@ struct RecipeStepViewData: Identifiable {
     let id: UUID
     let stepTitle: String
     let stepContent: String
-    let timeline: TimeLineViewData
+    let timeline: TimeLineViewData?
 }

@@ -6,10 +6,15 @@
 //
 
 import Domain
+import Entity
 import Foundation
 
 struct EmptyRecipeConversionRepository: RecipeConversionRepository {
     func convert(from input: String) async throws -> Int64 {
+        throwUnimplemented()
+    }
+    
+    func fetchState(of recipeID: Int64) async throws -> Entity.RecipeStateVO {
         throwUnimplemented()
     }
     

@@ -12,11 +12,19 @@ public struct EmptyRecipeDataSource: RecipeDataSource {
         throwUnimplemented()
     }
     
+    public func fetchRecipeState(recipeID: Int64) async throws -> RecipeStateDTO {
+        throwUnimplemented()
+    }
+    
     public func generateRecipe(from source: String) async throws -> RecipeConversionDTO {
         throwUnimplemented()
     }
     
     public func filterCompletedRecipeIDs(from ids: [Int64]) async throws -> CompletedRecipeDTO {
+        throwUnimplemented()
+    }
+    
+    public func deleteRecipe(recipeID: Int64) async throws {
         throwUnimplemented()
     }
 }
